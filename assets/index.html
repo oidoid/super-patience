@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang='en'>
+  <head>
+    <meta charset='utf-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <!--
+      Scaling is best managed by the game. Additionally, there is no delay for
+      input because the browser doesn't listen for double-tap. Doesn't work in
+      desktop.
+    -->
+    <meta
+      name='viewport'
+      content='width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no'
+    >
+
+    <meta name='keywords' content='solitaire, patience, sublime'>
+    <!-- [theme] -->
+    <meta name='theme-color' content='#e6e6df'>
+    <meta name='creator' content='Stephen Niedzielski'>
+    <link rel='canonical' href='https://sublimesolitaire.com'></link>
+    <meta
+      http-equiv='Content-Security-Policy'
+      content="default-src 'none'; connect-src 'self'; img-src 'self'; manifest-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self'"
+    >
+    <!-- [strings] -->
+    <title>sublimesolitaire</title>
+    <link rel='stylesheet' href='index.css' />
+    <!-- [version] -->
+    <link rel='icon' href='favicon.png?v=0.0.0'>
+
+    <link rel='manifest' href='manifest.json?v=0.0.0'>
+    <script type='application/ld+json'>{
+      "@context": "https://schema.org",
+      "@type": "Article",
+      "author": {
+        "@type":"Person",
+        "name":"Stephen Niedzielski",
+        "url":"https://niedzielski.com"
+      },
+      "dateModified": "2022-02-23",
+      "datePublished": "2020-11-04",
+      "headline": "Sublime Solitaire",
+      "image": "https://niedzielski.com/logo.png",
+      "publisher": {
+        "@type":"Organization",
+        "logo":"https://oidoid.com/oidoid.png",
+        "name":"oidoid",
+        "url":"https://oidoid.com"
+      },
+      "url": "https://niedzielski.com/"
+    }</script>
+  </head>
+  <body>
+    <canvas class='game-canvas'></canvas>
+    <script src='sublime-solitaire.js' type="module"></script>
+  </body>
+</html>
