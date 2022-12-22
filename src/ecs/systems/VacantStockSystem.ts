@@ -2,14 +2,14 @@ import { Immutable } from '@/oidlib';
 import { Solitaire } from '@/solitaire';
 import { Input, Sprite, System } from '@/void';
 import { setSpritePositionsForLayout } from '../../level/Level.ts';
-import { SublimeUpdate } from '../SublimeUpdate.ts';
+import { SublimeECSUpdate } from '../SublimeECSUpdate.ts';
 
 export interface VacantStockSet {
   readonly vacantStock: Record<never, never>;
   readonly sprite: Sprite;
 }
 
-export const VacantStockSystem: System<VacantStockSet, SublimeUpdate> =
+export const VacantStockSystem: System<VacantStockSet, SublimeECSUpdate> =
   Immutable({
     query: new Set(['vacantStock', 'sprite']),
     skip(update) {

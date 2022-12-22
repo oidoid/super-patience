@@ -1,5 +1,9 @@
 import { Immutable } from '@/oidlib';
-import { SublimeFilmID, SublimeUpdate, TallyConfig } from '@/sublime-solitaire';
+import {
+  SublimeECSUpdate,
+  SublimeFilmID,
+  TallyConfig,
+} from '@/sublime-solitaire';
 import { Sprite, System } from '@/void';
 
 type ZeroToTen = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10;
@@ -9,7 +13,7 @@ export interface TallySet {
   readonly sprite: Sprite;
 }
 
-export const TallySystem: System<TallySet, SublimeUpdate> = Immutable({
+export const TallySystem: System<TallySet, SublimeECSUpdate> = Immutable({
   query: new Set(['tally', 'sprite']),
   updateEnt(set, update) {
     const { sprite, tally } = set;

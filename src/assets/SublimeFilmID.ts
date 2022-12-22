@@ -73,6 +73,7 @@ export namespace SublimeFilmID {
         'CardOutlineChecked',
         'CardOutlineFocus',
         'Checkerboard',
+        'Corner',
         'PaletteAlpha',
         'PaletteDark',
         'PaletteMid',

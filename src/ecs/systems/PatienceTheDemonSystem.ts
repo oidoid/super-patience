@@ -3,7 +3,7 @@ import { Immutable, NonNull } from '@/oidlib';
 import { Solitaire } from '@/solitaire';
 import { Button, Input, Sprite, System } from '@/void';
 import { SaveStorage } from '../../storage/SaveStorage.ts';
-import { SublimeUpdate } from '../SublimeUpdate.ts';
+import { SublimeECSUpdate } from '../SublimeECSUpdate.ts';
 
 export interface PatienceTheDemonSet {
   readonly patienceTheDemon: Record<never, never>;
@@ -12,7 +12,7 @@ export interface PatienceTheDemonSet {
 
 export const PatienceTheDemonSystem: System<
   PatienceTheDemonSet,
-  SublimeUpdate
+  SublimeECSUpdate
 > = Immutable({
   query: new Set(['patienceTheDemon', 'sprite']),
   skip(update) {
@@ -39,7 +39,7 @@ export const PatienceTheDemonSystem: System<
   },
 });
 
-function nextFilm(update: Readonly<SublimeUpdate>, sprite: Sprite): Film {
+function nextFilm(update: Readonly<SublimeECSUpdate>, sprite: Sprite): Film {
   const good = sprite.animator.film.id == 'PatienceTheDemonGood';
   const id = `PatienceTheDemon${good ? 'Evil' : 'Good'}` as const;
   return update.filmByID[id];

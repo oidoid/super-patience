@@ -2,8 +2,8 @@ import { assertNonNull, I16Box, I16XY, Immutable, NonNull } from '@/oidlib';
 import { Card, Solitaire } from '@/solitaire';
 import {
   setSpritePositionsForLayout,
+  SublimeECSUpdate,
   SublimeLayer,
-  SublimeUpdate,
 } from '@/sublime-solitaire';
 import { Button, Input, Sprite, System } from '@/void';
 
@@ -14,7 +14,7 @@ export interface CardSet {
   readonly sprite: Sprite;
 }
 
-export const CardSystem: System<CardSet, SublimeUpdate> = Immutable({
+export const CardSystem: System<CardSet, SublimeECSUpdate> = Immutable({
   query: new Set(['card', 'sprite']),
   // to-do: this list will need to be cut down by xy intersection anyway
   update(sets, update) {
@@ -107,7 +107,7 @@ export const CardSystem: System<CardSet, SublimeUpdate> = Immutable({
 
 type Picked = { set: CardSet; card: Card; sprite: Sprite };
 
-function findbestmatch(update: SublimeUpdate) {
+function findbestmatch(update: SublimeECSUpdate) {
   const pointedCard = update.picked?.ents[0]?.components; // to-do: don't throw if component is missing?
   let bestMatch;
   if (pointedCard != null && pointedCard.sprite != null) {
@@ -132,7 +132,7 @@ function findbestmatch(update: SublimeUpdate) {
 
 function pickClosest(
   sets: Set<CardSet>,
-  update: SublimeUpdate,
+  update: SublimeECSUpdate,
 ): Picked | undefined {
   if (update.inputs.pick == null) return;
   let picked: Picked | undefined;
@@ -149,7 +149,7 @@ function pickClosest(
   return picked;
 }
 
-function setPickRange(update: SublimeUpdate, card: Card): void {
+function setPickRange(update: SublimeECSUpdate, card: Card): void {
   const selected = Solitaire.point(update.solitaire, card);
   if (selected == null) return;
   const ents = selected.cards.map(
@@ -174,7 +174,7 @@ function setPickRange(update: SublimeUpdate, card: Card): void {
   }
 }
 
-function moveToPick(update: SublimeUpdate): void {
+function moveToPick(update: SublimeECSUpdate): void {
   assertNonNull(update.inputs.pick);
   assertNonNull(update.picked);
 
