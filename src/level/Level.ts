@@ -1,7 +1,7 @@
 import { FilmByID } from '@/atlas-pack';
 import { I16XY } from '@/oidlib';
 import { Card, Solitaire, Suit } from '@/solitaire';
-import { ECS, Sprite } from '@/void';
+import { ECS } from '@/void';
 import { SublimeFilmID } from '../assets/SublimeFilmID.ts';
 import { ComponentSet } from '../ecs/ComponentSet.ts';
 import { SublimeLayer } from '../sprite/SublimeLayer.ts';
@@ -23,60 +23,46 @@ export function setSpritePositionsForLayout(
     for (const [indexY, card] of column.entries()) {
       const components = ecs.componentsByRef.get(card);
       const xy = getTableauCardXY(filmByID, indexX, indexY);
-      Sprite.moveTo(components!.sprite, xy);
-      Sprite.setLayer(
-        components!.sprite,
-        SublimeLayer[card.direction == 'Up' ? 'CardUp' : 'CardDown'],
-      );
-      Sprite.reset(components!.sprite, time, filmByID[getCardFilmID(card)]);
+      components!.sprite.moveTo(xy);
+      components!.sprite.layer =
+        SublimeLayer[card.direction == 'Up' ? 'CardUp' : 'CardDown'];
+      components!.sprite.animate(time, filmByID[getCardFilmID(card)]);
     }
   }
   for (const pillar of solitaire.foundation) {
     for (const [index, card] of pillar.entries()) {
       const components = ecs.componentsByRef.get(card);
       const xy = getFoundationCardXY(filmByID, card.suit);
-      Sprite.moveTo(components!.sprite, xy);
+      components!.sprite.moveTo(xy);
       // change this to downard for everything but top
       const animID = index == (pillar.length - 1)
         ? getCardFilmID(card)
         : 'CardDown';
-      Sprite.reset(components!.sprite, time, filmByID[animID]);
-      Sprite.setLayer(
-        components!.sprite,
-        SublimeLayer[animID == 'CardDown' ? 'CardDown' : 'CardUp'],
-      );
+      components!.sprite.animate(time, filmByID[animID]);
+      components!.sprite.layer =
+        SublimeLayer[animID == 'CardDown' ? 'CardDown' : 'CardUp'];
     }
   }
   for (const [index, card] of solitaire.stock.entries()) {
     const components = ecs.componentsByRef.get(card);
-    Sprite.moveTo(components!.sprite, getStockXY(solitaire, index));
-    Sprite.setLayer(
-      components!.sprite,
-      SublimeLayer[card.direction == 'Up' ? 'CardUp' : 'CardDown'],
-    );
-    Sprite.reset(components!.sprite, time, filmByID[getCardFilmID(card)]);
+    components!.sprite.moveTo(getStockXY(solitaire, index));
+    components!.sprite.layer =
+      SublimeLayer[card.direction == 'Up' ? 'CardUp' : 'CardDown'];
+    components!.sprite.animate(time, filmByID[getCardFilmID(card)]);
   }
   for (const [index, card] of solitaire.waste.entries()) {
     const components = ecs.componentsByRef.get(card);
-    Sprite.moveTo(
-      components!.sprite,
-      getWasteXY(filmByID, solitaire, index),
-    );
+    components!.sprite.moveTo(getWasteXY(filmByID, solitaire, index));
     let animID: SublimeFilmID;
-    if (
-      index >=
-        (solitaire.waste.length - solitaire.drawSize)
-    ) {
+    if (index >= (solitaire.waste.length - solitaire.drawSize)) {
       animID = getCardFilmID(card);
     } else {
       animID = 'CardDown';
     }
-    Sprite.setLayer(
-      components!.sprite,
-      SublimeLayer[animID == 'CardDown' ? 'CardDown' : 'CardUp'],
-    ); // could have card-1-2-3 for horizontal ordering to work correctly, could have CardBack for everything below topmost hidden card. tricks i can play here to make layering appear to work correctly for stacked cards with same y. could also do order breaking for horizontal based on left-to-right so that it's consistent.
-    Sprite.reset(
-      components!.sprite,
+    // could have card-1-2-3 for horizontal ordering to work correctly, could have CardBack for everything below topmost hidden card. tricks i can play here to make layering appear to work correctly for stacked cards with same y. could also do order breaking for horizontal based on left-to-right so that it's consistent.
+    components!.sprite.layer =
+      SublimeLayer[animID == 'CardDown' ? 'CardDown' : 'CardUp'];
+    components!.sprite.animate(
       time,
       // hide cards under draw reserve. i can't draw them in the correct order
       filmByID[animID],

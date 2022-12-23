@@ -138,11 +138,11 @@ function pickClosest(
   let picked: Picked | undefined;
   for (const set of sets) {
     const { card, sprite } = set;
-    if (!Sprite.intersectsSprite(sprite, update.cursor, update.time)) {
+    if (!sprite.intersectsSprite(update.cursor, update.time)) {
       continue;
     }
 
-    if ((picked == null || Sprite.compareDepth(sprite, picked.sprite) < 0)) {
+    if ((picked == null || sprite.compareDepth(picked.sprite) < 0)) {
       picked = { set, card, sprite };
     }
   }
@@ -170,7 +170,7 @@ function setPickRange(update: SublimeECSUpdate, card: Card): void {
   update.picked = { ents };
 
   for (const sprite of ents.map((data) => data.components.sprite!)) {
-    Sprite.setLayer(sprite, SublimeLayer.Picked);
+    sprite.layer = SublimeLayer.Picked;
   }
 }
 

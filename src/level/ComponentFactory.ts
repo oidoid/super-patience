@@ -1,4 +1,4 @@
-import { I16XY, I4, Uint } from '@/oidlib';
+import { I16XY, Uint } from '@/oidlib';
 import { Card, Solitaire, Suit } from '@/solitaire';
 import {
   ComponentSet,
@@ -10,6 +10,7 @@ import {
   mod,
   SpriteFactory,
 } from '@/sublime-solitaire';
+import { I4XY } from '../../../oidlib/src/2d/XY.ts';
 
 export function newLevelComponents(
   factory: SpriteFactory,
@@ -34,7 +35,9 @@ function newBackground(factory: SpriteFactory): Partial<ComponentSet>[] {
   // stacking now but other options are clipbox or four border bits.
   return [{
     followCam: { fill: 'XY', orientation: 'Northwest' },
-    sprite: factory.new('PaletteMid', 'Background', { layerSuborder: 'Start' }),
+    sprite: factory.new('PaletteDark', 'Background', {
+      layerSuborder: 'Start',
+    }),
   }, {
     followCam: { orientation: 'Northwest' },
     sprite: factory.new('Corner', 'Background', { flip: '' }),
@@ -52,12 +55,7 @@ function newBackground(factory: SpriteFactory): Partial<ComponentSet>[] {
     sprite: factory.new(
       'Grid',
       'Background',
-      {
-        start: I16XY(1, 1),
-        layerSuborder: 'Start',
-        wrapX: I4(-1),
-        wrapY: I4(-1),
-      },
+      { start: I16XY(1, 1), layerSuborder: 'Start', wrap: I4XY(-1, -1) },
     ),
   }];
 }

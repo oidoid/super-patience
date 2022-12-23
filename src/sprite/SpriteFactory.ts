@@ -14,6 +14,6 @@ export class SpriteFactory {
   }
 
   new(filmID: SublimeFilmID, layer: SublimeLayer, props?: SpriteProps): Sprite {
-    return Sprite(this.#filmByID[filmID], SublimeLayer[layer], props);
+    return new Sprite(this.#filmByID[filmID], SublimeLayer[layer], props);
   }
 }

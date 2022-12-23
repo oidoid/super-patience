@@ -22,8 +22,8 @@ export const TallySystem: System<TallySet, SublimeECSUpdate> = Immutable({
       Math.max(0, update.solitaire.wins - tally.tens * 10),
     ) as ZeroToTen;
     const filmID: SublimeFilmID = `Tally${wins}`;
-    if (sprite.animator.film.id != filmID) {
-      Sprite.reset(sprite, update.time, update.filmByID[filmID]);
+    if (sprite.film.id != filmID) {
+      sprite.animate(update.time, update.filmByID[filmID]);
     }
   },
 });

@@ -28,19 +28,19 @@ export const PatienceTheDemonSystem: System<
   updateEnt(set, update) {
     const pickXY = NonNull(update.inputs.pick).xy;
     const { sprite } = set;
-    if (!Sprite.intersectsBounds(sprite, pickXY)) return;
-    if (!Sprite.intersects(sprite, pickXY, update.time)) {
+    if (!sprite.intersectsBounds(pickXY)) return;
+    if (!sprite.intersects(pickXY, update.time)) {
       Solitaire.reset(update.solitaire);
       update.saveStorage.save.wins = update.solitaire.wins;
       SaveStorage.save(update.saveStorage);
       return;
     }
-    Sprite.reset(sprite, update.time, nextFilm(update, sprite));
+    sprite.animate(update.time, nextFilm(update, sprite));
   },
 });
 
 function nextFilm(update: Readonly<SublimeECSUpdate>, sprite: Sprite): Film {
-  const good = sprite.animator.film.id == 'PatienceTheDemonGood';
+  const good = sprite.film.id == 'PatienceTheDemonGood';
   const id = `PatienceTheDemon${good ? 'Evil' : 'Good'}` as const;
   return update.filmByID[id];
 }

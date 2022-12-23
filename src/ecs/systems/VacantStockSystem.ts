@@ -20,7 +20,7 @@ export const VacantStockSystem: System<VacantStockSet, SublimeECSUpdate> =
         !Input.activeTriggered(update.inputs.pick);
     },
     updateEnt(set, update) {
-      if (!Sprite.intersectsBounds(set.sprite, update.inputs.pick!.xy)) return;
+      if (!set.sprite.intersectsBounds(update.inputs.pick!.xy)) return;
       Solitaire.deal(update.solitaire);
       setSpritePositionsForLayout(
         update.ecs,
