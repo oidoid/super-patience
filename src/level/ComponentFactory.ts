@@ -35,9 +35,7 @@ function newBackground(factory: SpriteFactory): Partial<ComponentSet>[] {
   // stacking now but other options are clipbox or four border bits.
   return [{
     followCam: { fill: 'XY', orientation: 'Northwest' },
-    sprite: factory.new('PaletteDark', 'Background', {
-      excludeHeight: 'Start',
-    }),
+    sprite: factory.new('PaletteDark', 'Background', { includeHeight: true }),
   }, {
     followCam: { orientation: 'Northwest' },
     sprite: factory.new('Corner', 'Background', { flip: '' }),
@@ -55,7 +53,7 @@ function newBackground(factory: SpriteFactory): Partial<ComponentSet>[] {
     sprite: factory.new(
       'Grid',
       'Background',
-      { start: I16XY(1, 1), excludeHeight: 'Start', wrap: I4XY(-1, -1) },
+      { start: I16XY(1, 1), includeHeight: true, wrap: I4XY(-1, -1) },
     ),
   }];
 }
