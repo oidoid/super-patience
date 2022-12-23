@@ -36,7 +36,7 @@ function newBackground(factory: SpriteFactory): Partial<ComponentSet>[] {
   return [{
     followCam: { fill: 'XY', orientation: 'Northwest' },
     sprite: factory.new('PaletteDark', 'Background', {
-      layerSuborder: 'Start',
+      layerOrigin: 'Start',
     }),
   }, {
     followCam: { orientation: 'Northwest' },
@@ -55,7 +55,7 @@ function newBackground(factory: SpriteFactory): Partial<ComponentSet>[] {
     sprite: factory.new(
       'Grid',
       'Background',
-      { start: I16XY(1, 1), layerSuborder: 'Start', wrap: I4XY(-1, -1) },
+      { start: I16XY(1, 1), layerOrigin: 'Start', wrap: I4XY(-1, -1) },
     ),
   }];
 }
