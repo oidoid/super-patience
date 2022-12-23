@@ -1,0 +1,66 @@
+[
+  {
+    "followCam": { "fill": "XY", "orientation": "Northwest" },
+    "sprite": {
+      "id": "PaletteMid",
+      "layer": "Background",
+      "layerSuborder": "Start"
+    }
+  },
+  {
+    "followCam": { "orientation": "Northwest" },
+    "sprite": {
+      "id": "PaletteMid",
+      "layer": "Background",
+      "wh": { "x": 2, "y": 2 }
+    }
+  },
+  {
+    "followCam": { "orientation": "Northeast" },
+    "sprite": {
+      "id": "PaletteMid",
+      "layer": "Background",
+      "wh": { "x": 2, "y": 2 }
+    }
+  },
+  {
+    "followCam": { "orientation": "Southeast" },
+    "sprite": {
+      "id": "PaletteMid",
+      "layer": "Background",
+      "wh": { "x": 2, "y": 2 }
+    }
+  },
+  {
+    "followCam": { "orientation": "Southwest" },
+    "sprite": {
+      "id": "PaletteMid",
+      "layer": "Background",
+      "wh": { "x": 2, "y": 2 }
+    }
+  },
+  {
+    "followCam": {
+      "fill": "XY",
+      "orientation": "Northwest",
+      "pad": { "x": 1, "y": 1 }
+    },
+    "sprite": {
+      "id": "Grid",
+      "layer": "Background",
+      "start": { "x": 1, "y": 1 },
+      "layerSuborder": "Start",
+      "wrapX": -1,
+      "wrapY": -1
+    }
+  },
+  {
+    "followCam": {
+      "modulo": { "x": 8, "y": 8 },
+      "orientation": "Northeast",
+      "pad": { "x": 16, "y": 16 }
+    },
+    "patienceTheDemon": {},
+    "sprite": { "id": "PatienceTheDemonGood", "layer": "Patience" }
+  }
+]
