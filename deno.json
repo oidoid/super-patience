@@ -6,7 +6,8 @@
     "noUncheckedIndexedAccess": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "useUnknownInCatchVariables": true
+    "useUnknownInCatchVariables": true,
+    "lib": ["dom", "deno.ns"]
   },
   "fmt": {
     "files": { "exclude": ["dist"] },
