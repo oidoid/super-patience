@@ -2,7 +2,7 @@ import { Card } from '@/solitaire';
 import { PileConfig, TallyConfig } from '@/sublime-solitaire';
 import { CursorFilmSet, FollowCamConfig, Sprite } from '@/void';
 
-export interface ComponentSet {
+export interface SublimeComponentSet {
   cursor: CursorFilmSet;
   card: Card;
   followCam: FollowCamConfig;

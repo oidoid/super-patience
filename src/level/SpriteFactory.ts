@@ -1,9 +1,11 @@
 import { FilmByID } from '@/atlas-pack';
+import { U8 } from '@/oidlib';
 import { SublimeFilmID, SublimeLayer } from '@/sublime-solitaire';
-import { Sprite, SpriteProps } from '@/void';
+import { FilmLUT, Sprite, SpriteProps } from '@/void';
 
-export class SpriteFactory {
-  #filmByID: FilmByID<SublimeFilmID>;
+export class SpriteFactory implements FilmLUT {
+  readonly #filmByID: FilmByID<SublimeFilmID>;
+  readonly layerByID: Readonly<{ [id in SublimeLayer]: U8 }> = SublimeLayer;
 
   get filmByID(): FilmByID<SublimeFilmID> {
     return this.#filmByID;

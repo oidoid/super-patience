@@ -3,7 +3,6 @@ import { Solitaire } from '@/solitaire';
 import {
   Assets,
   CardSystem,
-  ComponentSet,
   newLevelComponents,
   PatienceTheDemonSystem,
   PickState,
@@ -11,6 +10,7 @@ import {
   PileHitboxSystem,
   SaveStorage,
   SpriteFactory,
+  SublimeComponentSet,
   SublimeECSUpdate,
   TallySystem,
   VacantStockSystem,
@@ -34,7 +34,7 @@ import {
 export interface SublimeSolitaire {
   readonly assets: Assets;
   readonly canvas: HTMLCanvasElement;
-  readonly ecs: ECS<ComponentSet, SublimeECSUpdate>;
+  readonly ecs: ECS<SublimeComponentSet, SublimeECSUpdate>;
   readonly inputPoller: InputPoller;
   readonly solitaire: Solitaire;
   readonly minViewport: U16XY;
@@ -70,7 +70,7 @@ export function SublimeSolitaire(
   const newRenderer = () =>
     Renderer(canvas, assets.atlas, assets.shaderLayout, assets.atlasMeta);
 
-  const ecs = ECS<ComponentSet, SublimeECSUpdate>(
+  const ecs = ECS<SublimeComponentSet, SublimeECSUpdate>(
     new Set([
       FollowCamSystem,
       CursorSystem, // Process first
@@ -88,7 +88,7 @@ export function SublimeSolitaire(
     ...newLevelComponents(
       new SpriteFactory(assets.atlasMeta.filmByID),
       solitaire,
-    ) as ComponentSet[], // to-do: fix types
+    ) as SublimeComponentSet[], // to-do: fix types
   );
   ECS.flush(ecs);
 

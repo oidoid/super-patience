@@ -1,10 +1,12 @@
 import { FilmByID } from '@/atlas-pack';
 import { I16XY } from '@/oidlib';
 import { Card, Solitaire, Suit } from '@/solitaire';
+import {
+  SublimeComponentSet,
+  SublimeFilmID,
+  SublimeLayer,
+} from '@/sublime-solitaire';
 import { ECS } from '@/void';
-import { SublimeFilmID } from '../assets/SublimeFilmID.ts';
-import { ComponentSet } from '../ecs/ComponentSet.ts';
-import { SublimeLayer } from '../sprite/SublimeLayer.ts';
 
 export const mod = 8;
 
@@ -14,7 +16,7 @@ const boardY = 16;
 const hiddenY = -1024;
 
 export function setSpritePositionsForLayout(
-  ecs: ECS<ComponentSet>,
+  ecs: ECS<SublimeComponentSet>,
   filmByID: FilmByID<SublimeFilmID>,
   solitaire: Readonly<Solitaire>,
   time: number,

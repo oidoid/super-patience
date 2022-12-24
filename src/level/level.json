@@ -1,45 +1,47 @@
 [
   {
+    "name": "cursor",
+    "cursor": { "pick": "CursorPick", "point": "CursorPoint" },
+    "followPoint": {},
+    "sprite": {
+      "id": "CursorPoint",
+      "layer": "Cursor",
+      "xy": { "x": -128, "y": -128 }
+    }
+  },
+
+  {
+    "name": "background border",
     "followCam": { "fill": "XY", "orientation": "Northwest" },
     "sprite": {
-      "id": "PaletteMid",
+      "id": "PaletteDark",
       "layer": "Background",
-      "layerSuborder": "Start"
+      "layerByHeight": true
     }
   },
   {
+    "name": "background corner NW",
     "followCam": { "orientation": "Northwest" },
-    "sprite": {
-      "id": "PaletteMid",
-      "layer": "Background",
-      "wh": { "x": 2, "y": 2 }
-    }
+    "sprite": { "id": "Corner", "layer": "Background" }
   },
   {
+    "name": "background corner NE",
     "followCam": { "orientation": "Northeast" },
-    "sprite": {
-      "id": "PaletteMid",
-      "layer": "Background",
-      "wh": { "x": 2, "y": 2 }
-    }
+    "sprite": { "id": "Corner", "layer": "Background", "flip": "X" }
   },
   {
+    "name": "background corner SE",
     "followCam": { "orientation": "Southeast" },
-    "sprite": {
-      "id": "PaletteMid",
-      "layer": "Background",
-      "wh": { "x": 2, "y": 2 }
-    }
+    "sprite": { "id": "Corner", "layer": "Background", "flip": "XY" }
   },
   {
+    "name": "background corner SW",
     "followCam": { "orientation": "Southwest" },
-    "sprite": {
-      "id": "PaletteMid",
-      "layer": "Background",
-      "wh": { "x": 2, "y": 2 }
-    }
+    "sprite": { "id": "Corner", "layer": "Background", "flip": "Y" }
   },
+
   {
+    "name": "background",
     "followCam": {
       "fill": "XY",
       "orientation": "Northwest",
@@ -48,17 +50,18 @@
     "sprite": {
       "id": "Grid",
       "layer": "Background",
-      "start": { "x": 1, "y": 1 },
-      "layerSuborder": "Start",
-      "wrapX": -1,
-      "wrapY": -1
+      "xy": { "x": 1, "y": 1 },
+      "layerByHeight": true,
+      "wrap": { "x": -1, "y": -1 }
     }
   },
+
   {
+    "name": "Patience the Demon",
     "followCam": {
       "modulo": { "x": 8, "y": 8 },
       "orientation": "Northeast",
-      "pad": { "x": 16, "y": 16 }
+      "pad": { "x": 24, "y": 16 }
     },
     "patienceTheDemon": {},
     "sprite": { "id": "PatienceTheDemonGood", "layer": "Patience" }
