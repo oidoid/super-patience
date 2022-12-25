@@ -5,7 +5,7 @@ import {
   SublimeECSUpdate,
   SublimeLayer,
 } from '@/sublime-solitaire';
-import { Button, Input, Sprite, System } from '@/void';
+import { Sprite, System } from '@/void';
 
 // need custom rangepicking logic in here
 
@@ -24,11 +24,8 @@ export const CardSystem: System<CardSet, SublimeECSUpdate> = Immutable({
     //     state.assets.atlasMeta.animationByID['Checkerboard'],
     //   );
     // }
-    if (update.inputs.pick?.active == true) {
-      if (
-        Input.activeTriggered(update.inputs.pick) &&
-        (update.inputs.pick.buttons & Button.Primary) == Button.Primary
-      ) {
+    if (update.inputs.pick?.on('ClickPrimary')) {
+      if (update.inputs.pick.onTriggered('ClickPrimary')) {
         const picked = pickClosest(sets, update);
         if (picked != null) {
           update.pickHandled = true;
@@ -58,7 +55,7 @@ export const CardSystem: System<CardSet, SublimeECSUpdate> = Immutable({
 
     if (
       update.solitaire.selected != null &&
-      Input.inactiveTriggered(update.inputs.pick)
+      update.inputs.pick?.offTriggered('ClickPrimary')
     ) {
       if (update.picked == null) {
         const picked = pickClosest(sets, update);
