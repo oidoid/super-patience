@@ -25,7 +25,7 @@ export const CardSystem: System<CardSet, SublimeECSUpdate> = Immutable({
     //   );
     // }
     if (update.pointer?.on('ClickPrimary')) {
-      if (update.pointer.onTriggered('ClickPrimary')) {
+      if (update.pointer.onStart('ClickPrimary')) {
         const picked = pickClosest(sets, update);
         if (picked != null) {
           update.pickHandled = true;
@@ -55,7 +55,7 @@ export const CardSystem: System<CardSet, SublimeECSUpdate> = Immutable({
 
     if (
       update.solitaire.selected != null &&
-      update.pointer?.offTriggered('ClickPrimary')
+      update.pointer?.offStart('ClickPrimary')
     ) {
       if (update.picked == null) {
         const picked = pickClosest(sets, update);

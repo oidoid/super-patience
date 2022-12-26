@@ -19,7 +19,7 @@ export const PatienceTheDemonSystem: System<
     if (update.pickHandled) return true;
     // to-do: need notion of handled state so that picks don't bleed.
     // to-do: need notion of system order so that pickable is first.
-    if (!update.pointer?.onTriggered('ClickPrimary')) return true;
+    if (!update.pointer?.onStart('ClickPrimary')) return true;
     return false;
   },
   updateEnt(set, update) {

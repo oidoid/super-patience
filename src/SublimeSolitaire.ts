@@ -189,7 +189,7 @@ function processDebugInput(
   update: SublimeECSUpdate,
 ): void {
   if (update.pickHandled) return;
-  if (self.pointerPoller.onTriggered('ClickSecondary')) {
+  if (self.pointerPoller.onStart('ClickSecondary')) {
     if (!self.rendererStateMachine.isContextLost()) {
       update.pickHandled = true;
       self.rendererStateMachine.loseContext();

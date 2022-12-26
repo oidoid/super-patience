@@ -18,7 +18,7 @@ export const VacantStockSystem: System<VacantStockSet, SublimeECSUpdate> =
         update.pointer == null ||
         // to-do: inactiveTriggered when i have picking sorted to only allow one
         // handler.
-        !update.pointer.onTriggered('ClickPrimary');
+        !update.pointer.onStart('ClickPrimary');
     },
     updateEnt(set, update) {
       if (!set.sprite.intersectsBounds(update.pointer.xy!)) return;
