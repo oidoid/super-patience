@@ -24,8 +24,8 @@ export const CardSystem: System<CardSet, SublimeECSUpdate> = Immutable({
     //     state.assets.atlasMeta.animationByID['Checkerboard'],
     //   );
     // }
-    if (update.inputs.pick?.on('ClickPrimary')) {
-      if (update.inputs.pick.onTriggered('ClickPrimary')) {
+    if (update.pointer?.on('ClickPrimary')) {
+      if (update.pointer.onTriggered('ClickPrimary')) {
         const picked = pickClosest(sets, update);
         if (picked != null) {
           update.pickHandled = true;
@@ -55,7 +55,7 @@ export const CardSystem: System<CardSet, SublimeECSUpdate> = Immutable({
 
     if (
       update.solitaire.selected != null &&
-      update.inputs.pick?.offTriggered('ClickPrimary')
+      update.pointer?.offTriggered('ClickPrimary')
     ) {
       if (update.picked == null) {
         const picked = pickClosest(sets, update);
@@ -131,7 +131,7 @@ function pickClosest(
   sets: Set<CardSet>,
   update: SublimeECSUpdate,
 ): Picked | undefined {
-  if (update.inputs.pick == null) return;
+  if (update.pointer == null) return;
   let picked: Picked | undefined;
   for (const set of sets) {
     const { card, sprite } = set;
@@ -151,12 +151,11 @@ function setPickRange(update: SublimeECSUpdate, card: Card): void {
   if (selected == null) return;
   const ents = selected.cards.map(
     (card) => {
-      assertNonNull(update.inputs.pick);
       const components = NonNull(update.ecs.componentsByRef.get(card));
       return {
         components,
         offset: I16XY.sub(
-          I16XY(update.inputs.pick!.xy!),
+          I16XY(update.pointer.xy!),
           components.sprite!.bounds.start,
         ),
       };
@@ -172,13 +171,12 @@ function setPickRange(update: SublimeECSUpdate, card: Card): void {
 }
 
 function moveToPick(update: SublimeECSUpdate): void {
-  assertNonNull(update.inputs.pick);
   assertNonNull(update.picked);
 
   for (let i = 0; i < update.picked.ents.length; i++) {
     I16Box.moveTo(
       update.picked.ents[i]!.components.sprite!.bounds, // to-do versus const sprite = ECS.get(ecs, 'Sprite', ent);
-      I16XY.sub(I16XY(update.inputs.pick.xy!), update.picked.ents[i]!.offset),
+      I16XY.sub(I16XY(update.pointer.xy!), update.picked.ents[i]!.offset),
     );
   }
 }

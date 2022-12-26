@@ -162,7 +162,7 @@ export namespace SublimeSolitaire {
       clientViewportWH,
       ecs: self.ecs,
       delta,
-      inputs: self.pointerPoller.state,
+      pointer: self.pointerPoller,
       picked: self.picked,
       time: self.time,
       scale,
@@ -189,7 +189,7 @@ function processDebugInput(
   update: SublimeECSUpdate,
 ): void {
   if (update.pickHandled) return;
-  if (self.pointerPoller.state.pick?.onTriggered('ClickSecondary')) {
+  if (self.pointerPoller.onTriggered('ClickSecondary')) {
     if (!self.rendererStateMachine.isContextLost()) {
       update.pickHandled = true;
       self.rendererStateMachine.loseContext();

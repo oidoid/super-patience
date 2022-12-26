@@ -13,15 +13,15 @@ export const VacantStockSystem: System<VacantStockSet, SublimeECSUpdate> =
   Immutable({
     query: new Set(['vacantStock', 'sprite']),
     skip(update) {
-      // update.inputs.pick?.on2([['Primary'], ['Primary']], 'Set', 'Pen', 'Touch')
+      // update.pointer?.on2([['Primary'], ['Primary']], 'Set', 'Pen', 'Touch')
       return !!update.pickHandled ||
-        update.inputs.pick == null ||
+        update.pointer == null ||
         // to-do: inactiveTriggered when i have picking sorted to only allow one
         // handler.
-        !update.inputs.pick.onTriggered('ClickPrimary');
+        !update.pointer.onTriggered('ClickPrimary');
     },
     updateEnt(set, update) {
-      if (!set.sprite.intersectsBounds(update.inputs.pick!.xy)) return;
+      if (!set.sprite.intersectsBounds(update.pointer.xy!)) return;
       Solitaire.deal(update.solitaire);
       setSpritePositionsForLayout(
         update.ecs,
