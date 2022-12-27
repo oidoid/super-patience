@@ -191,7 +191,7 @@ function processDebugInput(
   update: SublimeECSUpdate,
 ): void {
   if (update.pickHandled) return;
-  if (self.input.onStart('Menu')) {
+  if (self.input.isOnStart('Menu')) {
     if (!self.rendererStateMachine.isContextLost()) {
       update.pickHandled = true;
       self.rendererStateMachine.loseContext();

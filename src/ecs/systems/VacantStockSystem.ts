@@ -15,10 +15,9 @@ export const VacantStockSystem: System<VacantStockSet, SublimeECSUpdate> =
     skip(update) {
       // update.pointer?.on2([['Primary'], ['Primary']], 'Set', 'Pen', 'Touch')
       return !!update.pickHandled ||
-        update.input == null ||
         // to-do: inactiveTriggered when i have picking sorted to only allow one
         // handler.
-        !update.input.onStart('ActionPrimary');
+        !update.input.isOnStart('ActionPrimary');
     },
     updateEnt(set, update) {
       if (!set.sprite.intersectsBounds(update.cursor.bounds.start)) return;

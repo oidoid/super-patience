@@ -19,7 +19,7 @@ export const PatienceTheDemonSystem: System<
     if (update.pickHandled) return true;
     // to-do: need notion of handled state so that picks don't bleed.
     // to-do: need notion of system order so that pickable is first.
-    if (!update.input?.onStart('ActionPrimary')) return true;
+    if (!update.input.isOnStart('ActionPrimary')) return true;
     return false;
   },
   updateEnt(set, update) {
@@ -27,7 +27,8 @@ export const PatienceTheDemonSystem: System<
     if (sprite.intersectsSprite(update.cursor, update.time)) {
       update.pickHandled = true;
       sprite.animate(update.time, nextFilm(update, sprite));
-    } else if (sprite.intersectsBounds(update.cursor)) {
+      // to-do: really don't like reaching in and touching cursor or all the way to cursor.bounds.start.
+    } else if (sprite.intersectsBounds(update.cursor.bounds.start)) {
       update.pickHandled = true;
       Solitaire.reset(update.solitaire);
       update.saveStorage.save.wins = update.solitaire.wins;

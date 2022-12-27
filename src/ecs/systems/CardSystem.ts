@@ -16,8 +16,8 @@ export const CardSystem: System<CardSet, SublimeECSUpdate> = Immutable({
   query: new Set(['card', 'sprite']),
   // to-do: this list will need to be cut down by xy intersection anyway
   update(sets, update) {
-    if (update.input?.on('ActionPrimary')) {
-      if (update.input.onStart('ActionPrimary')) {
+    if (update.input.isOn('ActionPrimary')) {
+      if (update.input.isOnStart('ActionPrimary')) {
         const picked = pickClosest(sets, update);
         if (picked != null) {
           update.pickHandled = true;
@@ -40,7 +40,7 @@ export const CardSystem: System<CardSet, SublimeECSUpdate> = Immutable({
 
     if (
       update.solitaire.selected != null &&
-      update.input?.offStart('ActionPrimary')
+      update.input.isOffStart('ActionPrimary')
     ) {
       if (update.picked == null) {
         const picked = pickClosest(sets, update);
