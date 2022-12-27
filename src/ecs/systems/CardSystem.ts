@@ -7,8 +7,6 @@ import {
 } from '@/sublime-solitaire';
 import { Sprite, System } from '@/void';
 
-// need custom rangepicking logic in here
-
 export interface CardSet {
   readonly card: Card;
   readonly sprite: Sprite;
@@ -18,14 +16,8 @@ export const CardSystem: System<CardSet, SublimeECSUpdate> = Immutable({
   query: new Set(['card', 'sprite']),
   // to-do: this list will need to be cut down by xy intersection anyway
   update(sets, update) {
-    // for (const pile of state.piles) {
-    //   Sprite.setAnimation(
-    //     pile.sprite!,
-    //     state.assets.atlasMeta.animationByID['Checkerboard'],
-    //   );
-    // }
-    if (update.pointer?.on('ClickPrimary')) {
-      if (update.pointer.onStart('ClickPrimary')) {
+    if (update.input?.on('ActionPrimary')) {
+      if (update.input.onStart('ActionPrimary')) {
         const picked = pickClosest(sets, update);
         if (picked != null) {
           update.pickHandled = true;
@@ -34,13 +26,6 @@ export const CardSystem: System<CardSet, SublimeECSUpdate> = Immutable({
       }
       if (update.picked != null) {
         moveToPick(update);
-        // const bestboy = findbestmatch(state);
-        // if (bestboy != null) {
-        //   Sprite.setAnimation(
-        //     bestboy.pile.sprite!,
-        //     state.assets.atlasMeta.animationByID['PaletteDark'],
-        //   );
-        // }
       } else {
         // Only rerender if pick operation is done otherwise cards snap to fast in reserve.
         setSpritePositionsForLayout(
@@ -55,21 +40,12 @@ export const CardSystem: System<CardSet, SublimeECSUpdate> = Immutable({
 
     if (
       update.solitaire.selected != null &&
-      update.pointer?.offStart('ClickPrimary')
+      update.input?.offStart('ActionPrimary')
     ) {
       if (update.picked == null) {
         const picked = pickClosest(sets, update);
         if (picked != null) {
           Solitaire.point(update.solitaire, picked.card);
-
-          // to-do: is this ok? do i properly replace the old sprite?
-          // ECS.addComponents(state.ecs, picked.ent, {
-          //   sprite: newCardSprite(
-          //     picked.card,
-          //     state.assets,
-          //     picked.sprite.target.start,
-          //   ),
-          // });
         } else Solitaire.deselect(update.solitaire);
         setSpritePositionsForLayout(
           update.ecs,
@@ -131,7 +107,7 @@ function pickClosest(
   sets: Set<CardSet>,
   update: SublimeECSUpdate,
 ): Picked | undefined {
-  if (update.pointer == null) return;
+  if (update.input == null) return;
   let picked: Picked | undefined;
   for (const set of sets) {
     const { card, sprite } = set;
@@ -155,7 +131,7 @@ function setPickRange(update: SublimeECSUpdate, card: Card): void {
       return {
         components,
         offset: I16XY.sub(
-          I16XY(update.pointer.xy!),
+          I16XY(update.cursor.bounds.start), // to-do: this sucks. so easy to accidentally mutate LHS since it's implicitly this.
           components.sprite!.bounds.start,
         ),
       };
@@ -176,7 +152,10 @@ function moveToPick(update: SublimeECSUpdate): void {
   for (let i = 0; i < update.picked.ents.length; i++) {
     I16Box.moveTo(
       update.picked.ents[i]!.components.sprite!.bounds, // to-do versus const sprite = ECS.get(ecs, 'Sprite', ent);
-      I16XY.sub(I16XY(update.pointer.xy!), update.picked.ents[i]!.offset),
+      I16XY.sub(
+        I16XY(update.cursor.bounds.start),
+        update.picked.ents[i]!.offset,
+      ),
     );
   }
 }

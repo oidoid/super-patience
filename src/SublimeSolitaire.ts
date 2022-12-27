@@ -20,8 +20,8 @@ import {
   ECS,
   FollowCamSystem,
   FollowPointSystem,
+  InputPoller,
   InstanceBuffer,
-  PointerPoller,
   Renderer,
   RendererStateMachine,
   RenderSystem,
@@ -33,7 +33,7 @@ export interface SublimeSolitaire {
   readonly assets: Assets;
   readonly canvas: HTMLCanvasElement;
   readonly ecs: ECS<SublimeComponentSet, SublimeECSUpdate>;
-  readonly pointerPoller: PointerPoller;
+  readonly input: InputPoller;
   readonly solitaire: Solitaire;
   readonly minViewport: U16XY;
   readonly random: Random;
@@ -99,7 +99,7 @@ export function SublimeSolitaire(
     picked: undefined,
     solitaire,
     ecs,
-    pointerPoller: new PointerPoller(),
+    input: new InputPoller(),
     //inputRouter: InputRouter.make(window),
     //recorder: InputRecorder.make(tick * 6),
     rendererStateMachine: new RendererStateMachine({
@@ -130,12 +130,12 @@ export namespace SublimeSolitaire {
   }
 
   export function start(self: SublimeSolitaire): void {
-    self.pointerPoller.register(window, 'add');
+    self.input.register(window, 'add');
     self.rendererStateMachine.start();
   }
 
   export function stop(self: SublimeSolitaire): void {
-    self.pointerPoller.register(window, 'remove');
+    self.input.register(window, 'remove');
     self.rendererStateMachine.stop();
     // win.close()
   }
@@ -162,7 +162,7 @@ export namespace SublimeSolitaire {
       clientViewportWH,
       ecs: self.ecs,
       delta,
-      pointer: self.pointerPoller,
+      input: self.input,
       picked: self.picked,
       time: self.time,
       scale,
@@ -174,13 +174,15 @@ export namespace SublimeSolitaire {
       cursor: self.cursor,
     };
 
+    self.input.preupdate(window.navigator);
+
     processDebugInput(self, update);
 
     ECS.update(self.ecs, update);
     self.picked = update.picked;
 
     // should actual render be here and not in the ecs?
-    self.pointerPoller.update(delta, clientViewportWH, camBounds);
+    self.input.postupdate(delta, clientViewportWH, camBounds);
   }
 }
 
@@ -189,7 +191,7 @@ function processDebugInput(
   update: SublimeECSUpdate,
 ): void {
   if (update.pickHandled) return;
-  if (self.pointerPoller.onStart('ClickSecondary')) {
+  if (self.input.onStart('Menu')) {
     if (!self.rendererStateMachine.isContextLost()) {
       update.pickHandled = true;
       self.rendererStateMachine.loseContext();

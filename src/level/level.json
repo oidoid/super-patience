@@ -3,11 +3,7 @@
     "name": "cursor",
     "cursor": { "pick": "CursorPick", "point": "CursorPoint" },
     "followPoint": {},
-    "sprite": {
-      "id": "CursorPoint",
-      "layer": "Cursor",
-      "xy": { "x": -128, "y": -128 }
-    }
+    "sprite": { "id": "CursorPoint", "layer": "Cursor" }
   },
 
   {

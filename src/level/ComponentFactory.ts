@@ -13,10 +13,14 @@ import {
 } from '@/sublime-solitaire';
 import level from './level.json' assert { type: 'json' };
 
+// to-do: move min viewport size to JSON.
+
 export function newLevelComponents(
   factory: SpriteFactory,
   solitaire: Readonly<Solitaire>,
 ): Partial<SublimeComponentSet>[] {
+  // to-do: detect mobile platforms and hide cursor initially.
+  // to-do: limit cursor movement to play area.
   return [
     ...newTallies(factory),
 
