@@ -14,12 +14,11 @@ export const VacantStockSystem: System<VacantStockSet, SublimeECSUpdate> =
     query: new Set(['vacantStock', 'sprite']),
     skip(update) {
       // update.pointer?.on2([['Primary'], ['Primary']], 'Set', 'Pen', 'Touch')
-      return !!update.pickHandled ||
-        // to-do: inactiveTriggered when i have picking sorted to only allow one
-        // handler.
-        !update.input.isOnStart('ActionPrimary');
+      return !!update.pickHandled || !update.input.isOffStart('ActionPrimary');
     },
     updateEnt(set, update) {
+      if (update.pickHandled) return;
+      update.pickHandled = true;
       if (!set.sprite.intersectsBounds(update.cursor.bounds.start)) return;
       Solitaire.deal(update.solitaire);
       setSpritePositionsForLayout(

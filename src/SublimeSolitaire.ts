@@ -5,8 +5,6 @@ import {
   CardSystem,
   newLevelComponents,
   PatienceTheDemonSystem,
-  PickState,
-  PileConfig,
   PileHitboxSystem,
   SaveStorage,
   SpriteFactory,
@@ -47,9 +45,7 @@ export interface SublimeSolitaire {
   tick: number;
   /** The outstanding time elapsed accrual to execute in milliseconds. */
   time: number;
-  picked: PickState | undefined;
   readonly instanceBuffer: InstanceBuffer;
-  readonly piles: readonly Readonly<{ pile: PileConfig; sprite: Sprite }>[];
   readonly cursor: Sprite;
 }
 
@@ -68,12 +64,13 @@ export function SublimeSolitaire(
   const newRenderer = () =>
     Renderer(canvas, assets.atlas, assets.shaderLayout, assets.atlasMeta);
 
+  const cardSystem = new CardSystem();
   const ecs = ECS<SublimeComponentSet, SublimeECSUpdate>(
     new Set([
       FollowCamSystem,
       CursorSystem, // Process first
       FollowPointSystem,
-      CardSystem,
+      cardSystem,
       PileHitboxSystem,
       VacantStockSystem,
       PatienceTheDemonSystem,
@@ -89,6 +86,11 @@ export function SublimeSolitaire(
     ) as SublimeComponentSet[], // to-do: fix types
   );
   ECS.flush(ecs);
+
+  // to-do: allow systems to specify peripheral nonprocessing dependencies.
+  cardSystem.piles = ECS.query(ecs, 'pile', 'sprite');
+  cardSystem.vacantStock = ECS.query(ecs, 'vacantStock', 'sprite')?.[0]?.sprite;
+
   const tick = 1000 / 60;
 
   const self: SublimeSolitaire = {
@@ -96,17 +98,16 @@ export function SublimeSolitaire(
     canvas,
     random,
     instanceBuffer: InstanceBuffer(assets.shaderLayout),
-    picked: undefined,
     solitaire,
     ecs,
     input: new InputPoller(),
-    //inputRouter: InputRouter.make(window),
     //recorder: InputRecorder.make(tick * 6),
     rendererStateMachine: new RendererStateMachine({
       window,
       canvas,
       onFrame: (delta) => SublimeSolitaire.onFrame(self, delta),
       onPause: () => {
+        // to-do: reset input here.
         // InputRouter.reset(self.inputRouter);
       },
       newRenderer,
@@ -118,7 +119,6 @@ export function SublimeSolitaire(
     minViewport: U16XY(256, 214), // y = 2 (border) + 71 (offset) + 8 * 7 (initial stack with a king on top) + 11 * 7 (Q-2) + (A) 32 - (dont care) 24 = 214
     saveStorage,
     cursor: ECS.query(ecs, 'cursor', 'sprite')![0]!.sprite, // this api sucks
-    piles: ECS.query(ecs, 'pile', 'sprite'),
   };
   return self;
 }
@@ -163,14 +163,12 @@ export namespace SublimeSolitaire {
       ecs: self.ecs,
       delta,
       input: self.input,
-      picked: self.picked,
       time: self.time,
       scale,
       saveStorage: self.saveStorage,
       instanceBuffer: self.instanceBuffer,
       rendererStateMachine: self.rendererStateMachine,
       solitaire: self.solitaire,
-      piles: self.piles,
       cursor: self.cursor,
     };
 
@@ -179,7 +177,6 @@ export namespace SublimeSolitaire {
     processDebugInput(self, update);
 
     ECS.update(self.ecs, update);
-    self.picked = update.picked;
 
     // should actual render be here and not in the ecs?
     self.input.postupdate(delta, clientViewportWH, camBounds);
@@ -191,7 +188,7 @@ function processDebugInput(
   update: SublimeECSUpdate,
 ): void {
   if (update.pickHandled) return;
-  if (self.input.isOnStart('Menu')) {
+  if (self.input.isOnStart('DebugContextLoss')) {
     if (!self.rendererStateMachine.isContextLost()) {
       update.pickHandled = true;
       self.rendererStateMachine.loseContext();

@@ -19,6 +19,7 @@ export const PatienceTheDemonSystem: System<
     if (update.pickHandled) return true;
     // to-do: need notion of handled state so that picks don't bleed.
     // to-do: need notion of system order so that pickable is first.
+    // to-do: isOffStart
     if (!update.input.isOnStart('ActionPrimary')) return true;
     return false;
   },
