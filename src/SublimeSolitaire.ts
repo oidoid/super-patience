@@ -18,7 +18,7 @@ import {
   ECS,
   FollowCamSystem,
   FollowPointSystem,
-  InputPoller,
+  Input,
   InstanceBuffer,
   Renderer,
   RendererStateMachine,
@@ -31,7 +31,7 @@ export interface SublimeSolitaire {
   readonly assets: Assets;
   readonly canvas: HTMLCanvasElement;
   readonly ecs: ECS<SublimeComponentSet, SublimeECSUpdate>;
-  readonly input: InputPoller;
+  readonly input: Input;
   readonly solitaire: Solitaire;
   readonly minViewport: U16XY;
   readonly random: Random;
@@ -100,15 +100,14 @@ export function SublimeSolitaire(
     instanceBuffer: InstanceBuffer(assets.shaderLayout),
     solitaire,
     ecs,
-    input: new InputPoller(),
+    input: new Input(),
     //recorder: InputRecorder.make(tick * 6),
     rendererStateMachine: new RendererStateMachine({
       window,
       canvas,
       onFrame: (delta) => SublimeSolitaire.onFrame(self, delta),
       onPause: () => {
-        // to-do: reset input here.
-        // InputRouter.reset(self.inputRouter);
+        self.input.reset();
       },
       newRenderer,
     }),
@@ -130,12 +129,12 @@ export namespace SublimeSolitaire {
   }
 
   export function start(self: SublimeSolitaire): void {
-    self.input.register(window, 'add');
+    self.input.register('add');
     self.rendererStateMachine.start();
   }
 
   export function stop(self: SublimeSolitaire): void {
-    self.input.register(window, 'remove');
+    self.input.register('remove');
     self.rendererStateMachine.stop();
     // win.close()
   }
@@ -172,7 +171,7 @@ export namespace SublimeSolitaire {
       cursor: self.cursor,
     };
 
-    self.input.preupdate(window.navigator);
+    self.input.preupdate();
 
     processDebugInput(self, update);
 
