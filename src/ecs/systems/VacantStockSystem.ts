@@ -13,8 +13,8 @@ export const VacantStockSystem: System<VacantStockSet, SublimeECSUpdate> =
   Immutable({
     query: new Set(['vacantStock', 'sprite']),
     skip(update) {
-      // update.pointer?.on2([['Primary'], ['Primary']], 'Set', 'Pen', 'Touch')
-      return !!update.pickHandled || !update.input.isOffStart('ActionPrimary');
+      // update.pointer?.on2([[''], ['']], 'Set', 'Pen', 'Touch')
+      return !!update.pickHandled || !update.input.isOffStart('Action');
     },
     updateEnt(set, update) {
       if (update.pickHandled) return;

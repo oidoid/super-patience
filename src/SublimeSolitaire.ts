@@ -101,7 +101,6 @@ export function SublimeSolitaire(
     solitaire,
     ecs,
     input: new Input(),
-    //recorder: InputRecorder.make(tick * 6),
     rendererStateMachine: new RendererStateMachine({
       window,
       canvas,
@@ -187,6 +186,23 @@ function processDebugInput(
   update: SublimeECSUpdate,
 ): void {
   if (update.pickHandled) return;
+  if (
+    self.input.isOnComboStart(
+      ['Up'],
+      ['Up'],
+      ['Down'],
+      ['Down'],
+      ['Left'],
+      ['Right'],
+      ['Left'],
+      ['Right'],
+      ['Action'],
+      ['Menu'],
+    )
+  ) {
+    update.pickHandled = true;
+    console.log('combo');
+  }
   if (self.input.isOnStart('DebugContextLoss')) {
     if (!self.rendererStateMachine.isContextLost()) {
       update.pickHandled = true;

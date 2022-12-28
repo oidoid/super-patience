@@ -31,9 +31,10 @@ export class CardSystem implements System<CardSet, SublimeECSUpdate> {
 
   // to-do: this list will need to be cut down by xy intersection anyway
   update(sets: Set<CardSet>, update: SublimeECSUpdate): void {
+    if (update.pickHandled) return;
     if (
-      update.input.isOffStart('ActionPrimary') ||
-      update.input.isOnStart('ActionPrimary')
+      update.input.isOffStart('Action') ||
+      update.input.isOnStart('Action')
     ) {
       const picked = pickClosest(sets, update);
       const isStockClick = this.vacantStock &&
@@ -41,16 +42,17 @@ export class CardSystem implements System<CardSet, SublimeECSUpdate> {
 
       if (
         picked != null && !isStockClick &&
-          update.input.isOnStart('ActionPrimary') ||
+          update.input.isOnStart('Action') ||
         picked != null && isStockClick &&
-          update.input.isOffStart('ActionPrimary')
+          update.input.isOffStart('Action')
       ) {
         update.pickHandled = true;
         this.setPickRange(update, picked.card);
       }
     }
-    if (this.#picked != null) moveToPick(update, this.#picked);
-    else {
+    if (update.input.isOn('Action') && this.#picked != null) {
+      moveToPick(update, this.#picked);
+    } else {
       // Only rerender if pick operation is done otherwise cards snap to fast in reserve.
       setSpritePositionsForLayout(
         update.ecs,
@@ -62,7 +64,7 @@ export class CardSystem implements System<CardSet, SublimeECSUpdate> {
 
     if (
       update.solitaire.selected != null &&
-      update.input.isOffStart('ActionPrimary')
+      update.input.isOffStart('Action')
     ) {
       if (this.#picked == null) {
         const picked = pickClosest(sets, update);
@@ -123,7 +125,11 @@ export class CardSystem implements System<CardSet, SublimeECSUpdate> {
     }
   }
 
-  findbestmatch(update: SublimeECSUpdate) {
+  findbestmatch(
+    update: SublimeECSUpdate,
+  ):
+    | { intersection: I16Box; pile: { pile: PileConfig; sprite: Sprite } }
+    | undefined {
     const pointedCard = this.#picked?.ents[0]?.components;
     let bestMatch;
     if (pointedCard != null && pointedCard.sprite != null) {
@@ -161,17 +167,14 @@ function pickClosest(
       continue;
     }
 
-    if ((picked == null || sprite.compareDepth(picked.sprite) < 0)) {
+    if (picked == null || sprite.isInFrontOf(picked.sprite)) {
       picked = { set, card, sprite };
     }
   }
   return picked;
 }
 
-function moveToPick(
-  update: SublimeECSUpdate,
-  picked: PickState,
-): void {
+function moveToPick(update: SublimeECSUpdate, picked: PickState): void {
   for (let i = 0; i < picked.ents.length; i++) {
     I16Box.moveTo(
       picked.ents[i]!.components.sprite!.bounds, // to-do versus const sprite = ECS.get(ecs, 'Sprite', ent);
