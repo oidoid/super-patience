@@ -187,7 +187,7 @@ function processDebugInput(
 ): void {
   if (update.pickHandled) return;
   if (
-    self.input.isOnComboStart(
+    self.input.isComboStart(
       ['Up'],
       ['Up'],
       ['Down'],
