@@ -46,7 +46,6 @@
     "sprite": {
       "id": "Grid",
       "layer": "Background",
-      "xy": { "x": 1, "y": 1 },
       "layerByHeight": true,
       "wrap": { "x": -1, "y": -1 }
     }

@@ -8,15 +8,10 @@ body {
 
   /* The background color can be shown during quick resizes and context loss.
      [palette] */
-  background: #e6e6df;
+  background: #0a1a1a;
 
   /* Clip overflow. */
   overflow: hidden;
-}
-
-html {
-   -webkit-user-select: none;
-   -webkit-touch-callout: none;
 }
 
 .game-canvas {

@@ -196,8 +196,8 @@ function processDebugInput(
       ['Right'],
       ['Left'],
       ['Right'],
-      ['Action'],
       ['Menu'],
+      ['Action'],
     )
   ) {
     update.pickHandled = true;

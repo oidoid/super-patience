@@ -32,24 +32,23 @@ export class CardSystem implements System<CardSet, SublimeECSUpdate> {
   // to-do: this list will need to be cut down by xy intersection anyway
   update(sets: Set<CardSet>, update: SublimeECSUpdate): void {
     if (update.pickHandled) return;
-    if (
-      update.input.isOffStart('Action') ||
-      update.input.isOnStart('Action')
-    ) {
-      const picked = pickClosest(sets, update);
-      const isStockClick = this.vacantStock &&
-        picked?.sprite.intersectsSprite(this.vacantStock, update.time);
 
-      if (
-        picked != null && !isStockClick &&
-          update.input.isOnStart('Action') ||
-        picked != null && isStockClick &&
-          update.input.isOffStart('Action')
-      ) {
-        update.pickHandled = true;
-        this.setPickRange(update, picked.card);
-      }
+    const picked = pickClosest(sets, update);
+    const isStockClick = this.vacantStock &&
+      picked?.sprite.intersectsSprite(this.vacantStock, update.time);
+
+    if (
+      picked?.card.direction == 'Down' && !isStockClick &&
+        update.input.isOffStart('Action') ||
+      picked?.card.direction == 'Up' && !isStockClick &&
+        update.input.isOnStart('Action') ||
+      picked != null && isStockClick &&
+        update.input.isOffStart('Action')
+    ) {
+      update.pickHandled = true;
+      this.setPickRange(update, picked.card);
     }
+
     if (update.input.isOn('Action') && this.#picked != null) {
       moveToPick(update, this.#picked);
     } else {
