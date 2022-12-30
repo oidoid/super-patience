@@ -133,7 +133,7 @@ function* newWaste(
   factory: SpriteFactory,
 ): Generator<Partial<SublimeComponentSet>> {
   for (const [index, card] of solitaire.waste.entries()) {
-    const xy = getWasteXY(factory.filmByID, solitaire, index);
+    const xy = getWasteXY(solitaire, index);
     yield newCard(factory, card, xy);
   }
 }

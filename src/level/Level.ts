@@ -54,7 +54,7 @@ export function setSpritePositionsForLayout(
   }
   for (const [index, card] of solitaire.waste.entries()) {
     const components = ecs.componentsByRef.get(card);
-    components!.sprite.moveTo(getWasteXY(filmByID, solitaire, index));
+    components!.sprite.moveTo(getWasteXY(solitaire, index));
     let animID: SublimeFilmID;
     if (index >= (solitaire.waste.length - solitaire.drawSize)) {
       animID = getCardFilmID(card);
@@ -77,7 +77,7 @@ export function getStockXY(
   indexY: number,
 ): I16XY {
   return I16XY(
-    boardX,
+    boardX + 160,
     // All cards in the stock are at the same point and on the same layer. Only
     // the top card should be pickable so move the rest off-cam.
     boardY + (solitaire.stock.length - 1 == indexY ? 0 : hiddenY),
@@ -85,14 +85,12 @@ export function getStockXY(
 }
 
 export function getWasteXY(
-  filmByID: FilmByID<SublimeFilmID>,
   solitaire: Readonly<Solitaire>,
   index: number,
 ): I16XY {
-  const film = filmByID.CardVacantPile;
   const top = solitaire.waste.length - solitaire.drawSize;
   const betterIndex = Math.max(index - top, 0);
-  return I16XY(boardX + mod + film.wh.x, boardY + betterIndex * mod);
+  return I16XY(208, boardY + betterIndex * mod);
 }
 
 export function getFoundationCardXY(
@@ -101,7 +99,7 @@ export function getFoundationCardXY(
 ): I16XY {
   const film = filmByID[`CardVacant${suit}`];
   const betterIndexX = { Clubs: 0, Diamonds: 1, Hearts: 2, Spades: 3 }[suit];
-  const x = boardX + 48 + 2 * mod + betterIndexX * (film.wh.x + mod);
+  const x = boardX + mod * 4 + betterIndexX * (film.wh.x + mod);
   return I16XY(x, boardY);
 }
 

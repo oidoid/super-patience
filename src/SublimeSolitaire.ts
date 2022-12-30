@@ -1,4 +1,4 @@
-import { assertNonNull, I16, I16Box, I32, Random, U16XY, Uint } from '@/oidlib';
+import { assertNonNull, I16, I16Box, I32, Random, U16XY } from '@/oidlib';
 import { Solitaire } from '@/solitaire';
 import {
   Assets,
@@ -38,10 +38,6 @@ export interface SublimeSolitaire {
   readonly rendererStateMachine: RendererStateMachine;
   readonly saveStorage: SaveStorage;
 
-  /** The total execution time in milliseconds excluding pauses. */
-  age: number;
-  /** The total frames rendered. */
-  frames: Uint;
   tick: number;
   /** The outstanding time elapsed accrual to execute in milliseconds. */
   time: number;
@@ -110,10 +106,8 @@ export function SublimeSolitaire(
       },
       newRenderer,
     }),
-    age: 0,
     tick,
     time: 0,
-    frames: Uint(0),
     minViewport: U16XY(256, 214), // y = 2 (border) + 71 (offset) + 8 * 7 (initial stack with a king on top) + 11 * 7 (Q-2) + (A) 32 - (dont care) 24 = 214
     saveStorage,
     cursor: ECS.query(ecs, 'cursor', 'sprite')![0]!.sprite, // this api sucks
@@ -147,11 +141,7 @@ export namespace SublimeSolitaire {
     const scale = Viewport.scale(nativeViewportWH, self.minViewport, I16(0));
     const camWH = Viewport.camWH(nativeViewportWH, scale);
     const camBounds = I16Box(0, 0, camWH.x, camWH.y);
-    self.time = self.time + delta; // Add elapsed time to the pending delta total.
-    self.age = self.age + self.time - (self.time % self.tick); // Add delta less remainder.
-    self.frames = Uint(self.frames + 1);
-
-    // if (self.time % 1000 < 16) console.log(self.frames * 1000 / self.time);
+    self.time += delta; // Add elapsed time to the pending delta total.
 
     const update: SublimeECSUpdate = {
       filmByID: self.assets.atlasMeta.filmByID,

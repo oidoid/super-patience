@@ -55,8 +55,8 @@
     "name": "Patience the Demon",
     "followCam": {
       "modulo": { "x": 8, "y": 8 },
-      "orientation": "Northeast",
-      "pad": { "x": 24, "y": 16 }
+      "orientation": "Northwest",
+      "pad": { "x": 16, "y": 16 }
     },
     "patienceTheDemon": {},
     "sprite": { "id": "PatienceTheDemonGood", "layer": "Patience" }
