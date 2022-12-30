@@ -73,7 +73,7 @@ function newStock(
 ): Partial<SublimeComponentSet>[] {
   const components: Partial<SublimeComponentSet>[] = [{
     vacantStock: {},
-    sprite: factory.new('CardVacantPile', 'Vacancy', {
+    sprite: factory.new('CardVacantStock', 'Vacancy', {
       xy: getStockXY(solitaire, solitaire.stock.length - 1),
     }),
   }];

@@ -38,6 +38,5 @@
   "theme_color": "#e6e6df",
   "background_color": "#0a1a1a",
   "display": "fullscreen",
-  "orientation": "landscape",
   "start_url": "/"
 }

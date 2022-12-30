@@ -18,8 +18,8 @@ export const VacantStockSystem: System<VacantStockSet, SublimeECSUpdate> =
     },
     updateEnt(set, update) {
       if (update.pickHandled) return;
-      update.pickHandled = true;
       if (!set.sprite.intersectsBounds(update.cursor.bounds.start)) return;
+      update.pickHandled = true;
       Solitaire.deal(update.solitaire);
       setSpritePositionsForLayout(
         update.ecs,

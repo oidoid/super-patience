@@ -140,7 +140,14 @@ export namespace SublimeSolitaire {
     );
     const scale = Viewport.scale(nativeViewportWH, self.minViewport, I16(0));
     const camWH = Viewport.camWH(nativeViewportWH, scale);
-    const camBounds = I16Box(0, 0, camWH.x, camWH.y);
+
+    const camOffsetX = Math.trunc((camWH.x - self.minViewport.x) / 2);
+    const camBounds = I16Box(
+      -(camOffsetX - camOffsetX % 8), // center on the playing board
+      0,
+      camWH.x,
+      camWH.y,
+    );
     self.time += delta; // Add elapsed time to the pending delta total.
 
     const update: SublimeECSUpdate = {
