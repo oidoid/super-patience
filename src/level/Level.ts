@@ -15,6 +15,9 @@ const boardX = 2 * mod;
 const boardY = 16;
 const hiddenY = -1024;
 
+// to-do: can this be a system or systems? It seems like it's a "board" system
+// but has some overlap with CardSystem which calls these functions.
+
 export function setSpritePositionsForLayout(
   ecs: ECS<SublimeComponentSet>,
   filmByID: FilmByID<SublimeFilmID>,
@@ -61,14 +64,11 @@ export function setSpritePositionsForLayout(
     } else {
       animID = 'CardDown';
     }
-    // could have card-1-2-3 for horizontal ordering to work correctly, could have CardBack for everything below topmost hidden card. tricks i can play here to make layering appear to work correctly for stacked cards with same y. could also do order breaking for horizontal based on left-to-right so that it's consistent.
+    // Hide waste under the draw reserve. I can't draw them in the correct
+    // order since they have identical XYs.
     components!.sprite.layer =
       SublimeLayer[animID == 'CardDown' ? 'CardDown' : 'CardUp'];
-    components!.sprite.animate(
-      time,
-      // hide cards under draw reserve. i can't draw them in the correct order
-      filmByID[animID],
-    );
+    components!.sprite.animate(time, filmByID[animID]);
   }
 }
 
@@ -79,7 +79,8 @@ export function getStockXY(
   return I16XY(
     boardX + 160,
     // All cards in the stock are at the same point and on the same layer. Only
-    // the top card should be pickable so move the rest off-cam.
+    // the top card should be pickable though so hide the rest off-cam since
+    // they're not drawn in the correct order.
     boardY + (solitaire.stock.length - 1 == indexY ? 0 : hiddenY),
   );
 }

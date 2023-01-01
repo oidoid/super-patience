@@ -58,6 +58,35 @@
   },
 
   {
+    "name": "foundations background",
+    "sprite": {
+      "id": "PaletteLight",
+      "layer": "Background",
+      "xy": { "x": 41, "y": 9 },
+      "wh": { "x": 199, "y": 47 }
+    }
+  },
+
+  {
+    "name": "foundations vacancy",
+    "sprite": {
+      "id": "CardVacantPile",
+      "layer": "Vacancy",
+      "xy": { "x": 208, "y": 16 }
+    }
+  },
+
+  {
+    "name": "tableau background",
+    "sprite": {
+      "id": "PaletteLight",
+      "layer": "Background",
+      "xy": { "x": 9, "y": 65 },
+      "wh": { "x": 231, "y": 47 }
+    }
+  },
+
+  {
     "name": "Patience the Demon",
     "followCam": {
       "modulo": { "x": 8, "y": 8 },
