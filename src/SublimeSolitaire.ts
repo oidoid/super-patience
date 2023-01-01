@@ -1,4 +1,4 @@
-import { assertNonNull, I16, I16Box, I32, Random, U16XY } from '@/oidlib';
+import { assertNonNull, I32, NonNull, Random } from '@/oidlib';
 import { Solitaire } from '@/solitaire';
 import {
   Assets,
@@ -14,6 +14,8 @@ import {
   VacantStockSystem,
 } from '@/sublime-solitaire';
 import {
+  Cam,
+  CamSystem,
   CursorSystem,
   ECS,
   FollowCamSystem,
@@ -24,16 +26,15 @@ import {
   RendererStateMachine,
   RenderSystem,
   Sprite,
-  Viewport,
 } from '@/void';
 
 export interface SublimeSolitaire {
   readonly assets: Assets;
   readonly canvas: HTMLCanvasElement;
+  readonly cam: Cam;
   readonly ecs: ECS<SublimeComponentSet, SublimeECSUpdate>;
   readonly input: Input;
   readonly solitaire: Solitaire;
-  readonly minViewport: U16XY;
   readonly random: Random;
   readonly rendererStateMachine: RendererStateMachine;
   readonly saveStorage: SaveStorage;
@@ -63,6 +64,7 @@ export function SublimeSolitaire(
   const cardSystem = new CardSystem();
   const ecs = ECS<SublimeComponentSet, SublimeECSUpdate>(
     new Set([
+      CamSystem,
       FollowCamSystem,
       CursorSystem, // Process first
       FollowPointSystem,
@@ -89,14 +91,16 @@ export function SublimeSolitaire(
 
   const tick = 1000 / 60;
 
+  const cam = NonNull(ECS.query(ecs, 'cam')[0], 'Missing cam entity.').cam;
   const self: SublimeSolitaire = {
     assets,
+    cam,
     canvas,
     random,
     instanceBuffer: InstanceBuffer(assets.shaderLayout),
     solitaire,
     ecs,
-    input: new Input(),
+    input: new Input(cam),
     rendererStateMachine: new RendererStateMachine({
       window,
       canvas,
@@ -108,7 +112,6 @@ export function SublimeSolitaire(
     }),
     tick,
     time: 0,
-    minViewport: U16XY(256, 214), // y = 2 (border) + 71 (offset) + 8 * 7 (initial stack with a king on top) + 11 * 7 (Q-2) + (A) 32 - (dont care) 24 = 214
     saveStorage,
     cursor: ECS.query(ecs, 'cursor', 'sprite')![0]!.sprite, // this api sucks
   };
@@ -133,33 +136,15 @@ export namespace SublimeSolitaire {
   }
 
   export function onFrame(self: SublimeSolitaire, delta: number): void {
-    const clientViewportWH = Viewport.clientViewportWH(window);
-    const nativeViewportWH = Viewport.nativeViewportWH(
-      window,
-      clientViewportWH,
-    );
-    const scale = Viewport.scale(nativeViewportWH, self.minViewport, I16(0));
-    const camWH = Viewport.camWH(nativeViewportWH, scale);
-
-    const camOffsetX = Math.trunc((camWH.x - self.minViewport.x) / 2);
-    const camBounds = I16Box(
-      -(camOffsetX - camOffsetX % 8), // center on the playing board
-      0,
-      camWH.x,
-      camWH.y,
-    );
     self.time += delta; // Add elapsed time to the pending delta total.
 
     const update: SublimeECSUpdate = {
       filmByID: self.assets.atlasMeta.filmByID,
-      camBounds,
-      nativeViewportWH,
-      clientViewportWH,
+      cam: self.cam,
       ecs: self.ecs,
       delta,
       input: self.input,
       time: self.time,
-      scale,
       saveStorage: self.saveStorage,
       instanceBuffer: self.instanceBuffer,
       rendererStateMachine: self.rendererStateMachine,
@@ -174,7 +159,7 @@ export namespace SublimeSolitaire {
     ECS.update(self.ecs, update);
 
     // should actual render be here and not in the ecs?
-    self.input.postupdate(delta, clientViewportWH, camBounds);
+    self.input.postupdate(delta);
   }
 }
 
