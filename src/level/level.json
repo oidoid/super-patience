@@ -68,12 +68,11 @@
   },
 
   {
-    "name": "waste background",
+    "pile": { "type": "Waste" },
     "sprite": {
       "id": "PaletteLight",
       "layer": "Background",
-      "xy": { "x": 201, "y": 9 },
-      "wh": { "x": 39, "y": 47 }
+      "xy": { "x": 201, "y": 9 }
     }
   },
 

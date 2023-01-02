@@ -1,8 +1,14 @@
+import { assert } from '@/oidlib';
 import { SpriteFactory, SublimeComponentSet } from '@/sublime-solitaire';
 import { ComponentSetJSON, LevelParser } from '@/void';
 
 interface SublimeComponentSetJSON extends ComponentSetJSON {
+  readonly pile?: PileConfigJSON;
   readonly patienceTheDemon?: Record<never, never>;
+}
+
+interface PileConfigJSON {
+  type: string;
 }
 
 export namespace SublimeLevelParser {
@@ -26,9 +32,21 @@ function parseComponentSet(
       continue;
     }
     switch (key) { // to-do: fail when missing types.
+      case 'pile':
+        assert(
+          json.pile?.type == 'Waste',
+          `Unsupported pile type "${json.pile?.type}".`,
+        );
+        set[key] = { type: 'Waste' };
+        break;
       case 'patienceTheDemon':
         set[key] = {};
         break;
+      case '//':
+      case 'name':
+        break;
+      default:
+        throw Error(`Unsupported level config type "${key}".`);
     }
   }
   return set;

@@ -80,7 +80,10 @@ export class CardSystem implements System<CardSet, SublimeECSUpdate> {
         // to-do: this is essentially invalidateBoard()
 
         const bestMatch = this.findbestmatch(update);
-        if (bestMatch != null && update.solitaire.selected != null) {
+        if (
+          bestMatch != null && update.solitaire.selected != null &&
+          bestMatch.pile.pile.type != 'Waste'
+        ) {
           Solitaire.build(update.solitaire, bestMatch.pile.pile);
         }
         Solitaire.deselect(update.solitaire);
@@ -141,7 +144,10 @@ export class CardSystem implements System<CardSet, SublimeECSUpdate> {
         if (I16Box.flipped(intersection) || I16Box.area(intersection) <= 0) {
           continue;
         }
-        if (!Solitaire.isBuildable(update.solitaire, pile.pile)) continue;
+        if (
+          pile.pile.type == 'Waste' ||
+          !Solitaire.isBuildable(update.solitaire, pile.pile)
+        ) continue;
         if (
           bestMatch == null ||
           I16Box.area(intersection) > I16Box.area(bestMatch.intersection)

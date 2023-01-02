@@ -1,4 +1,4 @@
-import { I16Box, Immutable, U16XY, Uint } from '@/oidlib';
+import { I16Box, I16XY, Immutable, U16XY, Uint } from '@/oidlib';
 import {
   getFoundationCardXY,
   getTableauCardXY,
@@ -23,7 +23,9 @@ export const PileHitboxSystem: System<PileHitboxSet, SublimeECSUpdate> =
         const gap = 8; // to-do: or at least hardcode in one place
         // kind of lame because this shoudl be the union of sprites
         // this should be invisible tho and the sprite should always be present
-        const xy = pile.type == 'Tableau'
+        const xy = pile.type == 'Waste'
+          ? I16XY.add(I16XY(sprite.bounds.start), gap - 1, gap - 1)
+          : pile.type == 'Tableau'
           ? getTableauCardXY(update.filmByID, pile.x, Uint(0))
           : getFoundationCardXY(update.filmByID, pile.suit);
         I16Box.moveTo(
@@ -35,7 +37,11 @@ export const PileHitboxSystem: System<PileHitboxSet, SublimeECSUpdate> =
           sprite.bounds,
           cardWH.x + gap * 2 - 1,
           cardWH.y +
-            (pile.type == 'Tableau'
+            (pile.type == 'Waste'
+              ? (update.solitaire.waste.length > 0
+                ? update.solitaire.drawSize - 1
+                : 0) * gap
+              : pile.type == 'Tableau'
               ? Math.max(
                 0,
                 update.solitaire.tableau[pile.x]!.length - 1,
