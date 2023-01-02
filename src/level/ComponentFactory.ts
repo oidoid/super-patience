@@ -120,7 +120,7 @@ function* newTallies(
       followCam: {
         modulo: I16XY(mod, mod),
         orientation: 'Northeast',
-        pad: I16XY(8, 8 + i * 8),
+        pad: I16XY(0, 8 + i * 8),
       },
       tally: { tens: i },
       sprite: factory.new('Tally0', 'Patience'),
