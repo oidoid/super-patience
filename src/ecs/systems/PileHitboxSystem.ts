@@ -28,12 +28,12 @@ export const PileHitboxSystem: System<PileHitboxSet, SublimeECSUpdate> =
           : getFoundationCardXY(update.filmByID, pile.suit);
         I16Box.moveTo(
           sprite.bounds,
-          xy.x - gap,
-          xy.y - gap,
+          xy.x - gap + 1,
+          xy.y - gap + 1,
         );
         I16Box.sizeTo(
           sprite.bounds,
-          cardWH.x + gap * 2,
+          cardWH.x + gap * 2 - 1,
           cardWH.y +
             (pile.type == 'Tableau'
               ? Math.max(
@@ -41,7 +41,7 @@ export const PileHitboxSystem: System<PileHitboxSet, SublimeECSUpdate> =
                 update.solitaire.tableau[pile.x]!.length - 1,
               ) * gap
               : 0) +
-            gap * 2,
+            gap * 2 - 1,
         );
         // to-do: Sprite.sizeTo
         // to-do: don't process picks after it has been handled. Render and pick

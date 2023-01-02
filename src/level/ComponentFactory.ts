@@ -93,7 +93,7 @@ function newTableau(
     components.push(
       {
         pile: { type: 'Tableau', x: Uint(x) },
-        sprite: factory.new('PaletteAlpha', 'Vacancy', {
+        sprite: factory.new('PaletteLight', 'Vacancy', {
           xy: getTableauCardXY(factory.filmByID, x, 0),
         }),
       },

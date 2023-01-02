@@ -77,16 +77,6 @@
   },
 
   {
-    "name": "tableau background",
-    "sprite": {
-      "id": "PaletteLight",
-      "layer": "Background",
-      "xy": { "x": 9, "y": 65 },
-      "wh": { "x": 231, "y": 47 }
-    }
-  },
-
-  {
     "name": "Patience the Demon",
     "followCam": {
       "modulo": { "x": 8, "y": 8 },
