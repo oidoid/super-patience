@@ -58,17 +58,27 @@
   },
 
   {
-    "name": "foundations background",
+    "name": "stock background",
     "sprite": {
       "id": "PaletteLight",
       "layer": "Background",
-      "xy": { "x": 41, "y": 9 },
-      "wh": { "x": 199, "y": 47 }
+      "xy": { "x": 169, "y": 9 },
+      "wh": { "x": 39, "y": 47 }
     }
   },
 
   {
-    "name": "foundations vacancy",
+    "name": "waste background",
+    "sprite": {
+      "id": "PaletteLight",
+      "layer": "Background",
+      "xy": { "x": 201, "y": 9 },
+      "wh": { "x": 39, "y": 47 }
+    }
+  },
+
+  {
+    "name": "waste vacancy",
     "sprite": {
       "id": "CardVacantPile",
       "layer": "Vacancy",

@@ -60,7 +60,7 @@ function* newFoundation(
     };
     yield {
       pile: { type: 'Foundation', suit },
-      sprite: factory.new('PaletteAlpha', 'Vacancy', {
+      sprite: factory.new('PaletteLight', 'Background', {
         xy: getFoundationCardXY(factory.filmByID, suit),
       }),
     };
@@ -93,7 +93,7 @@ function newTableau(
     components.push(
       {
         pile: { type: 'Tableau', x: Uint(x) },
-        sprite: factory.new('PaletteLight', 'Vacancy', {
+        sprite: factory.new('PaletteLight', 'Background', {
           xy: getTableauCardXY(factory.filmByID, x, 0),
         }),
       },
