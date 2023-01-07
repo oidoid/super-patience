@@ -38,10 +38,16 @@ export interface SublimeSolitaire {
   readonly random: Random;
   readonly rendererStateMachine: RendererStateMachine;
   readonly saveStorage: SaveStorage;
-
+  /** The total number of ticks completed. ticks * tick = age. */
+  ticks: number;
+  age: number;
+  /**
+   * The exact duration in milliseconds to apply each update. Any number of
+   * updates may occur per animation frame.
+   */
   tick: number;
   /** The outstanding time elapsed accrual to execute in milliseconds. */
-  time: number;
+  delta: number;
   readonly instanceBuffer: InstanceBuffer;
   readonly cursor: Sprite;
 }
@@ -111,7 +117,11 @@ export function SublimeSolitaire(
       newRenderer,
     }),
     tick,
-    time: 0,
+    ticks: 0,
+    delta: 0,
+    get age() {
+      return this.tick * this.ticks;
+    },
     saveStorage,
     cursor: ECS.query(ecs, 'cursor', 'sprite')![0]!.sprite, // this api sucks
   };
@@ -136,30 +146,37 @@ export namespace SublimeSolitaire {
   }
 
   export function onFrame(self: SublimeSolitaire, delta: number): void {
-    self.time += delta; // Add elapsed time to the pending delta total.
+    // Add elapsed time to the pending delta total.
+    self.delta += delta;
 
-    const update: SublimeECSUpdate = {
-      filmByID: self.assets.atlasMeta.filmByID,
-      cam: self.cam,
-      ecs: self.ecs,
-      delta,
-      input: self.input,
-      time: self.time,
-      saveStorage: self.saveStorage,
-      instanceBuffer: self.instanceBuffer,
-      rendererStateMachine: self.rendererStateMachine,
-      solitaire: self.solitaire,
-      cursor: self.cursor,
-    };
+    while (self.delta >= self.tick) {
+      self.delta -= self.tick;
 
-    self.input.preupdate();
+      const update: SublimeECSUpdate = {
+        filmByID: self.assets.atlasMeta.filmByID,
+        cam: self.cam,
+        ecs: self.ecs,
+        delta,
+        input: self.input,
+        time: self.age,
+        saveStorage: self.saveStorage,
+        instanceBuffer: self.instanceBuffer,
+        rendererStateMachine: self.rendererStateMachine,
+        solitaire: self.solitaire,
+        cursor: self.cursor,
+      };
 
-    processDebugInput(self, update);
+      self.input.preupdate();
 
-    ECS.update(self.ecs, update);
+      processDebugInput(self, update);
 
-    // should actual render be here and not in the ecs?
-    self.input.postupdate(delta);
+      ECS.update(self.ecs, update);
+
+      // should actual render be here and not in the ecs?
+      self.input.postupdate(self.tick);
+
+      self.ticks++;
+    }
   }
 }
 
