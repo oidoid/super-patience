@@ -1,8 +1,8 @@
 import { assert } from '@/oidlib';
-import { SpriteFactory, SublimeComponentSet } from '@/sublime-solitaire';
+import { SPComponentSet, SpriteFactory } from '@/super-patience';
 import { ComponentSetJSON, LevelParser } from '@/void';
 
-interface SublimeComponentSetJSON extends ComponentSetJSON {
+interface SPComponentSetJSON extends ComponentSetJSON {
   readonly pile?: PileConfigJSON;
   readonly patienceTheDemon?: Record<never, never>;
 }
@@ -11,24 +11,24 @@ interface PileConfigJSON {
   type: string;
 }
 
-export namespace SublimeLevelParser {
+export namespace SPLevelParser {
   export function parse(
     factory: SpriteFactory,
-    json: readonly SublimeComponentSetJSON[],
-  ): Partial<SublimeComponentSet>[] {
+    json: readonly SPComponentSetJSON[],
+  ): Partial<SPComponentSet>[] {
     return json.map((setJSON) => parseComponentSet(factory, setJSON));
   }
 }
 
 function parseComponentSet(
   factory: SpriteFactory,
-  json: SublimeComponentSetJSON,
-): Partial<SublimeComponentSet> {
-  const set: Partial<SublimeComponentSet> = {};
+  json: SPComponentSetJSON,
+): Partial<SPComponentSet> {
+  const set: Partial<SPComponentSet> = {};
   for (const [key, val] of Object.entries(json)) {
     const component = LevelParser.parseComponent(factory, key, val);
     if (component != null) {
-      set[key as keyof SublimeComponentSetJSON] = component as any;
+      set[key as keyof SPComponentSetJSON] = component as any;
       continue;
     }
     switch (key) { // to-do: fail when missing types.

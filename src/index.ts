@@ -1,10 +1,11 @@
-import { SublimeSolitaire } from './SublimeSolitaire.ts';
+import { SuperPatience } from '@/super-patience';
+import pkg from '../package.json' assert { type: 'json' };
 
 // [strings][version]
-console.log(`sublime-solitaire v0.0.0
+console.log(`Super Patience v${pkg.version}
    ┌>°┐
 by │  │idoid
    └──┘`);
 
-const sublime = await SublimeSolitaire.make(window);
-SublimeSolitaire.start(sublime);
+const patience = await SuperPatience.make(window);
+SuperPatience.start(patience);

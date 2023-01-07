@@ -6,9 +6,9 @@ import { Immutable } from '@/oidlib';
  * from the Atlas. The tag convention used here is
  * `<file stem>[-<state or variant>]*`.
  */
-export type SublimeFilmID = Parameters<typeof SublimeFilmID.values['has']>[0];
+export type SPFilmID = Parameters<typeof SPFilmID.values['has']>[0];
 
-export namespace SublimeFilmID {
+export namespace SPFilmID {
   export const values = Immutable(
     new Set(
       [

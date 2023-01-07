@@ -44,7 +44,7 @@ serve: | $(dist_dir)/; $(live-server) '$(dist_dir)'
 
 .PHONY: bundle
 bundle: $(assets_dir)/atlas.json | $(dist_dir)/
-  $(deno) bundle --config='$(deno_config)' src/index.ts '$(dist_dir)/sublime-solitaire.js' $(bundle_args)
+  $(deno) bundle --config='$(deno_config)' src/index.ts '$(dist_dir)/super-patience.js' $(bundle_args)
 
 .PHONY: watch\:bundle
 watch\:bundle: bundle_args += --watch

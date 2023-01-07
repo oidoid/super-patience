@@ -1,4 +1,4 @@
-# sublimesolitaire
+# Super Patience
 
 ## License
 

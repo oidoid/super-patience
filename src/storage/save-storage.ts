@@ -1,6 +1,6 @@
 import { Uint } from '@/oidlib';
+import { SaveData } from '@/super-patience';
 import { JSONStorage } from '@/void';
-import { SaveData } from './SaveData.ts';
 
 export interface SaveStorage {
   readonly save: SaveData;

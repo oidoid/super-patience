@@ -1,11 +1,7 @@
 import { FilmByID } from '@/atlas-pack';
 import { I16XY } from '@/oidlib';
 import { Card, Solitaire, Suit } from '@/solitaire';
-import {
-  SublimeComponentSet,
-  SublimeFilmID,
-  SublimeLayer,
-} from '@/sublime-solitaire';
+import { SPComponentSet, SPFilmID, SPLayer } from '@/super-patience';
 import { ECS } from '@/void';
 
 export const mod = 8;
@@ -19,8 +15,8 @@ const hiddenY = -1024;
 // but has some overlap with CardSystem which calls these functions.
 
 export function setSpritePositionsForLayout(
-  ecs: ECS<SublimeComponentSet>,
-  filmByID: FilmByID<SublimeFilmID>,
+  ecs: ECS<SPComponentSet>,
+  filmByID: FilmByID<SPFilmID>,
   solitaire: Readonly<Solitaire>,
   time: number,
 ): void {
@@ -30,7 +26,7 @@ export function setSpritePositionsForLayout(
       const xy = getTableauCardXY(filmByID, indexX, indexY);
       components!.sprite.moveTo(xy);
       components!.sprite.layer =
-        SublimeLayer[card.direction == 'Up' ? 'CardUp' : 'CardDown'];
+        SPLayer[card.direction == 'Up' ? 'CardUp' : 'CardDown'];
       components!.sprite.animate(time, filmByID[getCardFilmID(card)]);
     }
   }
@@ -45,20 +41,20 @@ export function setSpritePositionsForLayout(
         : 'CardDown';
       components!.sprite.animate(time, filmByID[animID]);
       components!.sprite.layer =
-        SublimeLayer[animID == 'CardDown' ? 'CardDown' : 'CardUp'];
+        SPLayer[animID == 'CardDown' ? 'CardDown' : 'CardUp'];
     }
   }
   for (const [index, card] of solitaire.stock.entries()) {
     const components = ecs.componentsByRef.get(card);
     components!.sprite.moveTo(getStockXY(solitaire, index));
     components!.sprite.layer =
-      SublimeLayer[card.direction == 'Up' ? 'CardUp' : 'CardDown'];
+      SPLayer[card.direction == 'Up' ? 'CardUp' : 'CardDown'];
     components!.sprite.animate(time, filmByID[getCardFilmID(card)]);
   }
   for (const [index, card] of solitaire.waste.entries()) {
     const components = ecs.componentsByRef.get(card);
     components!.sprite.moveTo(getWasteXY(solitaire, index));
-    let animID: SublimeFilmID;
+    let animID: SPFilmID;
     if (index >= (solitaire.waste.length - solitaire.drawSize)) {
       animID = getCardFilmID(card);
     } else {
@@ -67,7 +63,7 @@ export function setSpritePositionsForLayout(
     // Hide waste under the draw reserve. I can't draw them in the correct
     // order since they have identical XYs.
     components!.sprite.layer =
-      SublimeLayer[animID == 'CardDown' ? 'CardDown' : 'CardUp'];
+      SPLayer[animID == 'CardDown' ? 'CardDown' : 'CardUp'];
     components!.sprite.animate(time, filmByID[animID]);
   }
 }
@@ -95,7 +91,7 @@ export function getWasteXY(
 }
 
 export function getFoundationCardXY(
-  filmByID: FilmByID<SublimeFilmID>,
+  filmByID: FilmByID<SPFilmID>,
   suit: Suit,
 ): I16XY {
   const film = filmByID[`CardVacant${suit}`];
@@ -105,7 +101,7 @@ export function getFoundationCardXY(
 }
 
 export function getTableauCardXY(
-  filmByID: FilmByID<SublimeFilmID>,
+  filmByID: FilmByID<SPFilmID>,
   indexX: number,
   indexY: number,
 ): I16XY {
@@ -114,6 +110,6 @@ export function getTableauCardXY(
   return I16XY(x, tableauY + indexY * mod);
 }
 
-export function getCardFilmID(card: Card): SublimeFilmID {
+export function getCardFilmID(card: Card): SPFilmID {
   return card.direction == 'Up' ? `Card${Card.toASCII(card)}` : 'CardDown';
 }

@@ -7,12 +7,12 @@ import {
   PatienceTheDemonSystem,
   PileHitboxSystem,
   SaveStorage,
+  SPComponentSet,
+  SPECSUpdate,
   SpriteFactory,
-  SublimeComponentSet,
-  SublimeECSUpdate,
   TallySystem,
   VacantStockSystem,
-} from '@/sublime-solitaire';
+} from '@/super-patience';
 import {
   Cam,
   CamSystem,
@@ -28,11 +28,11 @@ import {
   Sprite,
 } from '@/void';
 
-export interface SublimeSolitaire {
+export interface SuperPatience {
   readonly assets: Assets;
   readonly canvas: HTMLCanvasElement;
   readonly cam: Cam;
-  readonly ecs: ECS<SublimeComponentSet, SublimeECSUpdate>;
+  readonly ecs: ECS<SPComponentSet, SPECSUpdate>;
   readonly input: Input;
   readonly solitaire: Solitaire;
   readonly random: Random;
@@ -52,10 +52,10 @@ export interface SublimeSolitaire {
   readonly cursor: Sprite;
 }
 
-export function SublimeSolitaire(
+export function SuperPatience(
   window: Window,
   assets: Assets,
-): SublimeSolitaire {
+): SuperPatience {
   const canvas = window.document.getElementsByTagName('canvas').item(0);
   assertNonNull(canvas, 'Canvas missing.');
 
@@ -68,7 +68,7 @@ export function SublimeSolitaire(
     Renderer(canvas, assets.atlas, assets.shaderLayout, assets.atlasMeta);
 
   const cardSystem = new CardSystem();
-  const ecs = ECS<SublimeComponentSet, SublimeECSUpdate>(
+  const ecs = ECS<SPComponentSet, SPECSUpdate>(
     new Set([
       CamSystem,
       FollowCamSystem,
@@ -87,7 +87,7 @@ export function SublimeSolitaire(
     ...newLevelComponents(
       new SpriteFactory(assets.atlasMeta.filmByID),
       solitaire,
-    ) as SublimeComponentSet[], // to-do: fix types
+    ) as SPComponentSet[], // to-do: fix types
   );
   ECS.flush(ecs);
 
@@ -98,7 +98,7 @@ export function SublimeSolitaire(
   const tick = 1000 / 60;
 
   const cam = NonNull(ECS.query(ecs, 'cam')[0], 'Missing cam entity.').cam;
-  const self: SublimeSolitaire = {
+  const self: SuperPatience = {
     assets,
     cam,
     canvas,
@@ -110,7 +110,7 @@ export function SublimeSolitaire(
     rendererStateMachine: new RendererStateMachine({
       window,
       canvas,
-      onFrame: (delta) => SublimeSolitaire.onFrame(self, delta),
+      onFrame: (delta) => SuperPatience.onFrame(self, delta),
       onPause: () => {
         self.input.reset();
       },
@@ -128,31 +128,31 @@ export function SublimeSolitaire(
   return self;
 }
 
-export namespace SublimeSolitaire {
-  export async function make(window: Window): Promise<SublimeSolitaire> {
+export namespace SuperPatience {
+  export async function make(window: Window): Promise<SuperPatience> {
     const assets = await Assets.load();
-    return SublimeSolitaire(window, assets);
+    return SuperPatience(window, assets);
   }
 
-  export function start(self: SublimeSolitaire): void {
+  export function start(self: SuperPatience): void {
     self.input.register('add');
     self.rendererStateMachine.start();
   }
 
-  export function stop(self: SublimeSolitaire): void {
+  export function stop(self: SuperPatience): void {
     self.input.register('remove');
     self.rendererStateMachine.stop();
     // win.close()
   }
 
-  export function onFrame(self: SublimeSolitaire, delta: number): void {
+  export function onFrame(self: SuperPatience, delta: number): void {
     // Add elapsed time to the pending delta total.
     self.delta += delta;
 
     while (self.delta >= self.tick) {
       self.delta -= self.tick;
 
-      const update: SublimeECSUpdate = {
+      const update: SPECSUpdate = {
         filmByID: self.assets.atlasMeta.filmByID,
         cam: self.cam,
         ecs: self.ecs,
@@ -180,10 +180,7 @@ export namespace SublimeSolitaire {
   }
 }
 
-function processDebugInput(
-  self: SublimeSolitaire,
-  update: SublimeECSUpdate,
-): void {
+function processDebugInput(self: SuperPatience, update: SPECSUpdate): void {
   if (update.pickHandled) return;
   if (
     self.input.isComboStart(

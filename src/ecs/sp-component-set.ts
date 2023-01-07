@@ -1,8 +1,8 @@
 import { Card } from '@/solitaire';
-import { PileConfig, TallyConfig } from '@/sublime-solitaire';
+import { PileConfig, TallyConfig } from '@/super-patience';
 import { ComponentSet } from '@/void';
 
-export interface SublimeComponentSet extends ComponentSet {
+export interface SPComponentSet extends ComponentSet {
   card: Card;
   pile: PileConfig;
   patienceTheDemon: Record<never, never>;

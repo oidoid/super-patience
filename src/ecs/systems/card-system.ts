@@ -3,10 +3,10 @@ import { Card, Solitaire } from '@/solitaire';
 import {
   PileConfig,
   setSpritePositionsForLayout,
-  SublimeComponentSet,
-  SublimeECSUpdate,
-  SublimeLayer,
-} from '@/sublime-solitaire';
+  SPComponentSet,
+  SPECSUpdate,
+  SPLayer,
+} from '@/super-patience';
 import { Sprite, System } from '@/void';
 
 export interface CardSet {
@@ -16,13 +16,13 @@ export interface CardSet {
 
 interface PickState {
   readonly ents: {
-    readonly components: Partial<SublimeComponentSet>;
+    readonly components: Partial<SPComponentSet>;
     /** The adjustment to offset future pick inputs by. */
     readonly offset: Readonly<I16XY>;
   }[];
 }
 
-export class CardSystem implements System<CardSet, SublimeECSUpdate> {
+export class CardSystem implements System<CardSet, SPECSUpdate> {
   query = new Set(['card', 'sprite'] as const);
 
   #picked?: PickState | undefined;
@@ -30,7 +30,7 @@ export class CardSystem implements System<CardSet, SublimeECSUpdate> {
   vacantStock: Sprite | undefined;
 
   // to-do: this list will need to be cut down by xy intersection anyway
-  update(sets: Set<CardSet>, update: SublimeECSUpdate): void {
+  update(sets: Set<CardSet>, update: SPECSUpdate): void {
     if (update.pickHandled) return;
 
     const picked = pickClosest(sets, update);
@@ -103,7 +103,7 @@ export class CardSystem implements System<CardSet, SublimeECSUpdate> {
     }
   }
 
-  setPickRange(update: SublimeECSUpdate, card: Card): void {
+  setPickRange(update: SPECSUpdate, card: Card): void {
     const selected = Solitaire.point(update.solitaire, card);
     if (selected == null) return;
     const ents = selected.cards.map(
@@ -123,12 +123,12 @@ export class CardSystem implements System<CardSet, SublimeECSUpdate> {
     this.#picked = { ents };
 
     for (const sprite of ents.map((data) => data.components.sprite!)) {
-      sprite.layer = SublimeLayer.Picked;
+      sprite.layer = SPLayer.Picked;
     }
   }
 
   findbestmatch(
-    update: SublimeECSUpdate,
+    update: SPECSUpdate,
   ):
     | { intersection: I16Box; pile: { pile: PileConfig; sprite: Sprite } }
     | undefined {
@@ -162,7 +162,7 @@ type Picked = { set: CardSet; card: Card; sprite: Sprite };
 
 function pickClosest(
   sets: Set<CardSet>,
-  update: SublimeECSUpdate,
+  update: SPECSUpdate,
 ): Picked | undefined {
   if (update.input == null) return;
   let picked: Picked | undefined;
@@ -179,7 +179,7 @@ function pickClosest(
   return picked;
 }
 
-function moveToPick(update: SublimeECSUpdate, picked: PickState): void {
+function moveToPick(update: SPECSUpdate, picked: PickState): void {
   for (let i = 0; i < picked.ents.length; i++) {
     I16Box.moveTo(
       picked.ents[i]!.components.sprite!.bounds, // to-do versus const sprite = ECS.get(ecs, 'Sprite', ent);

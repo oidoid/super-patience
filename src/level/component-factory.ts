@@ -7,10 +7,10 @@ import {
   getTableauCardXY,
   getWasteXY,
   mod,
+  SPComponentSet,
+  SPLevelParser,
   SpriteFactory,
-  SublimeComponentSet,
-  SublimeLevelParser,
-} from '@/sublime-solitaire';
+} from '@/super-patience';
 import level from './level.json' assert { type: 'json' };
 
 // to-do: move min viewport size to JSON.
@@ -18,7 +18,7 @@ import level from './level.json' assert { type: 'json' };
 export function newLevelComponents(
   factory: SpriteFactory,
   solitaire: Readonly<Solitaire>,
-): Partial<SublimeComponentSet>[] {
+): Partial<SPComponentSet>[] {
   // to-do: detect mobile platforms and hide cursor initially.
   // to-do: limit cursor movement to play area.
   return [
@@ -29,7 +29,7 @@ export function newLevelComponents(
     ...newTableau(solitaire, factory),
     ...newWaste(solitaire, factory),
 
-    ...SublimeLevelParser.parse(factory, level),
+    ...SPLevelParser.parse(factory, level),
   ];
 }
 
@@ -40,7 +40,7 @@ function newCard(
   factory: SpriteFactory,
   card: Card,
   xy: I16XY,
-): Partial<SublimeComponentSet> {
+): Partial<SPComponentSet> {
   return {
     card,
     sprite: factory.new(getCardFilmID(card), `Card${card.direction}`, { xy }),
@@ -49,7 +49,7 @@ function newCard(
 
 function* newFoundation(
   factory: SpriteFactory,
-): Generator<Partial<SublimeComponentSet>> {
+): Generator<Partial<SPComponentSet>> {
   // prev: ComponentSet
   // next: null
   for (const suit of Suit.values) {
@@ -70,8 +70,8 @@ function* newFoundation(
 function newStock(
   factory: SpriteFactory,
   solitaire: Readonly<Solitaire>,
-): Partial<SublimeComponentSet>[] {
-  const components: Partial<SublimeComponentSet>[] = [{
+): Partial<SPComponentSet>[] {
+  const components: Partial<SPComponentSet>[] = [{
     vacantStock: {},
     sprite: factory.new('CardVacantStock', 'Vacancy', {
       xy: getStockXY(solitaire, solitaire.stock.length - 1),
@@ -86,8 +86,8 @@ function newStock(
 function newTableau(
   solitaire: Readonly<Solitaire>,
   factory: SpriteFactory,
-): Partial<SublimeComponentSet>[] {
-  const components: Partial<SublimeComponentSet>[] = [];
+): Partial<SPComponentSet>[] {
+  const components: Partial<SPComponentSet>[] = [];
   for (const [indexX, pile] of solitaire.tableau.entries()) {
     const x = indexX;
     components.push(
@@ -114,7 +114,7 @@ function newTableau(
 
 function* newTallies(
   factory: SpriteFactory,
-): Generator<Partial<SublimeComponentSet>> {
+): Generator<Partial<SPComponentSet>> {
   for (let i = 0; i < 26; i++) {
     yield {
       followCam: {
@@ -131,7 +131,7 @@ function* newTallies(
 function* newWaste(
   solitaire: Readonly<Solitaire>,
   factory: SpriteFactory,
-): Generator<Partial<SublimeComponentSet>> {
+): Generator<Partial<SPComponentSet>> {
   for (const [index, card] of solitaire.waste.entries()) {
     const xy = getWasteXY(solitaire, index);
     yield newCard(factory, card, xy);

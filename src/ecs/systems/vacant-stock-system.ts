@@ -1,16 +1,15 @@
 import { Immutable } from '@/oidlib';
 import { Solitaire } from '@/solitaire';
+import { setSpritePositionsForLayout, SPECSUpdate } from '@/super-patience';
 import { Sprite, System } from '@/void';
-import { setSpritePositionsForLayout } from '../../level/Level.ts';
-import { SublimeECSUpdate } from '../SublimeECSUpdate.ts';
 
 export interface VacantStockSet {
   readonly vacantStock: Record<never, never>;
   readonly sprite: Sprite;
 }
 
-export const VacantStockSystem: System<VacantStockSet, SublimeECSUpdate> =
-  Immutable({
+export const VacantStockSystem: System<VacantStockSet, SPECSUpdate> = Immutable(
+  {
     query: new Set(['vacantStock', 'sprite']),
     skip(update) {
       // update.pointer?.on2([[''], ['']], 'Set', 'Pen', 'Touch')
@@ -28,4 +27,5 @@ export const VacantStockSystem: System<VacantStockSet, SublimeECSUpdate> =
         update.time,
       );
     },
-  });
+  },
+);
