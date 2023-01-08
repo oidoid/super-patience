@@ -2,10 +2,10 @@
   "imports": {
     "@/atlas-pack": "https://deno.land/x/atlas_pack@v5.0.0/mod.ts",
     "@/mem": "https://deno.land/x/mem@v8.0.2/mod.ts",
-    "@/oidlib": "https://deno.land/x/oidlib@v0.0.6/mod.ts",
+    "@/oidlib": "https://deno.land/x/oidlib@v0.0.7/mod.ts",
     "@/solitaire": "https://deno.land/x/solitaire@v0.0.3/mod.ts",
     "@/super-patience": "./mod.ts",
-    "@/void": "https://deno.land/x/oid@v0.0.2/mod.ts",
-    "std/": "https://deno.land/std@0.159.0/"
+    "@/void": "https://deno.land/x/oid@v0.0.3/mod.ts",
+    "std/": "https://deno.land/std@0.171.0/"
   }
 }

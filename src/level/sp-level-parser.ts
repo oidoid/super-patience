@@ -28,6 +28,7 @@ function parseComponentSet(
   for (const [key, val] of Object.entries(json)) {
     const component = LevelParser.parseComponent(factory, key, val);
     if (component != null) {
+      // deno-lint-ignore no-explicit-any
       set[key as keyof SPComponentSetJSON] = component as any;
       continue;
     }
