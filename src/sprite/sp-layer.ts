@@ -1,6 +1,5 @@
-import { Immutable, U8 } from '@/oidlib';
+import { Immutable, Inverse, U8 } from '@/oidlib';
 import { Layer } from '@/void';
-import { Inverse } from '../../../oidlib/src/types/Inverse.ts';
 
 export const SPLayer = Immutable({
   ...Layer,
