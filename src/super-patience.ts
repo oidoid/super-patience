@@ -40,6 +40,7 @@ export interface SuperPatience {
   readonly saveStorage: SaveStorage;
   /** The total number of ticks completed. ticks * tick = age. */
   ticks: number;
+  /** The running age in milliseconds excluding unprocessed delta. */
   age: number;
   /**
    * The exact duration in milliseconds to apply each update. Any number of
@@ -72,7 +73,7 @@ export function SuperPatience(
     new Set([
       CamSystem,
       FollowCamSystem,
-      CursorSystem, // Process first
+      new CursorSystem(), // Process first
       FollowPointSystem,
       cardSystem,
       PileHitboxSystem,
@@ -156,7 +157,7 @@ export namespace SuperPatience {
         filmByID: self.assets.atlasMeta.filmByID,
         cam: self.cam,
         ecs: self.ecs,
-        delta,
+        tick: self.tick,
         input: self.input,
         time: self.age,
         saveStorage: self.saveStorage,

@@ -9,7 +9,7 @@
     "name": "cursor",
     "cursor": { "pick": "CursorPick", "point": "CursorPoint" },
     "followPoint": {},
-    "sprite": { "id": "CursorPoint", "layer": "Cursor" }
+    "sprite": { "id": "CursorPoint", "layer": "Bottom" }
   },
 
   {
