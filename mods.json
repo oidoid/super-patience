@@ -1,6 +1,6 @@
 {
   "imports": {
-    "@/atlas-pack": "https://deno.land/x/atlas_pack@v5.0.0/mod.ts",
+    "@/atlas-pack": "https://deno.land/x/atlas_pack@v5.0.1/mod.ts",
     "@/mem": "https://deno.land/x/mem@v8.0.2/mod.ts",
     "@/oidlib": "https://deno.land/x/oidlib@v0.0.7/mod.ts",
     "@/solitaire": "https://deno.land/x/solitaire@v0.0.3/mod.ts",
