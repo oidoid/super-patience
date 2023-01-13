@@ -5,11 +5,7 @@ assets_dir := assets
 atlas_assets_dir := $(assets_dir)/atlas
 src_dir := src
 
-# Sort to strip out font.aseprite duplicate when it already exists.
-atlas_in_files := $(sort \
-  $(wildcard $(atlas_assets_dir)/*.aseprite) \
-  $(atlas_assets_dir)/font.aseprite \
-)
+atlas_in_files := $(wildcard $(atlas_assets_dir)/*.aseprite)
 asset_files := \
   $(assets_dir)/atlas.json \
   $(assets_dir)/atlas.png \
@@ -76,14 +72,6 @@ $(assets_dir)/atlas.json $(assets_dir)/atlas.png&: $(atlas_in_files)
     --color-mode=indexed|
   ../atlas-pack/bin/atlas-pack > '$(assets_dir)/atlas.json'
 
-$(atlas_assets_dir)/font.aseprite: \
-  ../mem/src/mem-prop-5x6.aseprite \
-  $(atlas_assets_dir)/palette.aseprite
-  $(aseprite) \
-    '$<' \
-    --palette $(atlas_assets_dir)/palette.aseprite \
-    --save-as '$@'
-
 # $1 stem suffix
 # $2 scale
 define favicon_template =
@@ -101,8 +89,4 @@ $(dist_dir)/:; $(mkdir) '$@'
 
 .PHONY: clean
 clean:
-  $(rm) \
-    '$(dist_dir)/' \
-    '$(assets_dir)/atlas.json' \
-    '$(assets_dir)/atlas.png' \
-    '$(atlas_assets_dir)/font.aseprite'
+  $(rm) '$(dist_dir)/' '$(assets_dir)/atlas.json' '$(assets_dir)/atlas.png'

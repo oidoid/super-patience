@@ -169,45 +169,12 @@ export namespace SuperPatience {
 
       self.input.preupdate();
 
-      processDebugInput(self, update);
-
       ECS.update(self.ecs, update);
 
       // should actual render be here and not in the ecs?
       self.input.postupdate(self.tick);
 
       self.ticks++;
-    }
-  }
-}
-
-function processDebugInput(self: SuperPatience, update: SPECSUpdate): void {
-  if (update.pickHandled) return;
-  if (
-    self.input.isComboStart(
-      ['Up'],
-      ['Up'],
-      ['Down'],
-      ['Down'],
-      ['Left'],
-      ['Right'],
-      ['Left'],
-      ['Right'],
-      ['Menu'],
-      ['Action'],
-    )
-  ) {
-    update.pickHandled = true;
-    console.log('combo');
-  }
-  if (self.input.isOnStart('DebugContextLoss')) {
-    if (!self.rendererStateMachine.isContextLost()) {
-      update.pickHandled = true;
-      self.rendererStateMachine.loseContext();
-      setTimeout(
-        () => self.rendererStateMachine.restoreContext(),
-        3000,
-      );
     }
   }
 }
