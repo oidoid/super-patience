@@ -62,8 +62,11 @@ export function SuperPatience(
 
   const random = Random(I32.mod(Date.now()));
   const saveStorage = SaveStorage.load(localStorage);
-  const solitaire = Solitaire(undefined, () => Random.fraction(random));
-  solitaire.wins = saveStorage.save.wins;
+  const solitaire = Solitaire(
+    undefined,
+    () => Random.fraction(random),
+    saveStorage.save.wins,
+  );
 
   const newRenderer = () =>
     Renderer(canvas, assets.atlas, assets.shaderLayout, assets.atlasMeta);
