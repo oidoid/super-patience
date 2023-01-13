@@ -14,7 +14,6 @@ import {
   VacantStockSystem,
 } from '@/super-patience';
 import {
-  Cam,
   CamSystem,
   CursorSystem,
   ECS,
@@ -25,32 +24,16 @@ import {
   Renderer,
   RendererStateMachine,
   RenderSystem,
-  Sprite,
 } from '@/void';
 
 export interface SuperPatience extends SPECSUpdate {
   readonly assets: Assets;
   readonly canvas: HTMLCanvasElement;
-  readonly cam: Cam;
-  readonly ecs: ECS<SPComponentSet, SPECSUpdate>;
-  readonly input: Input;
-  readonly solitaire: Solitaire;
   readonly random: Random;
-  readonly rendererStateMachine: RendererStateMachine;
-  readonly saveStorage: SaveStorage;
   /** The total number of ticks completed. ticks * tick = age. */
   ticks: number;
-  /** The running age in milliseconds excluding unprocessed delta. */
-  time: number;
-  /**
-   * The exact duration in milliseconds to apply each update. Any number of
-   * updates may occur per animation frame.
-   */
-  tick: number;
   /** The outstanding time elapsed accrual to execute in milliseconds. */
   delta: number;
-  readonly instanceBuffer: InstanceBuffer;
-  readonly cursor: Sprite;
 }
 
 export function SuperPatience(
