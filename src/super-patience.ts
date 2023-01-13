@@ -28,7 +28,7 @@ import {
   Sprite,
 } from '@/void';
 
-export interface SuperPatience {
+export interface SuperPatience extends SPECSUpdate {
   readonly assets: Assets;
   readonly canvas: HTMLCanvasElement;
   readonly cam: Cam;
@@ -41,7 +41,7 @@ export interface SuperPatience {
   /** The total number of ticks completed. ticks * tick = age. */
   ticks: number;
   /** The running age in milliseconds excluding unprocessed delta. */
-  age: number;
+  time: number;
   /**
    * The exact duration in milliseconds to apply each update. Any number of
    * updates may occur per animation frame.
@@ -120,11 +120,13 @@ export function SuperPatience(
     tick,
     ticks: 0,
     delta: 0,
-    get age() {
+    get time() {
       return this.tick * this.ticks;
     },
     saveStorage,
     cursor: ECS.query(ecs, 'cursor', 'sprite')![0]!.sprite, // this api sucks
+
+    filmByID: assets.atlasMeta.filmByID,
   };
   return self;
 }
@@ -152,24 +154,11 @@ export namespace SuperPatience {
 
     while (self.delta >= self.tick) {
       self.delta -= self.tick;
-
-      const update: SPECSUpdate = {
-        filmByID: self.assets.atlasMeta.filmByID,
-        cam: self.cam,
-        ecs: self.ecs,
-        tick: self.tick,
-        input: self.input,
-        time: self.age,
-        saveStorage: self.saveStorage,
-        instanceBuffer: self.instanceBuffer,
-        rendererStateMachine: self.rendererStateMachine,
-        solitaire: self.solitaire,
-        cursor: self.cursor,
-      };
+      self.pickHandled = false;
 
       self.input.preupdate();
 
-      ECS.update(self.ecs, update);
+      ECS.update(self.ecs, self);
 
       // should actual render be here and not in the ecs?
       self.input.postupdate(self.tick);
