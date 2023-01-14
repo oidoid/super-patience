@@ -90,7 +90,7 @@ export function SuperPatience(
     cam,
     canvas,
     random,
-    instanceBuffer: InstanceBuffer(assets.shaderLayout),
+    instanceBuffer: new InstanceBuffer(assets.shaderLayout),
     solitaire,
     ecs,
     input: new Input(cam),
