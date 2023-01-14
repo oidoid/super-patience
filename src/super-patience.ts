@@ -98,9 +98,7 @@ export function SuperPatience(
       window,
       canvas,
       onFrame: (delta) => SuperPatience.onFrame(self, delta),
-      onPause: () => {
-        self.input.reset();
-      },
+      onPause: () => self.input.reset(),
       newRenderer,
     }),
     tick,
