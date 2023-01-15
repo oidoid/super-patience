@@ -43,11 +43,11 @@ export function SuperPatience(
   const canvas = window.document.getElementsByTagName('canvas').item(0);
   assertNonNull(canvas, 'Canvas missing.');
 
-  const random = Random(I32.mod(Date.now()));
+  const random = new Random(I32.mod(Date.now()));
   const saveStorage = SaveStorage.load(localStorage);
   const solitaire = Solitaire(
     undefined,
-    () => Random.fraction(random),
+    () => random.fraction,
     saveStorage.save.wins,
   );
 
