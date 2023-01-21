@@ -17,7 +17,7 @@ export const VacantStockSystem: System<VacantStockSet, SPECSUpdate> = Immutable(
     },
     updateEnt(set, update) {
       if (update.pickHandled) return;
-      if (!set.sprite.intersectsBounds(update.cursor.bounds.start)) return;
+      if (!set.sprite.intersectsBounds(update.cursor.bounds.xy)) return;
       update.pickHandled = true;
       Solitaire.deal(update.solitaire);
       setSpritePositionsForLayout(

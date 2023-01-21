@@ -1,4 +1,4 @@
-import { I16Box, I16XY, Immutable, U16XY, Uint } from '@/oidlib';
+import { Immutable, U16XY, Uint } from '@/oidlib';
 import {
   getFoundationCardXY,
   getTableauCardXY,
@@ -18,22 +18,20 @@ export const PileHitboxSystem: System<PileHitboxSet, SPECSUpdate> = Immutable(
     query: new Set(['pile', 'sprite']),
     updateEnt(set, update) {
       const { pile, sprite } = set;
-      const cardWH = U16XY(24, 32); // to-do: don't hardcode.
+      const cardWH = new U16XY(24, 32); // to-do: don't hardcode.
       const gap = 8; // to-do: or at least hardcode in one place
       // kind of lame because this shoudl be the union of sprites
       // this should be invisible tho and the sprite should always be present
       const xy = pile.type == 'Waste'
-        ? I16XY.add(I16XY(sprite.bounds.start), gap - 1, gap - 1)
+        ? sprite.bounds.xy.copy().addTrunc(gap - 1, gap - 1)
         : pile.type == 'Tableau'
         ? getTableauCardXY(update.filmByID, pile.x, Uint(0))
         : getFoundationCardXY(update.filmByID, pile.suit);
-      I16Box.moveTo(
-        sprite.bounds,
+      sprite.bounds.moveToTrunc(
         xy.x - gap + 1,
         xy.y - gap + 1,
       );
-      I16Box.sizeTo(
-        sprite.bounds,
+      sprite.bounds.sizeToTrunc(
         cardWH.x + gap * 2 - 1,
         cardWH.y +
           (pile.type == 'Waste'

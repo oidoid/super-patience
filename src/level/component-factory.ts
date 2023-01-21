@@ -118,9 +118,9 @@ function* newTallies(
   for (let i = 0; i < 26; i++) {
     yield {
       followCam: {
-        modulo: I16XY(mod, mod),
+        modulo: { x: mod, y: mod },
         orientation: 'Northeast',
-        pad: I16XY(0, 8 + i * 8),
+        pad: { x: 0, y: 8 + i * 8 },
       },
       tally: { tens: i },
       sprite: factory.new('Tally0', 'Patience'),

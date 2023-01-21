@@ -62,8 +62,7 @@ export class CardSystem implements System<CardSet, SPECSUpdate> {
     }
 
     if (
-      update.solitaire.selected != null &&
-      update.input.isOffStart('Action')
+      update.solitaire.selected != null && update.input.isOffStart('Action')
     ) {
       if (this.#picked == null) {
         const picked = pickClosest(sets, update);
@@ -111,9 +110,8 @@ export class CardSystem implements System<CardSet, SPECSUpdate> {
         const components = NonNull(update.ecs.componentsByRef.get(card));
         return {
           components,
-          offset: I16XY.sub(
-            I16XY(update.cursor.bounds.start), // to-do: this sucks. so easy to accidentally mutate LHS since it's implicitly this.
-            components.sprite!.bounds.start,
+          offset: update.cursor.bounds.xy.copy().sub(
+            components.sprite!.bounds.xy,
           ),
         };
       },
@@ -127,9 +125,7 @@ export class CardSystem implements System<CardSet, SPECSUpdate> {
     }
   }
 
-  findbestmatch(
-    update: SPECSUpdate,
-  ):
+  findbestmatch(update: SPECSUpdate):
     | { intersection: I16Box; pile: { pile: PileConfig; sprite: Sprite } }
     | undefined {
     const pointedCard = this.#picked?.ents[0]?.components;
@@ -137,20 +133,17 @@ export class CardSystem implements System<CardSet, SPECSUpdate> {
     if (pointedCard != null && pointedCard.sprite != null) {
       for (const pile of this.piles) {
         if (pile.sprite == null) continue;
-        const intersection = I16Box.intersection(
-          pointedCard.sprite.bounds,
+        const intersection = pointedCard.sprite.bounds.copy().intersection(
           pile.sprite.bounds,
         );
-        if (I16Box.flipped(intersection) || I16Box.area(intersection) <= 0) {
-          continue;
-        }
+        if (intersection.flipped || intersection.areaNum <= 0) continue;
         if (
           pile.pile.type == 'Waste' ||
           !Solitaire.isBuildable(update.solitaire, pile.pile)
         ) continue;
         if (
           bestMatch == null ||
-          I16Box.area(intersection) > I16Box.area(bestMatch.intersection)
+          intersection.areaNum > bestMatch.intersection.areaNum
         ) bestMatch = { intersection, pile };
       }
     }
@@ -180,13 +173,10 @@ function pickClosest(
 }
 
 function moveToPick(update: SPECSUpdate, picked: PickState): void {
-  for (let i = 0; i < picked.ents.length; i++) {
-    I16Box.moveTo(
-      picked.ents[i]!.components.sprite!.bounds, // to-do versus const sprite = ECS.get(ecs, 'Sprite', ent);
-      I16XY.sub(
-        I16XY(update.cursor.bounds.start),
-        picked.ents[i]!.offset,
-      ),
+  for (const ent of picked.ents) {
+    // to-do: versus const sprite = ECS.get(ecs, 'Sprite', ent);
+    ent.components.sprite!.bounds.moveToTrunc(
+      update.cursor.bounds.xy.copy().sub(ent.offset),
     );
   }
 }

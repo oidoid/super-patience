@@ -25,7 +25,7 @@ export const PatienceTheDemonSystem: System<PatienceTheDemonSet, SPECSUpdate> =
         update.pickHandled = true;
         sprite.animate(update.time, nextFilm(update, sprite));
         // to-do: really don't like reaching in and touching cursor or all the way to cursor.bounds.start.
-      } else if (sprite.intersectsBounds(update.cursor.bounds.start)) {
+      } else if (sprite.intersectsBounds(update.cursor.bounds.xy)) {
         update.pickHandled = true;
         Solitaire.reset(update.solitaire);
         update.saveStorage.save.wins = update.solitaire.wins;

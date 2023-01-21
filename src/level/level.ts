@@ -72,7 +72,7 @@ export function getStockXY(
   solitaire: Readonly<Solitaire>,
   indexY: number,
 ): I16XY {
-  return I16XY(
+  return new I16XY(
     boardX + 160,
     // All cards in the stock are at the same point and on the same layer. Only
     // the top card should be pickable though so hide the rest off-cam since
@@ -87,7 +87,7 @@ export function getWasteXY(
 ): I16XY {
   const top = solitaire.waste.length - solitaire.drawSize;
   const betterIndex = Math.max(index - top, 0);
-  return I16XY(208, boardY + betterIndex * mod);
+  return new I16XY(208, boardY + betterIndex * mod);
 }
 
 export function getFoundationCardXY(
@@ -97,7 +97,7 @@ export function getFoundationCardXY(
   const film = filmByID[`CardVacant${suit}`];
   const betterIndexX = { Clubs: 0, Diamonds: 1, Hearts: 2, Spades: 3 }[suit];
   const x = boardX + mod * 4 + betterIndexX * (film.wh.x + mod);
-  return I16XY(x, boardY);
+  return new I16XY(x, boardY);
 }
 
 export function getTableauCardXY(
@@ -107,7 +107,7 @@ export function getTableauCardXY(
 ): I16XY {
   const film = filmByID.CardVacantPile;
   const x = boardX + indexX * (film.wh.x + mod);
-  return I16XY(x, tableauY + indexY * mod);
+  return new I16XY(x, tableauY + indexY * mod);
 }
 
 export function getCardFilmID(card: Card): SPFilmID {
