@@ -47,7 +47,7 @@ export function SuperPatience(
   const saveStorage = SaveStorage.load(localStorage)
   const solitaire = Solitaire(
     undefined,
-    () => random.fraction,
+    () => random.fraction(),
     saveStorage.save.wins,
   )
 
