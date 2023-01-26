@@ -62,27 +62,21 @@
     "sprite": {
       "id": "PaletteLight",
       "layer": "Background",
-      "xy": { "x": 169, "y": 9 },
-      "wh": { "x": 39, "y": 47 }
+      "x": 169,
+      "y": 9,
+      "w": 39,
+      "h": 47
     }
   },
 
   {
     "pile": { "type": "Waste" },
-    "sprite": {
-      "id": "PaletteLight",
-      "layer": "Background",
-      "xy": { "x": 201, "y": 9 }
-    }
+    "sprite": { "id": "PaletteLight", "layer": "Background", "x": 201, "y": 9 }
   },
 
   {
     "name": "waste vacancy",
-    "sprite": {
-      "id": "CardVacantPile",
-      "layer": "Vacancy",
-      "xy": { "x": 208, "y": 16 }
-    }
+    "sprite": { "id": "CardVacantPile", "layer": "Vacancy", "x": 208, "y": 16 }
   },
 
   {
