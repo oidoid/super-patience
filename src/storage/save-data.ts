@@ -1,7 +1,7 @@
-import { Uint } from '@/oidlib';
+import { Uint } from '@/oidlib'
 
-export type SaveData = { wins: Uint };
+export type SaveData = { wins: Uint }
 
 export function SaveData(wins: Uint): SaveData {
-  return { wins };
+  return { wins }
 }

@@ -1,5 +1,5 @@
-import { Immutable, Inverse, U8 } from '@/oidlib';
-import { Layer } from '@/void';
+import { Immutable, Inverse, U8 } from '@/oidlib'
+import { Layer } from '@/void'
 
 export const SPLayer = Immutable({
   ...Layer,
@@ -9,8 +9,8 @@ export const SPLayer = Immutable({
   Patience: U8(0x05),
   Vacancy: U8(0x06),
   Background: U8(0x07),
-}) satisfies { [name: string]: U8 };
+}) satisfies { [name: string]: U8 }
 
-export type SPLayer = keyof typeof SPLayer;
+export type SPLayer = keyof typeof SPLayer
 
-export const SPLayerInverse = Immutable(Inverse(SPLayer));
+export const SPLayerInverse = Immutable(Inverse(SPLayer))

@@ -1,5 +1,5 @@
-import { assertNonNull, I32, NonNull, Random } from '@/oidlib';
-import { Solitaire } from '@/solitaire';
+import { assertNonNull, I32, NonNull, Random } from '@/oidlib'
+import { Solitaire } from '@/solitaire'
 import {
   Assets,
   CardSystem,
@@ -12,7 +12,7 @@ import {
   SpriteFactory,
   TallySystem,
   VacantStockSystem,
-} from '@/super-patience';
+} from '@/super-patience'
 import {
   CamSystem,
   CursorSystem,
@@ -24,37 +24,37 @@ import {
   Renderer,
   RendererStateMachine,
   RenderSystem,
-} from '@/void';
+} from '@/void'
 
 export interface SuperPatience extends SPECSUpdate {
-  readonly assets: Assets;
-  readonly canvas: HTMLCanvasElement;
-  readonly random: Random;
+  readonly assets: Assets
+  readonly canvas: HTMLCanvasElement
+  readonly random: Random
   /** The total number of ticks completed. ticks * tick = age. */
-  ticks: number;
+  ticks: number
   /** The outstanding time elapsed accrual to execute in milliseconds. */
-  delta: number;
+  delta: number
 }
 
 export function SuperPatience(
   window: Window,
   assets: Assets,
 ): SuperPatience {
-  const canvas = window.document.getElementsByTagName('canvas').item(0);
-  assertNonNull(canvas, 'Canvas missing.');
+  const canvas = window.document.getElementsByTagName('canvas').item(0)
+  assertNonNull(canvas, 'Canvas missing.')
 
-  const random = new Random(I32.mod(Date.now()));
-  const saveStorage = SaveStorage.load(localStorage);
+  const random = new Random(I32.mod(Date.now()))
+  const saveStorage = SaveStorage.load(localStorage)
   const solitaire = Solitaire(
     undefined,
     () => random.fraction,
     saveStorage.save.wins,
-  );
+  )
 
   const newRenderer = () =>
-    Renderer(canvas, assets.atlas, assets.shaderLayout, assets.atlasMeta);
+    Renderer(canvas, assets.atlas, assets.shaderLayout, assets.atlasMeta)
 
-  const cardSystem = new CardSystem();
+  const cardSystem = new CardSystem()
   const ecs = ECS<SPComponentSet, SPECSUpdate>(
     new Set([
       CamSystem,
@@ -68,23 +68,23 @@ export function SuperPatience(
       TallySystem,
       RenderSystem, // Last
     ]),
-  );
+  )
   ECS.addEnt(
     ecs,
     ...newLevelComponents(
       new SpriteFactory(assets.atlasMeta.filmByID),
       solitaire,
     ) as SPComponentSet[], // to-do: fix types
-  );
-  ECS.flush(ecs);
+  )
+  ECS.flush(ecs)
 
   // to-do: allow systems to specify peripheral nonprocessing dependencies.
-  cardSystem.piles = ECS.query(ecs, 'pile', 'sprite');
-  cardSystem.vacantStock = ECS.query(ecs, 'vacantStock', 'sprite')?.[0]?.sprite;
+  cardSystem.piles = ECS.query(ecs, 'pile', 'sprite')
+  cardSystem.vacantStock = ECS.query(ecs, 'vacantStock', 'sprite')?.[0]?.sprite
 
-  const tick = 1000 / 60;
+  const tick = 1000 / 60
 
-  const cam = NonNull(ECS.query(ecs, 'cam')[0], 'Missing cam entity.').cam;
+  const cam = NonNull(ECS.query(ecs, 'cam')[0], 'Missing cam entity.').cam
   const self: SuperPatience = {
     assets,
     cam,
@@ -105,49 +105,49 @@ export function SuperPatience(
     ticks: 0,
     delta: 0,
     get time() {
-      return this.tick * this.ticks;
+      return this.tick * this.ticks
     },
     saveStorage,
     cursor: ECS.query(ecs, 'cursor', 'sprite')![0]!.sprite, // this api sucks
 
     filmByID: assets.atlasMeta.filmByID,
-  };
-  return self;
+  }
+  return self
 }
 
 export namespace SuperPatience {
   export async function make(window: Window): Promise<SuperPatience> {
-    const assets = await Assets.load();
-    return SuperPatience(window, assets);
+    const assets = await Assets.load()
+    return SuperPatience(window, assets)
   }
 
   export function start(self: SuperPatience): void {
-    self.input.register('add');
-    self.rendererStateMachine.start();
+    self.input.register('add')
+    self.rendererStateMachine.start()
   }
 
   export function stop(self: SuperPatience): void {
-    self.input.register('remove');
-    self.rendererStateMachine.stop();
+    self.input.register('remove')
+    self.rendererStateMachine.stop()
     // win.close()
   }
 
   export function onFrame(self: SuperPatience, delta: number): void {
     // Add elapsed time to the pending delta total.
-    self.delta += delta;
+    self.delta += delta
 
     while (self.delta >= self.tick) {
-      self.delta -= self.tick;
-      self.pickHandled = false;
+      self.delta -= self.tick
+      self.pickHandled = false
 
-      self.input.preupdate();
+      self.input.preupdate()
 
-      ECS.update(self.ecs, self);
+      ECS.update(self.ecs, self)
 
       // should actual render be here and not in the ecs?
-      self.input.postupdate(self.tick);
+      self.input.postupdate(self.tick)
 
-      self.ticks++;
+      self.ticks++
     }
   }
 }

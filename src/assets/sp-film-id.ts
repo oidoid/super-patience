@@ -1,4 +1,4 @@
-import { Immutable } from '@/oidlib';
+import { Immutable } from '@/oidlib'
 
 /**
  * The identifiers for all the films in the atlas. IDs are used to reference
@@ -6,7 +6,7 @@ import { Immutable } from '@/oidlib';
  * from the Atlas. The tag convention used here is
  * `<file stem>[-<state or variant>]*`.
  */
-export type SPFilmID = Parameters<typeof SPFilmID.values['has']>[0];
+export type SPFilmID = Parameters<typeof SPFilmID.values['has']>[0]
 
 export namespace SPFilmID {
   export const values = Immutable(
@@ -96,5 +96,5 @@ export namespace SPFilmID {
         'Tally10',
       ] as const,
     ),
-  );
+  )
 }

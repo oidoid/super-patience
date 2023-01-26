@@ -1,3 +1,3 @@
 export interface TallyConfig {
-  tens: number;
+  tens: number
 }
