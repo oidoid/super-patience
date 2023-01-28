@@ -1,12 +1,11 @@
 import { AtlasMeta } from '@/atlas-pack'
-import { SPFilmID } from '@/super-patience'
+import { atlasJSON, SPFilmID } from '@/super-patience'
 import {
   ImageLoader,
   ShaderLayout,
   shaderLayoutConfig,
   ShaderLayoutParser,
 } from '@/void'
-import atlasJSON from '../../assets/atlas.json' assert { type: 'json' }
 
 export interface Assets {
   readonly atlas: Readonly<HTMLImageElement>

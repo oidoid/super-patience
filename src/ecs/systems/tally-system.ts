@@ -6,13 +6,13 @@ type ZeroToTen = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10
 
 export interface TallySet {
   readonly tally: TallyConfig
-  readonly sprite: Sprite
+  readonly sprites: [Sprite, ...Sprite[]]
 }
 
 export const TallySystem: System<TallySet, SPECSUpdate> = Immutable({
-  query: new Set(['tally', 'sprite']),
+  query: new Set(['tally', 'sprites']),
   updateEnt(set, update) {
-    const { sprite, tally } = set
+    const { sprites: [sprite], tally } = set
     const wins = Math.min(
       10,
       Math.max(0, update.solitaire.wins - tally.tens * 10),

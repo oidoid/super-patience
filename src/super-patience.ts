@@ -29,17 +29,11 @@ import {
 export interface SuperPatience extends SPECSUpdate {
   readonly assets: Assets
   readonly canvas: HTMLCanvasElement
-  readonly random: Random
-  /** The total number of ticks completed. ticks * tick = age. */
-  ticks: number
-  /** The outstanding time elapsed accrual to execute in milliseconds. */
-  delta: number
+  tick: number
+  time: number
 }
 
-export function SuperPatience(
-  window: Window,
-  assets: Assets,
-): SuperPatience {
+export function SuperPatience(window: Window, assets: Assets): SuperPatience {
   const canvas = window.document.getElementsByTagName('canvas').item(0)
   assertNonNull(canvas, 'Canvas missing.')
 
@@ -73,16 +67,16 @@ export function SuperPatience(
     ecs,
     ...newLevelComponents(
       new SpriteFactory(assets.atlasMeta.filmByID),
+      undefined,
       solitaire,
     ) as SPComponentSet[], // to-do: fix types
   )
   ECS.flush(ecs)
 
   // to-do: allow systems to specify peripheral nonprocessing dependencies.
-  cardSystem.piles = ECS.query(ecs, 'pile', 'sprite')
-  cardSystem.vacantStock = ECS.query(ecs, 'vacantStock', 'sprite')?.[0]?.sprite
-
-  const tick = 1000 / 60
+  cardSystem.piles = ECS.query(ecs, 'pile', 'sprites')
+  cardSystem.vacantStock =
+    ECS.query(ecs, 'vacantStock', 'sprites')?.[0]?.sprites[0]
 
   const cam = NonNull(ECS.query(ecs, 'cam')[0], 'Missing cam entity.').cam
   const self: SuperPatience = {
@@ -101,14 +95,10 @@ export function SuperPatience(
       onPause: () => self.input.reset(),
       newRenderer,
     }),
-    tick,
-    ticks: 0,
-    delta: 0,
-    get time() {
-      return this.tick * this.ticks
-    },
+    tick: 1,
+    time: 0,
     saveStorage,
-    cursor: ECS.query(ecs, 'cursor', 'sprite')![0]!.sprite, // this api sucks
+    cursor: ECS.query(ecs, 'cursor', 'sprites')![0]!.sprites[0]!, // this api sucks
 
     filmByID: assets.atlasMeta.filmByID,
   }
@@ -133,21 +123,15 @@ export namespace SuperPatience {
   }
 
   export function onFrame(self: SuperPatience, delta: number): void {
-    // Add elapsed time to the pending delta total.
-    self.delta += delta
+    self.tick = delta
+    self.time += delta
+    self.pickHandled = false
 
-    while (self.delta >= self.tick) {
-      self.delta -= self.tick
-      self.pickHandled = false
+    self.input.preupdate()
 
-      self.input.preupdate()
+    ECS.update(self.ecs, self)
 
-      ECS.update(self.ecs, self)
-
-      // should actual render be here and not in the ecs?
-      self.input.postupdate(self.tick)
-
-      self.ticks++
-    }
+    // should actual render be here and not in the ecs?
+    self.input.postupdate(self.tick)
   }
 }

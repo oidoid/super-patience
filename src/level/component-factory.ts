@@ -6,17 +6,19 @@ import {
   getStockXY,
   getTableauCardXY,
   getWasteXY,
+  level,
   mod,
   SPComponentSet,
   SPLevelParser,
   SpriteFactory,
 } from '@/super-patience'
-import level from './level.json' assert { type: 'json' }
+import { Font } from '@/void'
 
 // to-do: move min viewport size to JSON.
 
 export function newLevelComponents(
   factory: SpriteFactory,
+  font: Font | undefined,
   solitaire: Readonly<Solitaire>,
 ): Partial<SPComponentSet>[] {
   // to-do: detect mobile platforms and hide cursor initially.
@@ -29,7 +31,7 @@ export function newLevelComponents(
     ...newTableau(solitaire, factory),
     ...newWaste(solitaire, factory),
 
-    ...SPLevelParser.parse(factory, level),
+    ...SPLevelParser.parse(factory, font, level),
   ]
 }
 
@@ -43,7 +45,9 @@ function newCard(
 ): Partial<SPComponentSet> {
   return {
     card,
-    sprite: factory.new(getCardFilmID(card), `Card${card.direction}`, { xy }),
+    sprites: [
+      factory.new(getCardFilmID(card), `Card${card.direction}`, { xy }),
+    ],
   }
 }
 
@@ -54,15 +58,15 @@ function* newFoundation(
   // next: null
   for (const suit of Suit.values) {
     yield {
-      sprite: factory.new(`CardVacant${suit}`, 'Vacancy', {
+      sprites: [factory.new(`CardVacant${suit}`, 'Vacancy', {
         xy: getFoundationCardXY(factory.filmByID, suit),
-      }),
+      })],
     }
     yield {
       pile: { type: 'Foundation', suit },
-      sprite: factory.new('PaletteLight', 'Background', {
+      sprites: [factory.new('PaletteLight', 'Background', {
         xy: getFoundationCardXY(factory.filmByID, suit),
-      }),
+      })],
     }
   }
 }
@@ -73,9 +77,9 @@ function newStock(
 ): Partial<SPComponentSet>[] {
   const components: Partial<SPComponentSet>[] = [{
     vacantStock: {},
-    sprite: factory.new('CardVacantStock', 'Vacancy', {
+    sprites: [factory.new('CardVacantStock', 'Vacancy', {
       xy: getStockXY(solitaire, solitaire.stock.length - 1),
-    }),
+    })],
   }]
   for (const [index, card] of solitaire.stock.entries()) {
     components.push(newCard(factory, card, getStockXY(solitaire, index)))
@@ -93,14 +97,14 @@ function newTableau(
     components.push(
       {
         pile: { type: 'Tableau', x: Uint(x) },
-        sprite: factory.new('PaletteLight', 'Background', {
+        sprites: [factory.new('PaletteLight', 'Background', {
           xy: getTableauCardXY(factory.filmByID, x, 0),
-        }),
+        })],
       },
       {
-        sprite: factory.new('CardVacantPile', 'Vacancy', {
+        sprites: [factory.new('CardVacantPile', 'Vacancy', {
           xy: getTableauCardXY(factory.filmByID, x, 0),
-        }),
+        })],
       },
     )
     for (const [indexY, card] of pile.entries()) {
@@ -123,7 +127,7 @@ function* newTallies(
         pad: { x: 0, y: 8 + i * 8 },
       },
       tally: { tens: i },
-      sprite: factory.new('Tally0', 'Patience'),
+      sprites: [factory.new('Tally0', 'Patience')],
     }
   }
 }

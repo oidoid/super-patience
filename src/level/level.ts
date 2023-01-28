@@ -24,36 +24,36 @@ export function setSpritePositionsForLayout(
     for (const [indexY, card] of column.entries()) {
       const components = ecs.componentsByRef.get(card)
       const xy = getTableauCardXY(filmByID, indexX, indexY)
-      components!.sprite.moveTo(xy)
-      components!.sprite.layer =
+      components!.sprites[0].moveTo(xy)
+      components!.sprites[0].layer =
         SPLayer[card.direction == 'Up' ? 'CardUp' : 'CardDown']
-      components!.sprite.animate(time, filmByID[getCardFilmID(card)])
+      components!.sprites[0].animate(time, filmByID[getCardFilmID(card)])
     }
   }
   for (const pillar of solitaire.foundation) {
     for (const [index, card] of pillar.entries()) {
       const components = ecs.componentsByRef.get(card)
       const xy = getFoundationCardXY(filmByID, card.suit)
-      components!.sprite.moveTo(xy)
+      components!.sprites[0].moveTo(xy)
       // change this to downard for everything but top
       const animID = index == (pillar.length - 1)
         ? getCardFilmID(card)
         : 'CardDown'
-      components!.sprite.animate(time, filmByID[animID])
-      components!.sprite.layer =
+      components!.sprites[0].animate(time, filmByID[animID])
+      components!.sprites[0].layer =
         SPLayer[animID == 'CardDown' ? 'CardDown' : 'CardUp']
     }
   }
   for (const [index, card] of solitaire.stock.entries()) {
     const components = ecs.componentsByRef.get(card)
-    components!.sprite.moveTo(getStockXY(solitaire, index))
-    components!.sprite.layer =
+    components!.sprites[0].moveTo(getStockXY(solitaire, index))
+    components!.sprites[0].layer =
       SPLayer[card.direction == 'Up' ? 'CardUp' : 'CardDown']
-    components!.sprite.animate(time, filmByID[getCardFilmID(card)])
+    components!.sprites[0].animate(time, filmByID[getCardFilmID(card)])
   }
   for (const [index, card] of solitaire.waste.entries()) {
     const components = ecs.componentsByRef.get(card)
-    components!.sprite.moveTo(getWasteXY(solitaire, index))
+    components!.sprites[0].moveTo(getWasteXY(solitaire, index))
     let animID: SPFilmID
     if (index >= (solitaire.waste.length - solitaire.drawSize)) {
       animID = getCardFilmID(card)
@@ -62,9 +62,9 @@ export function setSpritePositionsForLayout(
     }
     // Hide waste under the draw reserve. I can't draw them in the correct
     // order since they have identical XYs.
-    components!.sprite.layer =
+    components!.sprites[0].layer =
       SPLayer[animID == 'CardDown' ? 'CardDown' : 'CardUp']
-    components!.sprite.animate(time, filmByID[animID])
+    components!.sprites[0].animate(time, filmByID[animID])
   }
 }
 

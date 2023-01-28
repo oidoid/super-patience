@@ -17,3 +17,9 @@ export * from './src/sprite/sp-layer.ts'
 export * from './src/storage/save-data.ts'
 export * from './src/storage/save-storage.ts'
 export * from './src/super-patience.ts'
+
+import levelJSON from './src/level/level.json' assert { type: 'json' }
+export const level = levelJSON
+
+import _atlasJSON from './assets/atlas.json' assert { type: 'json' }
+export const atlasJSON = _atlasJSON

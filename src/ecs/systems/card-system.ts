@@ -11,7 +11,7 @@ import { Sprite, System } from '@/void'
 
 export interface CardSet {
   readonly card: Card
-  readonly sprite: Sprite
+  readonly sprites: [Sprite, ...Sprite[]]
 }
 
 interface PickState {
@@ -23,10 +23,10 @@ interface PickState {
 }
 
 export class CardSystem implements System<CardSet, SPECSUpdate> {
-  query = new Set(['card', 'sprite'] as const)
+  query = new Set(['card', 'sprites'] as const)
 
   #picked?: PickState | undefined
-  piles: { pile: PileConfig; sprite: Sprite }[] = []
+  piles: { pile: PileConfig; sprites: Sprite[] }[] = []
   vacantStock: Sprite | undefined
 
   // to-do: this list will need to be cut down by xy intersection anyway
@@ -111,7 +111,7 @@ export class CardSystem implements System<CardSet, SPECSUpdate> {
         return {
           components,
           offset: update.cursor.bounds.xy.copy().sub(
-            components.sprite!.bounds.xy,
+            components.sprites[0]!.bounds.xy,
           ),
         }
       },
@@ -120,21 +120,24 @@ export class CardSystem implements System<CardSet, SPECSUpdate> {
     // to-do: free this ent on ECS remove
     this.#picked = { ents }
 
-    for (const sprite of ents.map((data) => data.components.sprite!)) {
+    for (const sprite of ents.map((data) => data.components.sprites[0]!)) {
       sprite.layer = SPLayer.Picked
     }
   }
 
   findbestmatch(update: SPECSUpdate):
-    | { intersection: I16Box; pile: { pile: PileConfig; sprite: Sprite } }
+    | {
+      intersection: I16Box
+      pile: { pile: PileConfig; sprites: Sprite[] }
+    }
     | undefined {
     const pointedCard = this.#picked?.ents[0]?.components
     let bestMatch
-    if (pointedCard != null && pointedCard.sprite != null) {
+    if (pointedCard != null && pointedCard.sprites?.[0] != null) {
       for (const pile of this.piles) {
-        if (pile.sprite == null) continue
-        const intersection = pointedCard.sprite.bounds.copy().intersection(
-          pile.sprite.bounds,
+        if (pile.sprites?.[0] == null) continue
+        const intersection = pointedCard.sprites[0]!.bounds.copy().intersection(
+          pile.sprites[0].bounds,
         )
         if (intersection.flipped || intersection.areaNum <= 0) continue
         if (
@@ -160,7 +163,7 @@ function pickClosest(
   if (update.input == null) return
   let picked: Picked | undefined
   for (const set of sets) {
-    const { card, sprite } = set
+    const { card, sprites: [sprite] } = set
     if (!sprite.intersectsSprite(update.cursor, update.time)) {
       continue
     }
@@ -175,7 +178,7 @@ function pickClosest(
 function moveToPick(update: SPECSUpdate, picked: PickState): void {
   for (const ent of picked.ents) {
     // to-do: versus const sprite = ECS.get(ecs, 'Sprite', ent);
-    ent.components.sprite!.bounds.moveToTrunc(
+    ent.components.sprites![0]!.bounds.moveToTrunc(
       update.cursor.bounds.xy.copy().sub(ent.offset),
     )
   }

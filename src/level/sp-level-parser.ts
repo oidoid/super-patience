@@ -1,6 +1,6 @@
 import { assert } from '@/oidlib'
 import { SPComponentSet, SpriteFactory } from '@/super-patience'
-import { ComponentSetJSON, LevelParser } from '@/void'
+import { ComponentSetJSON, Font, LevelParser } from '@/void'
 
 interface SPComponentSetJSON extends ComponentSetJSON {
   readonly pile?: PileConfigJSON
@@ -14,19 +14,23 @@ interface PileConfigJSON {
 export namespace SPLevelParser {
   export function parse(
     factory: SpriteFactory,
+    font: Font | undefined,
     json: readonly SPComponentSetJSON[],
   ): Partial<SPComponentSet>[] {
-    return json.map((setJSON) => parseComponentSet(factory, setJSON))
+    return json.map((setJSON) => parseComponentSet(factory, font, setJSON))
   }
 }
 
 function parseComponentSet(
   factory: SpriteFactory,
+  font: Font | undefined,
   json: SPComponentSetJSON,
 ): Partial<SPComponentSet> {
-  const set: Partial<SPComponentSet> = {}
+  const set: Partial<
+    Record<keyof SPComponentSet, SPComponentSet[keyof SPComponentSet]>
+  > = {}
   for (const [key, val] of Object.entries(json)) {
-    const component = LevelParser.parseComponent(factory, key, val)
+    const component = LevelParser.parseComponent(factory, font, key, val)
     if (component != null) {
       // deno-lint-ignore no-explicit-any
       set[key as keyof SPComponentSetJSON] = component as any
@@ -50,5 +54,5 @@ function parseComponentSet(
         throw Error(`Unsupported level config type "${key}".`)
     }
   }
-  return set
+  return set as SPComponentSet
 }

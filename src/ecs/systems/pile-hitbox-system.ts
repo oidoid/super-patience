@@ -9,15 +9,15 @@ import { Sprite, System } from '@/void'
 
 export interface PileHitboxSet {
   readonly pile: PileConfig
-  readonly sprite: Sprite
+  readonly sprites: [Sprite, ...Sprite[]]
 }
 
 /** Size the pile's hitbox. */
 export const PileHitboxSystem: System<PileHitboxSet, SPECSUpdate> = Immutable(
   {
-    query: new Set(['pile', 'sprite']),
+    query: new Set(['pile', 'sprites']),
     updateEnt(set, update) {
-      const { pile, sprite } = set
+      const { pile, sprites: [sprite] } = set
       const cardWH = new U16XY(24, 32) // to-do: don't hardcode.
       const gap = 8 // to-do: or at least hardcode in one place
       // kind of lame because this shoudl be the union of sprites

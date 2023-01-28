@@ -6,12 +6,12 @@ import { Sprite, System } from '@/void'
 
 export interface PatienceTheDemonSet {
   readonly patienceTheDemon: Record<never, never>
-  readonly sprite: Sprite
+  readonly sprites: [Sprite, ...Sprite[]]
 }
 
 export const PatienceTheDemonSystem: System<PatienceTheDemonSet, SPECSUpdate> =
   Immutable({
-    query: new Set(['patienceTheDemon', 'sprite']),
+    query: new Set(['patienceTheDemon', 'sprites']),
     skip(update) {
       if (update.pickHandled) return true
       // to-do: need notion of handled state so that picks don't bleed.
@@ -20,7 +20,7 @@ export const PatienceTheDemonSystem: System<PatienceTheDemonSet, SPECSUpdate> =
       return false
     },
     updateEnt(set, update) {
-      const { sprite } = set
+      const { sprites: [sprite] } = set
       if (sprite.intersectsSprite(update.cursor, update.time)) {
         update.pickHandled = true
         sprite.animate(update.time, nextFilm(update, sprite))

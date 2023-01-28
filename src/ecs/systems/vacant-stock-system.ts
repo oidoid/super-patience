@@ -5,19 +5,19 @@ import { Sprite, System } from '@/void'
 
 export interface VacantStockSet {
   readonly vacantStock: Record<never, never>
-  readonly sprite: Sprite
+  readonly sprites: [Sprite, ...Sprite[]]
 }
 
 export const VacantStockSystem: System<VacantStockSet, SPECSUpdate> = Immutable(
   {
-    query: new Set(['vacantStock', 'sprite']),
+    query: new Set(['vacantStock', 'sprites']),
     skip(update) {
       // update.pointer?.on2([[''], ['']], 'Set', 'Pen', 'Touch')
       return !!update.pickHandled || !update.input.isOffStart('Action')
     },
     updateEnt(set, update) {
       if (update.pickHandled) return
-      if (!set.sprite.intersectsBounds(update.cursor.bounds.xy)) return
+      if (!set.sprites[0].intersectsBounds(update.cursor.bounds.xy)) return
       update.pickHandled = true
       Solitaire.deal(update.solitaire)
       setSpritePositionsForLayout(
