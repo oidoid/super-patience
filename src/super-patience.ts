@@ -14,6 +14,7 @@ import {
   VacantStockSystem,
 } from '@/super-patience'
 import {
+  Cam,
   CamSystem,
   CursorSystem,
   ECS,
@@ -51,7 +52,7 @@ export function SuperPatience(window: Window, assets: Assets): SuperPatience {
   const cardSystem = new CardSystem()
   const ecs = ECS<SPComponentSet, SPECSUpdate>(
     new Set([
-      CamSystem,
+      new CamSystem(centerCam),
       FollowCamSystem,
       new CursorSystem(), // Process first
       FollowPointSystem,
@@ -134,4 +135,9 @@ export namespace SuperPatience {
     // should actual render be here and not in the ecs?
     self.input.postupdate(self.tick)
   }
+}
+
+function centerCam(cam: Cam): void {
+  const camOffsetX = Math.trunc((cam.viewport.w - cam.minViewport.x) / 2)
+  cam.viewport.x = I16(-camOffsetX + camOffsetX % 8)
 }
