@@ -116,10 +116,12 @@ function newTableau(
   return components
 }
 
+export const maxTallies = 26
+
 function* newTallies(
   factory: SpriteFactory,
 ): Generator<Partial<SPComponentSet>> {
-  for (let i = 0; i < 26; i++) {
+  for (let i = 0; i < maxTallies; i++) {
     yield {
       followCam: {
         modulo: { x: mod, y: mod },
