@@ -1,4 +1,4 @@
-import { I16XY, Uint } from '@/oidlib'
+import { I16XY, Uint } from '@/ooz'
 import { Card, Solitaire, Suit } from '@/solitaire'
 import {
   getCardFilmID,

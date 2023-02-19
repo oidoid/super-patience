@@ -1,4 +1,4 @@
-import { Uint } from '@/oidlib'
+import { Uint } from '@/ooz'
 import { SaveData } from '@/super-patience'
 import { JSONStorage } from '@/void'
 

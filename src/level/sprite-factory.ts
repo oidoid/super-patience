@@ -1,5 +1,5 @@
 import { FilmByID } from '@/atlas-pack'
-import { U8 } from '@/oidlib'
+import { U8 } from '@/ooz'
 import { SPFilmID, SPLayer } from '@/super-patience'
 import { FilmLUT, Sprite, SpriteProps } from '@/void'
 

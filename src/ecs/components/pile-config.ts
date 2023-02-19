@@ -1,4 +1,4 @@
-import { Uint } from '@/oidlib'
+import { Uint } from '@/ooz'
 import { Suit } from '@/solitaire'
 
 export type PileConfig = Readonly<

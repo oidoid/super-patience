@@ -1,4 +1,4 @@
-import { assertNonNull, I16, I32, NonNull, Random } from '@/oidlib'
+import { assertNonNull, I16, I32, NonNull, Random } from '@/ooz'
 import { Solitaire } from '@/solitaire'
 import {
   Assets,

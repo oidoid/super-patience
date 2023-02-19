@@ -1,4 +1,4 @@
-import { I16Box, I16XY } from '@/oidlib'
+import { I16Box, I16XY } from '@/ooz'
 import { Card, Solitaire } from '@/solitaire'
 import {
   PileConfig,

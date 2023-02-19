@@ -1,4 +1,4 @@
-import { U16XY, Uint } from '@/oidlib'
+import { U16XY, Uint } from '@/ooz'
 import {
   getFoundationCardXY,
   getTableauCardXY,

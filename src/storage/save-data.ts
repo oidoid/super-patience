@@ -1,4 +1,4 @@
-import { Uint } from '@/oidlib'
+import { Uint } from '@/ooz'
 
 export type SaveData = { wins: Uint }
 

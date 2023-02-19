@@ -1,4 +1,4 @@
-import { assert } from '@/oidlib'
+import { assert } from '@/ooz'
 import { SPEnt, SpriteFactory } from '@/super-patience'
 import { Font, LevelParser, VoidEntJSON } from '@/void'
 

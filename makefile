@@ -1,4 +1,4 @@
-include ../oidlib/config.make
+include ../ooz/config.make
 
 dist_dir := dist
 assets_dir := assets

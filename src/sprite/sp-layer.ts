@@ -1,4 +1,4 @@
-import { Immutable, U8 } from '@/oidlib'
+import { Immutable, U8 } from '@/ooz'
 import { Layer } from '@/void'
 
 export const SPLayer = Immutable({

@@ -1,5 +1,5 @@
 import { FilmByID } from '@/atlas-pack'
-import { I16XY } from '@/oidlib'
+import { I16XY } from '@/ooz'
 import { Card, Solitaire, Suit } from '@/solitaire'
 import { SPEnt, SPFilmID, SPLayer } from '@/super-patience'
 import { ECS } from '@/void'

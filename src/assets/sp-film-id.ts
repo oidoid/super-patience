@@ -1,4 +1,4 @@
-import { Immutable } from '@/oidlib'
+import { Immutable } from '@/ooz'
 
 /**
  * The identifiers for all the films in the atlas. IDs are used to reference
