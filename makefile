@@ -94,3 +94,13 @@ $(dist_dir)/:; $(mkdir) '$@'
 .PHONY: clean
 clean:
   $(rm) '$(dist_dir)/' '$(assets_dir)/atlas.json' '$(assets_dir)/atlas.png'
+
+.PHONY: rebuild
+rebuild:
+  $(make) clean
+  $(make) build
+
+.PHONY: retest
+retest:
+  $(make) clean
+  $(make) test
