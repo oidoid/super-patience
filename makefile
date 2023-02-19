@@ -21,6 +21,7 @@ dist_files := \
   $(dist_dir)/favicon512x512.png
 
 bundle_args ?=
+format_args ?=
 test_unit_args ?=
 
 .PHONY: build
@@ -50,7 +51,10 @@ watch-bundle: bundle
 test: test-format test-lint build test-unit
 
 .PHONY: test-format
-test-format:; $(deno) fmt --check --config='$(deno_config)'
+test-format: format_args += --check
+
+.PHONY: format
+format:; $(deno) fmt --config='$(deno_config)' $(format_args)
 
 .PHONY: test-lint
 test-lint:; $(deno) lint --config='$(deno_config)' $(if $(value v),,--quiet)
