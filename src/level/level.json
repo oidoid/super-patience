@@ -9,37 +9,37 @@
     "name": "cursor",
     "cursor": { "pick": "CursorPick", "point": "CursorPoint" },
     "followPoint": {},
-    "sprites": [{ "id": "CursorPoint", "layer": "Bottom" }]
+    "sprite": { "id": "CursorPoint", "layer": "Bottom" }
   },
 
   {
     "name": "background border",
     "followCam": { "fill": "XY", "orientation": "Northwest" },
-    "sprites": [{
+    "sprite": {
       "id": "PaletteDark",
       "layer": "Background",
       "layerByHeight": true
-    }]
+    }
   },
   {
     "name": "background corner NW",
     "followCam": { "orientation": "Northwest" },
-    "sprites": [{ "id": "Corner", "layer": "Background" }]
+    "sprite": { "id": "Corner", "layer": "Background" }
   },
   {
     "name": "background corner NE",
     "followCam": { "orientation": "Northeast" },
-    "sprites": [{ "id": "Corner", "layer": "Background", "flip": "X" }]
+    "sprite": { "id": "Corner", "layer": "Background", "flip": "X" }
   },
   {
     "name": "background corner SE",
     "followCam": { "orientation": "Southeast" },
-    "sprites": [{ "id": "Corner", "layer": "Background", "flip": "XY" }]
+    "sprite": { "id": "Corner", "layer": "Background", "flip": "XY" }
   },
   {
     "name": "background corner SW",
     "followCam": { "orientation": "Southwest" },
-    "sprites": [{ "id": "Corner", "layer": "Background", "flip": "Y" }]
+    "sprite": { "id": "Corner", "layer": "Background", "flip": "Y" }
   },
 
   {
@@ -49,38 +49,34 @@
       "orientation": "Northwest",
       "pad": { "x": 1, "y": 1 }
     },
-    "sprites": [{
+    "sprite": {
       "id": "Grid",
       "layer": "Background",
       "layerByHeight": true,
       "wrap": { "x": -1, "y": -1 }
-    }]
+    }
   },
 
   {
     "name": "stock background",
-    "sprites": [{
+    "sprite": {
       "id": "PaletteLight",
       "layer": "Background",
       "x": 169,
       "y": 9,
       "w": 39,
       "h": 47
-    }]
+    }
   },
 
   {
     "pile": { "type": "Waste" },
-    "sprites": [
-      { "id": "PaletteLight", "layer": "Background", "x": 201, "y": 9 }
-    ]
+    "sprite": { "id": "PaletteLight", "layer": "Background", "x": 201, "y": 9 }
   },
 
   {
     "name": "waste vacancy",
-    "sprites": [
-      { "id": "CardVacantPile", "layer": "Vacancy", "x": 208, "y": 16 }
-    ]
+    "sprite": { "id": "CardVacantPile", "layer": "Vacancy", "x": 208, "y": 16 }
   },
 
   {
@@ -91,6 +87,6 @@
       "pad": { "x": 16, "y": 16 }
     },
     "patienceTheDemon": {},
-    "sprites": [{ "id": "PatienceTheDemonGood", "layer": "Patience" }]
+    "sprite": { "id": "PatienceTheDemonGood", "layer": "Patience" }
   }
 ]

@@ -1,7 +1,7 @@
 import { FilmByID } from '@/atlas-pack'
 import { I16XY } from '@/oidlib'
 import { Card, Solitaire, Suit } from '@/solitaire'
-import { SPComponentSet, SPFilmID, SPLayer } from '@/super-patience'
+import { SPEnt, SPFilmID, SPLayer } from '@/super-patience'
 import { ECS } from '@/void'
 
 export const mod = 8
@@ -15,56 +15,51 @@ const hiddenY = -1024
 // but has some overlap with CardSystem which calls these functions.
 
 export function setSpritePositionsForLayout(
-  ecs: ECS<SPComponentSet>,
+  ecs: ECS<SPEnt>,
   filmByID: FilmByID<SPFilmID>,
   solitaire: Readonly<Solitaire>,
   time: number,
 ): void {
   for (const [indexX, column] of solitaire.tableau.entries()) {
     for (const [indexY, card] of column.entries()) {
-      const components = ecs.componentsByRef.get(card)
+      const ent = ecs.get(card)
       const xy = getTableauCardXY(filmByID, indexX, indexY)
-      components!.sprites[0].moveTo(xy)
-      components!.sprites[0].layer =
+      ent.sprite!.moveTo(xy)
+      ent.sprite!.layer =
         SPLayer[card.direction == 'Up' ? 'CardUp' : 'CardDown']
-      components!.sprites[0].animate(time, filmByID[getCardFilmID(card)])
+      ent.sprite!.animate(time, filmByID[getCardFilmID(card)])
     }
   }
   for (const pillar of solitaire.foundation) {
     for (const [index, card] of pillar.entries()) {
-      const components = ecs.componentsByRef.get(card)
+      const ent = ecs.get(card)
       const xy = getFoundationCardXY(filmByID, card.suit)
-      components!.sprites[0].moveTo(xy)
+      ent.sprite!.moveTo(xy)
       // change this to downard for everything but top
       const animID = index == (pillar.length - 1)
         ? getCardFilmID(card)
         : 'CardDown'
-      components!.sprites[0].animate(time, filmByID[animID])
-      components!.sprites[0].layer =
-        SPLayer[animID == 'CardDown' ? 'CardDown' : 'CardUp']
+      ent.sprite!.animate(time, filmByID[animID])
+      ent.sprite!.layer = SPLayer[animID == 'CardDown' ? 'CardDown' : 'CardUp']
     }
   }
   for (const [index, card] of solitaire.stock.entries()) {
-    const components = ecs.componentsByRef.get(card)
-    components!.sprites[0].moveTo(getStockXY(solitaire, index))
-    components!.sprites[0].layer =
-      SPLayer[card.direction == 'Up' ? 'CardUp' : 'CardDown']
-    components!.sprites[0].animate(time, filmByID[getCardFilmID(card)])
+    const ent = ecs.get(card)
+    ent.sprite!.moveTo(getStockXY(solitaire, index))
+    ent.sprite!.layer = SPLayer[card.direction == 'Up' ? 'CardUp' : 'CardDown']
+    ent.sprite!.animate(time, filmByID[getCardFilmID(card)])
   }
   for (const [index, card] of solitaire.waste.entries()) {
-    const components = ecs.componentsByRef.get(card)
-    components!.sprites[0].moveTo(getWasteXY(solitaire, index))
+    const ent = ecs.get(card)
+    ent.sprite!.moveTo(getWasteXY(solitaire, index))
     let animID: SPFilmID
     if (index >= (solitaire.waste.length - solitaire.drawSize)) {
       animID = getCardFilmID(card)
-    } else {
-      animID = 'CardDown'
-    }
+    } else animID = 'CardDown'
     // Hide waste under the draw reserve. I can't draw them in the correct
     // order since they have identical XYs.
-    components!.sprites[0].layer =
-      SPLayer[animID == 'CardDown' ? 'CardDown' : 'CardUp']
-    components!.sprites[0].animate(time, filmByID[animID])
+    ent.sprite!.layer = SPLayer[animID == 'CardDown' ? 'CardDown' : 'CardUp']
+    ent.sprite!.animate(time, filmByID[animID])
   }
 }
 

@@ -1,40 +1,41 @@
 import { Film } from '@/atlas-pack'
-import { Immutable } from '@/oidlib'
 import { Solitaire } from '@/solitaire'
-import { SaveStorage, SPECSUpdate } from '@/super-patience'
-import { Sprite, System } from '@/void'
+import { SaveStorage, SPEnt, SPRunState } from '@/super-patience'
+import { QueryToEnt, Sprite, System } from '@/void'
 
-export interface PatienceTheDemonSet {
-  readonly patienceTheDemon: Record<never, never>
-  readonly sprites: [Sprite, ...Sprite[]]
+export type PatienceTheDemonEnt = QueryToEnt<
+  { patienceTheDemon: Record<never, never>; sprite: Sprite },
+  typeof query
+>
+
+const query = 'patienceTheDemon & sprite'
+
+export class PatienceTheDemonSystem
+  implements System<PatienceTheDemonEnt, SPEnt> {
+  readonly query = query
+  run(ents: ReadonlySet<PatienceTheDemonEnt>, state: SPRunState): void {
+    if (state.pickHandled) return
+    // to-do: need notion of handled state so that picks don't bleed.
+    // to-do: need notion of system order so that pickable is first.
+    if (!state.input.isOffStart('Action')) return
+
+    for (const ent of ents) {
+      const { sprite } = ent
+      if (sprite.intersectsSprite(state.cursor, state.time)) {
+        state.pickHandled = true
+        sprite.animate(state.time, nextFilm(state, sprite))
+        // to-do: really don't like reaching in and touching cursor or all the way to cursor.bounds.start.
+      } else if (sprite.intersectsBounds(state.cursor.bounds.xy)) {
+        state.pickHandled = true
+        Solitaire.reset(state.solitaire)
+        state.saveStorage.save.wins = state.solitaire.wins
+        SaveStorage.save(state.saveStorage)
+      }
+    }
+  }
 }
 
-export const PatienceTheDemonSystem: System<PatienceTheDemonSet, SPECSUpdate> =
-  Immutable({
-    query: new Set(['patienceTheDemon', 'sprites']),
-    skip(update) {
-      if (update.pickHandled) return true
-      // to-do: need notion of handled state so that picks don't bleed.
-      // to-do: need notion of system order so that pickable is first.
-      if (!update.input.isOffStart('Action')) return true
-      return false
-    },
-    updateEnt(set, update) {
-      const { sprites: [sprite] } = set
-      if (sprite.intersectsSprite(update.cursor, update.time)) {
-        update.pickHandled = true
-        sprite.animate(update.time, nextFilm(update, sprite))
-        // to-do: really don't like reaching in and touching cursor or all the way to cursor.bounds.start.
-      } else if (sprite.intersectsBounds(update.cursor.bounds.xy)) {
-        update.pickHandled = true
-        Solitaire.reset(update.solitaire)
-        update.saveStorage.save.wins = update.solitaire.wins
-        SaveStorage.save(update.saveStorage)
-      }
-    },
-  })
-
-function nextFilm(update: Readonly<SPECSUpdate>, sprite: Sprite): Film {
+function nextFilm(update: Readonly<SPRunState>, sprite: Sprite): Film {
   const good = sprite.film.id == 'PatienceTheDemonGood'
   const id = `PatienceTheDemon${good ? 'Evil' : 'Good'}` as const
   return update.filmByID[id]

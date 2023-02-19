@@ -1,97 +1,96 @@
-import { I16Box, I16XY, NonNull } from '@/oidlib'
+import { I16Box, I16XY } from '@/oidlib'
 import { Card, Solitaire } from '@/solitaire'
 import {
   PileConfig,
   setSpritePositionsForLayout,
-  SPComponentSet,
-  SPECSUpdate,
+  SPEnt,
   SPLayer,
+  SPRunState,
 } from '@/super-patience'
-import { Sprite, System } from '@/void'
+import { QueryToEnt, Sprite, System } from '@/void'
 
-export interface CardSet {
-  readonly card: Card
-  readonly sprites: [Sprite, ...Sprite[]]
-}
+export type CardEnt = QueryToEnt<{ card: Card; sprite: Sprite }, typeof query>
+
+const query = 'card & sprite'
 
 interface PickState {
   readonly ents: {
-    readonly components: Partial<SPComponentSet>
+    readonly ent: Partial<SPEnt>
     /** The adjustment to offset future pick inputs by. */
     readonly offset: Readonly<I16XY>
   }[]
 }
 
-export class CardSystem implements System<CardSet, SPECSUpdate> {
-  query = new Set(['card', 'sprites'] as const)
+export class CardSystem implements System<CardEnt, SPEnt> {
+  readonly query = query
 
   #picked?: PickState | undefined
-  piles: { pile: PileConfig; sprites: Sprite[] }[] = []
+  piles: { pile: PileConfig; sprite: Sprite }[] = []
   vacantStock: Sprite | undefined
 
   // to-do: this list will need to be cut down by xy intersection anyway
-  update(sets: Set<CardSet>, update: SPECSUpdate): void {
-    if (update.pickHandled) return
+  run(ents: ReadonlySet<CardEnt>, state: SPRunState): void {
+    if (state.pickHandled) return
 
-    const picked = pickClosest(sets, update)
+    const picked = pickClosest(ents, state)
     const isStockClick = this.vacantStock &&
-      picked?.sprite.intersectsSprite(this.vacantStock, update.time)
+      picked?.sprite.intersectsSprite(this.vacantStock, state.time)
 
     if (
       picked?.card.direction == 'Down' && !isStockClick &&
-        update.input.isOffStart('Action') ||
+        state.input.isOffStart('Action') ||
       picked?.card.direction == 'Up' && !isStockClick &&
-        update.input.isOnStart('Action') ||
+        state.input.isOnStart('Action') ||
       picked != null && isStockClick &&
-        update.input.isOffStart('Action')
+        state.input.isOffStart('Action')
     ) {
-      update.pickHandled = true
-      this.setPickRange(update, picked.card)
+      state.pickHandled = true
+      this.setPickRange(state, picked.card)
     }
 
-    if (update.input.isOn('Action') && this.#picked != null) {
-      moveToPick(update, this.#picked)
+    if (state.input.isOn('Action') && this.#picked != null) {
+      moveToPick(state, this.#picked)
     } else {
       // Only rerender if pick operation is done otherwise cards snap to fast in reserve.
       setSpritePositionsForLayout(
-        update.ecs,
-        update.filmByID,
-        update.solitaire,
-        update.time,
+        state.ecs,
+        state.filmByID,
+        state.solitaire,
+        state.time,
       )
     }
 
     if (
-      update.solitaire.selected != null && update.input.isOffStart('Action')
+      state.solitaire.selected != null && state.input.isOffStart('Action')
     ) {
       if (this.#picked == null) {
-        const picked = pickClosest(sets, update)
+        const picked = pickClosest(ents, state)
         if (picked != null) {
-          Solitaire.point(update.solitaire, picked.card)
-        } else Solitaire.deselect(update.solitaire)
+          Solitaire.point(state.solitaire, picked.card)
+        } else Solitaire.deselect(state.solitaire)
         setSpritePositionsForLayout(
-          update.ecs,
-          update.filmByID,
-          update.solitaire,
-          update.time,
+          state.ecs,
+          state.filmByID,
+          state.solitaire,
+          state.time,
         )
       } else {
         // to-do: this is essentially invalidateBoard()
 
-        const bestMatch = this.findbestmatch(update)
+        const bestMatch = this.findbestmatch(state)
         if (
-          bestMatch != null && update.solitaire.selected != null &&
+          bestMatch != null && state.solitaire.selected != null &&
           bestMatch.pile.pile.type != 'Waste'
         ) {
-          Solitaire.build(update.solitaire, bestMatch.pile.pile)
+          Solitaire.build(state.solitaire, bestMatch.pile.pile)
         }
-        Solitaire.deselect(update.solitaire)
+        Solitaire.deselect(state.solitaire)
 
         setSpritePositionsForLayout(
-          update.ecs,
-          update.filmByID,
-          update.solitaire,
-          update.time,
+          state.ecs,
+          state.filmByID,
+          state.solitaire,
+          state.time,
         )
 
         this.#picked = undefined
@@ -102,17 +101,15 @@ export class CardSystem implements System<CardSet, SPECSUpdate> {
     }
   }
 
-  setPickRange(update: SPECSUpdate, card: Card): void {
-    const selected = Solitaire.point(update.solitaire, card)
+  setPickRange(state: SPRunState, card: Card): void {
+    const selected = Solitaire.point(state.solitaire, card)
     if (selected == null) return
     const ents = selected.cards.map(
       (card) => {
-        const components = NonNull(update.ecs.componentsByRef.get(card))
+        const ent = state.ecs.get(card)
         return {
-          components,
-          offset: update.cursor.bounds.xy.copy().sub(
-            components.sprites[0]!.bounds.xy,
-          ),
+          ent,
+          offset: state.cursor.bounds.xy.copy().sub(ent.sprite!.bounds.xy),
         }
       },
       `Card ${card} missing sprite.`,
@@ -120,24 +117,23 @@ export class CardSystem implements System<CardSet, SPECSUpdate> {
     // to-do: free this ent on ECS remove
     this.#picked = { ents }
 
-    for (const sprite of ents.map((data) => data.components.sprites[0]!)) {
-      sprite.layer = SPLayer.Picked
+    for (const sprite of ents.map((data) => data.ent.sprite)) {
+      sprite!.layer = SPLayer.Picked
     }
   }
 
-  findbestmatch(update: SPECSUpdate):
+  findbestmatch(update: SPRunState):
     | {
       intersection: I16Box
-      pile: { pile: PileConfig; sprites: Sprite[] }
+      pile: { pile: PileConfig; sprite: Sprite }
     }
     | undefined {
-    const pointedCard = this.#picked?.ents[0]?.components
+    const pointedCard = this.#picked?.ents[0]?.ent
     let bestMatch
-    if (pointedCard != null && pointedCard.sprites?.[0] != null) {
+    if (pointedCard != null && pointedCard.sprite != null) {
       for (const pile of this.piles) {
-        if (pile.sprites?.[0] == null) continue
-        const intersection = pointedCard.sprites[0]!.bounds.copy().intersection(
-          pile.sprites[0].bounds,
+        const intersection = pointedCard.sprite.bounds.copy().intersection(
+          pile.sprite.bounds,
         )
         if (intersection.flipped || intersection.areaNum <= 0) continue
         if (
@@ -154,32 +150,32 @@ export class CardSystem implements System<CardSet, SPECSUpdate> {
   }
 }
 
-type Picked = { set: CardSet; card: Card; sprite: Sprite }
+type Picked = { ent: CardEnt; card: Card; sprite: Sprite }
 
 function pickClosest(
-  sets: Set<CardSet>,
-  update: SPECSUpdate,
+  ents: ReadonlySet<CardEnt>,
+  state: SPRunState,
 ): Picked | undefined {
-  if (update.input == null) return
+  if (state.input == null) return
   let picked: Picked | undefined
-  for (const set of sets) {
-    const { card, sprites: [sprite] } = set
-    if (!sprite.intersectsSprite(update.cursor, update.time)) {
+  for (const ent of ents) {
+    const { card, sprite } = ent
+    if (!sprite.intersectsSprite(state.cursor, state.time)) {
       continue
     }
 
     if (picked == null || sprite.isInFrontOf(picked.sprite)) {
-      picked = { set, card, sprite }
+      picked = { ent, card, sprite }
     }
   }
   return picked
 }
 
-function moveToPick(update: SPECSUpdate, picked: PickState): void {
+function moveToPick(state: SPRunState, picked: PickState): void {
   for (const ent of picked.ents) {
     // to-do: versus const sprite = ECS.get(ecs, 'Sprite', ent);
-    ent.components.sprites![0]!.bounds.moveToTrunc(
-      update.cursor.bounds.xy.copy().sub(ent.offset),
+    ent.ent.sprite!.bounds.moveToTrunc(
+      state.cursor.bounds.xy.copy().sub(ent.offset),
     )
   }
 }

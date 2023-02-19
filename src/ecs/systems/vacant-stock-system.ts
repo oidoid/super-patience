@@ -1,31 +1,33 @@
-import { Immutable } from '@/oidlib'
 import { Solitaire } from '@/solitaire'
-import { setSpritePositionsForLayout, SPECSUpdate } from '@/super-patience'
-import { Sprite, System } from '@/void'
+import {
+  setSpritePositionsForLayout,
+  SPEnt,
+  SPRunState,
+} from '@/super-patience'
+import { QueryToEnt, Sprite, System } from '@/void'
 
-export interface VacantStockSet {
-  readonly vacantStock: Record<never, never>
-  readonly sprites: [Sprite, ...Sprite[]]
-}
+export type VacantStockEnt = QueryToEnt<
+  { vacantStock: Record<never, never>; sprite: Sprite },
+  typeof query
+>
 
-export const VacantStockSystem: System<VacantStockSet, SPECSUpdate> = Immutable(
-  {
-    query: new Set(['vacantStock', 'sprites']),
-    skip(update) {
-      // update.pointer?.on2([[''], ['']], 'Set', 'Pen', 'Touch')
-      return !!update.pickHandled || !update.input.isOffStart('Action')
-    },
-    updateEnt(set, update) {
-      if (update.pickHandled) return
-      if (!set.sprites[0].intersectsBounds(update.cursor.bounds.xy)) return
-      update.pickHandled = true
-      Solitaire.deal(update.solitaire)
+const query = 'vacantStock & sprite'
+
+export class VacantStockSystem implements System<VacantStockEnt, SPEnt> {
+  readonly query = query
+  run(ents: ReadonlySet<VacantStockEnt>, state: SPRunState) {
+    if (!!state.pickHandled || !state.input.isOffStart('Action')) return
+    for (const ent of ents) {
+      if (state.pickHandled) return
+      if (!ent.sprite.intersectsBounds(state.cursor.bounds.xy)) return
+      state.pickHandled = true
+      Solitaire.deal(state.solitaire)
       setSpritePositionsForLayout(
-        update.ecs,
-        update.filmByID,
-        update.solitaire,
-        update.time,
+        state.ecs,
+        state.filmByID,
+        state.solitaire,
+        state.time,
       )
-    },
-  },
-)
+    }
+  }
+}

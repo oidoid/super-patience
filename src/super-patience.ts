@@ -7,9 +7,9 @@ import {
   PatienceTheDemonSystem,
   PileHitboxSystem,
   SaveStorage,
-  SPComponentSet,
-  SPECSUpdate,
+  SPEnt,
   SpriteFactory,
+  SPRunState,
   TallySystem,
   VacantStockSystem,
 } from '@/super-patience'
@@ -27,7 +27,7 @@ import {
   RenderSystem,
 } from '@/void'
 
-export interface SuperPatience extends SPECSUpdate {
+export interface SuperPatience extends SPRunState {
   readonly assets: Assets
   readonly canvas: HTMLCanvasElement
   tick: number
@@ -49,42 +49,40 @@ export function SuperPatience(window: Window, assets: Assets): SuperPatience {
   const newRenderer = () =>
     Renderer(canvas, assets.atlas, assets.shaderLayout, assets.atlasMeta)
 
-  const cardSystem = new CardSystem()
-  const ecs = ECS<SPComponentSet, SPECSUpdate>(
-    new Set([
-      new CamSystem(centerCam),
-      FollowCamSystem,
-      new CursorSystem(), // Process first
-      FollowPointSystem,
-      cardSystem,
-      PileHitboxSystem,
-      VacantStockSystem,
-      PatienceTheDemonSystem,
-      TallySystem,
-      RenderSystem, // Last
-    ]),
+  const ecs = new ECS<SPEnt>()
+  ecs.addSystem(
+    new CamSystem(centerCam),
+    new FollowCamSystem(),
+    new CursorSystem(),
+    new FollowPointSystem(),
   )
-  ECS.addEnt(
-    ecs,
+  const [cardSystem] = ecs.addSystem(
+    new CardSystem(),
+    new PileHitboxSystem(),
+    new VacantStockSystem(),
+    new PatienceTheDemonSystem(),
+    new TallySystem(),
+    new RenderSystem(),
+  )
+
+  ecs.addEnt(
     ...newLevelComponents(
       new SpriteFactory(assets.atlasMeta.filmByID),
       undefined,
       solitaire,
-    ) as SPComponentSet[], // to-do: fix types
+    ),
   )
-  ECS.flush(ecs)
+  ecs.patch()
 
-  // to-do: allow systems to specify peripheral nonprocessing dependencies.
-  cardSystem.piles = ECS.query(ecs, 'pile', 'sprites')
-  cardSystem.vacantStock =
-    ECS.query(ecs, 'vacantStock', 'sprites')?.[0]?.sprites[0]
+  cardSystem.piles = ecs.query('pile & sprite')
+  cardSystem.vacantStock = ecs.query('vacantStock & sprite')?.[0]?.sprite
 
-  const cam = NonNull(ECS.query(ecs, 'cam')[0], 'Missing cam entity.').cam
+  const cam = NonNull(ecs.query('cam')[0], 'Missing cam entity.').cam
   const self: SuperPatience = {
     assets,
     cam,
     canvas,
-    random,
+    random: () => random.fraction(),
     instanceBuffer: new InstanceBuffer(assets.shaderLayout),
     solitaire,
     ecs,
@@ -99,8 +97,7 @@ export function SuperPatience(window: Window, assets: Assets): SuperPatience {
     tick: 1,
     time: 0,
     saveStorage,
-    cursor: ECS.query(ecs, 'cursor', 'sprites')![0]!.sprites[0]!, // this api sucks
-
+    cursor: ecs.query('cursor & sprite')[0]!.sprite,
     filmByID: assets.atlasMeta.filmByID,
   }
   return self
@@ -130,7 +127,7 @@ export namespace SuperPatience {
 
     self.input.preupdate()
 
-    ECS.update(self.ecs, self)
+    self.ecs.run(self)
 
     // should actual render be here and not in the ecs?
     self.input.postupdate(self.tick)

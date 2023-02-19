@@ -1,8 +1,8 @@
 import { assert } from '@/oidlib'
-import { SPComponentSet, SpriteFactory } from '@/super-patience'
-import { ComponentSetJSON, Font, LevelParser } from '@/void'
+import { SPEnt, SpriteFactory } from '@/super-patience'
+import { Font, LevelParser, VoidEntJSON } from '@/void'
 
-interface SPComponentSetJSON extends ComponentSetJSON {
+interface SPEntJSON extends VoidEntJSON {
   readonly pile?: PileConfigJSON
   readonly patienceTheDemon?: Record<never, never>
 }
@@ -15,8 +15,8 @@ export namespace SPLevelParser {
   export function parse(
     factory: SpriteFactory,
     font: Font | undefined,
-    json: readonly SPComponentSetJSON[],
-  ): Partial<SPComponentSet>[] {
+    json: readonly SPEntJSON[],
+  ): Partial<SPEnt>[] {
     return json.map((setJSON) => parseComponentSet(factory, font, setJSON))
   }
 }
@@ -24,16 +24,16 @@ export namespace SPLevelParser {
 function parseComponentSet(
   factory: SpriteFactory,
   font: Font | undefined,
-  json: SPComponentSetJSON,
-): Partial<SPComponentSet> {
+  json: SPEntJSON,
+): Partial<SPEnt> {
   const set: Partial<
-    Record<keyof SPComponentSet, SPComponentSet[keyof SPComponentSet]>
+    Record<keyof SPEnt, SPEnt[keyof SPEnt]>
   > = {}
   for (const [key, val] of Object.entries(json)) {
     const component = LevelParser.parseComponent(factory, font, key, val)
     if (component != null) {
       // deno-lint-ignore no-explicit-any
-      set[key as keyof SPComponentSetJSON] = component as any
+      set[key as keyof SPEntJSON] = component as any
       continue
     }
     switch (key) { // to-do: fail when missing types.
@@ -54,5 +54,5 @@ function parseComponentSet(
         throw Error(`Unsupported level config type "${key}".`)
     }
   }
-  return set as SPComponentSet
+  return set as SPEnt
 }

@@ -8,7 +8,7 @@ import {
   getWasteXY,
   level,
   mod,
-  SPComponentSet,
+  SPEnt,
   SPLevelParser,
   SpriteFactory,
 } from '@/super-patience'
@@ -20,7 +20,7 @@ export function newLevelComponents(
   factory: SpriteFactory,
   font: Font | undefined,
   solitaire: Readonly<Solitaire>,
-): Partial<SPComponentSet>[] {
+): Partial<SPEnt>[] {
   // to-do: detect mobile platforms and hide cursor initially.
   // to-do: limit cursor movement to play area.
   return [
@@ -42,31 +42,29 @@ function newCard(
   factory: SpriteFactory,
   card: Card,
   xy: I16XY,
-): Partial<SPComponentSet> {
+): Partial<SPEnt> {
   return {
     card,
-    sprites: [
-      factory.new(getCardFilmID(card), `Card${card.direction}`, { xy }),
-    ],
+    sprite: factory.new(getCardFilmID(card), `Card${card.direction}`, { xy }),
   }
 }
 
 function* newFoundation(
   factory: SpriteFactory,
-): Generator<Partial<SPComponentSet>> {
+): Generator<Partial<SPEnt>> {
   // prev: ComponentSet
   // next: null
   for (const suit of Suit.values) {
     yield {
-      sprites: [factory.new(`CardVacant${suit}`, 'Vacancy', {
+      sprite: factory.new(`CardVacant${suit}`, 'Vacancy', {
         xy: getFoundationCardXY(factory.filmByID, suit),
-      })],
+      }),
     }
     yield {
       pile: { type: 'Foundation', suit },
-      sprites: [factory.new('PaletteLight', 'Background', {
+      sprite: factory.new('PaletteLight', 'Background', {
         xy: getFoundationCardXY(factory.filmByID, suit),
-      })],
+      }),
     }
   }
 }
@@ -74,12 +72,12 @@ function* newFoundation(
 function newStock(
   factory: SpriteFactory,
   solitaire: Readonly<Solitaire>,
-): Partial<SPComponentSet>[] {
-  const components: Partial<SPComponentSet>[] = [{
-    vacantStock: {},
-    sprites: [factory.new('CardVacantStock', 'Vacancy', {
+): Partial<SPEnt>[] {
+  const components: Partial<SPEnt>[] = [{
+    vacantStock: true,
+    sprite: factory.new('CardVacantStock', 'Vacancy', {
       xy: getStockXY(solitaire, solitaire.stock.length - 1),
-    })],
+    }),
   }]
   for (const [index, card] of solitaire.stock.entries()) {
     components.push(newCard(factory, card, getStockXY(solitaire, index)))
@@ -90,21 +88,21 @@ function newStock(
 function newTableau(
   solitaire: Readonly<Solitaire>,
   factory: SpriteFactory,
-): Partial<SPComponentSet>[] {
-  const components: Partial<SPComponentSet>[] = []
+): Partial<SPEnt>[] {
+  const components: Partial<SPEnt>[] = []
   for (const [indexX, pile] of solitaire.tableau.entries()) {
     const x = indexX
     components.push(
       {
         pile: { type: 'Tableau', x: Uint(x) },
-        sprites: [factory.new('PaletteLight', 'Background', {
+        sprite: factory.new('PaletteLight', 'Background', {
           xy: getTableauCardXY(factory.filmByID, x, 0),
-        })],
+        }),
       },
       {
-        sprites: [factory.new('CardVacantPile', 'Vacancy', {
+        sprite: factory.new('CardVacantPile', 'Vacancy', {
           xy: getTableauCardXY(factory.filmByID, x, 0),
-        })],
+        }),
       },
     )
     for (const [indexY, card] of pile.entries()) {
@@ -118,9 +116,7 @@ function newTableau(
 
 export const maxTallies = 26
 
-function* newTallies(
-  factory: SpriteFactory,
-): Generator<Partial<SPComponentSet>> {
+function* newTallies(factory: SpriteFactory): Generator<Partial<SPEnt>> {
   for (let i = 0; i < maxTallies; i++) {
     yield {
       followCam: {
@@ -129,7 +125,7 @@ function* newTallies(
         pad: { x: 0, y: 8 + i * 8 },
       },
       tally: { tens: i },
-      sprites: [factory.new('Tally0', 'Patience')],
+      sprite: factory.new('Tally0', 'Patience'),
     }
   }
 }
@@ -137,7 +133,7 @@ function* newTallies(
 function* newWaste(
   solitaire: Readonly<Solitaire>,
   factory: SpriteFactory,
-): Generator<Partial<SPComponentSet>> {
+): Generator<Partial<SPEnt>> {
   for (const [index, card] of solitaire.waste.entries()) {
     const xy = getWasteXY(solitaire, index)
     yield newCard(factory, card, xy)
