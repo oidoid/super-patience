@@ -38,9 +38,10 @@ export function setSpritePositionsForLayout(
       // change this to downard for everything but top
       const animID = index == (pillar.length - 1)
         ? getCardFilmID(card)
-        : 'CardDown'
+        : 'card--Down'
       ent.sprite!.animate(time, filmByID[animID])
-      ent.sprite!.layer = SPLayer[animID == 'CardDown' ? 'CardDown' : 'CardUp']
+      ent.sprite!.layer =
+        SPLayer[animID == 'card--Down' ? 'CardDown' : 'CardUp']
     }
   }
   for (const [index, card] of solitaire.stock.entries()) {
@@ -55,10 +56,10 @@ export function setSpritePositionsForLayout(
     let animID: SPFilmID
     if (index >= (solitaire.waste.length - solitaire.drawSize)) {
       animID = getCardFilmID(card)
-    } else animID = 'CardDown'
+    } else animID = 'card--Down'
     // Hide waste under the draw reserve. I can't draw them in the correct
     // order since they have identical XYs.
-    ent.sprite!.layer = SPLayer[animID == 'CardDown' ? 'CardDown' : 'CardUp']
+    ent.sprite!.layer = SPLayer[animID == 'card--Down' ? 'CardDown' : 'CardUp']
     ent.sprite!.animate(time, filmByID[animID])
   }
 }
@@ -89,7 +90,7 @@ export function getFoundationCardXY(
   filmByID: FilmByID<SPFilmID>,
   suit: Suit,
 ): I16XY {
-  const film = filmByID[`CardVacant${suit}`]
+  const film = filmByID[`card--Vacant${suit}`]
   const betterIndexX = { Clubs: 0, Diamonds: 1, Hearts: 2, Spades: 3 }[suit]
   const x = boardX + mod * 4 + betterIndexX * (film.wh.x + mod)
   return new I16XY(x, boardY)
@@ -100,11 +101,11 @@ export function getTableauCardXY(
   indexX: number,
   indexY: number,
 ): I16XY {
-  const film = filmByID.CardVacantPile
+  const film = filmByID['card--VacantPile']
   const x = boardX + indexX * (film.wh.x + mod)
   return new I16XY(x, tableauY + indexY * mod)
 }
 
 export function getCardFilmID(card: Card): SPFilmID {
-  return card.direction == 'Up' ? `Card${Card.toASCII(card)}` : 'CardDown'
+  return card.direction == 'Up' ? `card--${Card.toASCII(card)}` : 'card--Down'
 }

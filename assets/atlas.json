@@ -1,5 +1,5 @@
 {
-  "version": "1.3-beta21-x64",
+  "version": "1.3-rc1-x64",
   "filename": "atlas.png",
   "format": "I8",
   "wh": {
@@ -7,8 +7,8 @@
     "y": 248
   },
   "filmByID": {
-    "Grid": {
-      "id": "Grid",
+    "background--Grid": {
+      "id": "background--Grid",
       "wh": {
         "x": 8,
         "y": 8
@@ -22,7 +22,7 @@
             "w": 8,
             "h": 8
           },
-          "duration": 4294967295,
+          "duration": 1,
           "sliceBounds": {
             "x": 1,
             "y": 1,
@@ -32,12 +32,13 @@
           "slices": []
         }
       ],
-      "period": 4294967295,
-      "duration": 4294967295,
-      "direction": "Forward"
+      "period": 1,
+      "duration": 1,
+      "direction": "Forward",
+      "loops": null
     },
-    "Corner": {
-      "id": "Corner",
+    "background--Corner": {
+      "id": "background--Corner",
       "wh": {
         "x": 8,
         "y": 8
@@ -51,7 +52,7 @@
             "w": 8,
             "h": 8
           },
-          "duration": 4294967295,
+          "duration": 1,
           "sliceBounds": {
             "x": 1,
             "y": 1,
@@ -61,12 +62,13 @@
           "slices": []
         }
       ],
-      "period": 4294967295,
-      "duration": 4294967295,
-      "direction": "Forward"
+      "period": 1,
+      "duration": 1,
+      "direction": "Forward",
+      "loops": null
     },
-    "CardCA": {
-      "id": "CardCA",
+    "card--CA": {
+      "id": "card--CA",
       "wh": {
         "x": 24,
         "y": 32
@@ -80,7 +82,7 @@
             "w": 24,
             "h": 32
           },
-          "duration": 4294967295,
+          "duration": 1,
           "sliceBounds": {
             "x": 1,
             "y": 1,
@@ -90,12 +92,13 @@
           "slices": []
         }
       ],
-      "period": 4294967295,
-      "duration": 4294967295,
-      "direction": "Forward"
+      "period": 1,
+      "duration": 1,
+      "direction": "Forward",
+      "loops": null
     },
-    "CardC2": {
-      "id": "CardC2",
+    "card--C2": {
+      "id": "card--C2",
       "wh": {
         "x": 24,
         "y": 32
@@ -109,7 +112,7 @@
             "w": 24,
             "h": 32
           },
-          "duration": 4294967295,
+          "duration": 1,
           "sliceBounds": {
             "x": 1,
             "y": 1,
@@ -119,12 +122,13 @@
           "slices": []
         }
       ],
-      "period": 4294967295,
-      "duration": 4294967295,
-      "direction": "Forward"
+      "period": 1,
+      "duration": 1,
+      "direction": "Forward",
+      "loops": null
     },
-    "CardC3": {
-      "id": "CardC3",
+    "card--C3": {
+      "id": "card--C3",
       "wh": {
         "x": 24,
         "y": 32
@@ -138,7 +142,7 @@
             "w": 24,
             "h": 32
           },
-          "duration": 4294967295,
+          "duration": 1,
           "sliceBounds": {
             "x": 1,
             "y": 1,
@@ -148,12 +152,13 @@
           "slices": []
         }
       ],
-      "period": 4294967295,
-      "duration": 4294967295,
-      "direction": "Forward"
+      "period": 1,
+      "duration": 1,
+      "direction": "Forward",
+      "loops": null
     },
-    "CardC4": {
-      "id": "CardC4",
+    "card--C4": {
+      "id": "card--C4",
       "wh": {
         "x": 24,
         "y": 32
@@ -166,7 +171,7 @@
             "w": 24,
             "h": 32
           },
-          "duration": 4294967295,
+          "duration": 1,
           "sliceBounds": {
             "x": 1,
             "y": 1,
@@ -176,12 +181,13 @@
           "slices": []
         }
       ],
-      "period": 4294967295,
-      "duration": 4294967295,
-      "direction": "Forward"
+      "period": 1,
+      "duration": 1,
+      "direction": "Forward",
+      "loops": null
     },
-    "CardC5": {
-      "id": "CardC5",
+    "card--C5": {
+      "id": "card--C5",
       "wh": {
         "x": 24,
         "y": 32
@@ -195,7 +201,7 @@
             "w": 24,
             "h": 32
           },
-          "duration": 4294967295,
+          "duration": 1,
           "sliceBounds": {
             "x": 1,
             "y": 1,
@@ -205,12 +211,13 @@
           "slices": []
         }
       ],
-      "period": 4294967295,
-      "duration": 4294967295,
-      "direction": "Forward"
+      "period": 1,
+      "duration": 1,
+      "direction": "Forward",
+      "loops": null
     },
-    "CardC6": {
-      "id": "CardC6",
+    "card--C6": {
+      "id": "card--C6",
       "wh": {
         "x": 24,
         "y": 32
@@ -224,7 +231,7 @@
             "w": 24,
             "h": 32
           },
-          "duration": 4294967295,
+          "duration": 1,
           "sliceBounds": {
             "x": 1,
             "y": 1,
@@ -234,12 +241,13 @@
           "slices": []
         }
       ],
-      "period": 4294967295,
-      "duration": 4294967295,
-      "direction": "Forward"
+      "period": 1,
+      "duration": 1,
+      "direction": "Forward",
+      "loops": null
     },
-    "CardC7": {
-      "id": "CardC7",
+    "card--C7": {
+      "id": "card--C7",
       "wh": {
         "x": 24,
         "y": 32
@@ -253,7 +261,7 @@
             "w": 24,
             "h": 32
           },
-          "duration": 4294967295,
+          "duration": 1,
           "sliceBounds": {
             "x": 1,
             "y": 1,
@@ -263,12 +271,13 @@
           "slices": []
         }
       ],
-      "period": 4294967295,
-      "duration": 4294967295,
-      "direction": "Forward"
+      "period": 1,
+      "duration": 1,
+      "direction": "Forward",
+      "loops": null
     },
-    "CardC8": {
-      "id": "CardC8",
+    "card--C8": {
+      "id": "card--C8",
       "wh": {
         "x": 24,
         "y": 32
@@ -282,7 +291,7 @@
             "w": 24,
             "h": 32
           },
-          "duration": 4294967295,
+          "duration": 1,
           "sliceBounds": {
             "x": 1,
             "y": 1,
@@ -292,12 +301,13 @@
           "slices": []
         }
       ],
-      "period": 4294967295,
-      "duration": 4294967295,
-      "direction": "Forward"
+      "period": 1,
+      "duration": 1,
+      "direction": "Forward",
+      "loops": null
     },
-    "CardC9": {
-      "id": "CardC9",
+    "card--C9": {
+      "id": "card--C9",
       "wh": {
         "x": 24,
         "y": 32
@@ -311,7 +321,7 @@
             "w": 24,
             "h": 32
           },
-          "duration": 4294967295,
+          "duration": 1,
           "sliceBounds": {
             "x": 1,
             "y": 1,
@@ -321,12 +331,13 @@
           "slices": []
         }
       ],
-      "period": 4294967295,
-      "duration": 4294967295,
-      "direction": "Forward"
+      "period": 1,
+      "duration": 1,
+      "direction": "Forward",
+      "loops": null
     },
-    "CardC10": {
-      "id": "CardC10",
+    "card--C10": {
+      "id": "card--C10",
       "wh": {
         "x": 24,
         "y": 32
@@ -340,7 +351,7 @@
             "w": 24,
             "h": 32
           },
-          "duration": 4294967295,
+          "duration": 1,
           "sliceBounds": {
             "x": 1,
             "y": 1,
@@ -350,12 +361,13 @@
           "slices": []
         }
       ],
-      "period": 4294967295,
-      "duration": 4294967295,
-      "direction": "Forward"
+      "period": 1,
+      "duration": 1,
+      "direction": "Forward",
+      "loops": null
     },
-    "CardCJ": {
-      "id": "CardCJ",
+    "card--CJ": {
+      "id": "card--CJ",
       "wh": {
         "x": 24,
         "y": 32
@@ -369,7 +381,7 @@
             "w": 24,
             "h": 32
           },
-          "duration": 4294967295,
+          "duration": 1,
           "sliceBounds": {
             "x": 1,
             "y": 1,
@@ -379,12 +391,13 @@
           "slices": []
         }
       ],
-      "period": 4294967295,
-      "duration": 4294967295,
-      "direction": "Forward"
+      "period": 1,
+      "duration": 1,
+      "direction": "Forward",
+      "loops": null
     },
-    "CardCQ": {
-      "id": "CardCQ",
+    "card--CQ": {
+      "id": "card--CQ",
       "wh": {
         "x": 24,
         "y": 32
@@ -398,7 +411,7 @@
             "w": 24,
             "h": 32
           },
-          "duration": 4294967295,
+          "duration": 1,
           "sliceBounds": {
             "x": 1,
             "y": 1,
@@ -408,12 +421,13 @@
           "slices": []
         }
       ],
-      "period": 4294967295,
-      "duration": 4294967295,
-      "direction": "Forward"
+      "period": 1,
+      "duration": 1,
+      "direction": "Forward",
+      "loops": null
     },
-    "CardCK": {
-      "id": "CardCK",
+    "card--CK": {
+      "id": "card--CK",
       "wh": {
         "x": 24,
         "y": 32
@@ -426,7 +440,7 @@
             "w": 24,
             "h": 32
           },
-          "duration": 4294967295,
+          "duration": 1,
           "sliceBounds": {
             "x": 1,
             "y": 1,
@@ -436,12 +450,13 @@
           "slices": []
         }
       ],
-      "period": 4294967295,
-      "duration": 4294967295,
-      "direction": "Forward"
+      "period": 1,
+      "duration": 1,
+      "direction": "Forward",
+      "loops": null
     },
-    "CardDA": {
-      "id": "CardDA",
+    "card--DA": {
+      "id": "card--DA",
       "wh": {
         "x": 24,
         "y": 32
@@ -455,7 +470,7 @@
             "w": 24,
             "h": 32
           },
-          "duration": 4294967295,
+          "duration": 1,
           "sliceBounds": {
             "x": 1,
             "y": 1,
@@ -465,12 +480,13 @@
           "slices": []
         }
       ],
-      "period": 4294967295,
-      "duration": 4294967295,
-      "direction": "Forward"
+      "period": 1,
+      "duration": 1,
+      "direction": "Forward",
+      "loops": null
     },
-    "CardD2": {
-      "id": "CardD2",
+    "card--D2": {
+      "id": "card--D2",
       "wh": {
         "x": 24,
         "y": 32
@@ -484,7 +500,7 @@
             "w": 24,
             "h": 32
           },
-          "duration": 4294967295,
+          "duration": 1,
           "sliceBounds": {
             "x": 1,
             "y": 1,
@@ -494,12 +510,13 @@
           "slices": []
         }
       ],
-      "period": 4294967295,
-      "duration": 4294967295,
-      "direction": "Forward"
+      "period": 1,
+      "duration": 1,
+      "direction": "Forward",
+      "loops": null
     },
-    "CardD3": {
-      "id": "CardD3",
+    "card--D3": {
+      "id": "card--D3",
       "wh": {
         "x": 24,
         "y": 32
@@ -513,7 +530,7 @@
             "w": 24,
             "h": 32
           },
-          "duration": 4294967295,
+          "duration": 1,
           "sliceBounds": {
             "x": 1,
             "y": 1,
@@ -523,12 +540,13 @@
           "slices": []
         }
       ],
-      "period": 4294967295,
-      "duration": 4294967295,
-      "direction": "Forward"
+      "period": 1,
+      "duration": 1,
+      "direction": "Forward",
+      "loops": null
     },
-    "CardD4": {
-      "id": "CardD4",
+    "card--D4": {
+      "id": "card--D4",
       "wh": {
         "x": 24,
         "y": 32
@@ -542,7 +560,7 @@
             "w": 24,
             "h": 32
           },
-          "duration": 4294967295,
+          "duration": 1,
           "sliceBounds": {
             "x": 1,
             "y": 1,
@@ -552,12 +570,13 @@
           "slices": []
         }
       ],
-      "period": 4294967295,
-      "duration": 4294967295,
-      "direction": "Forward"
+      "period": 1,
+      "duration": 1,
+      "direction": "Forward",
+      "loops": null
     },
-    "CardD5": {
-      "id": "CardD5",
+    "card--D5": {
+      "id": "card--D5",
       "wh": {
         "x": 24,
         "y": 32
@@ -571,7 +590,7 @@
             "w": 24,
             "h": 32
           },
-          "duration": 4294967295,
+          "duration": 1,
           "sliceBounds": {
             "x": 1,
             "y": 1,
@@ -581,12 +600,13 @@
           "slices": []
         }
       ],
-      "period": 4294967295,
-      "duration": 4294967295,
-      "direction": "Forward"
+      "period": 1,
+      "duration": 1,
+      "direction": "Forward",
+      "loops": null
     },
-    "CardD6": {
-      "id": "CardD6",
+    "card--D6": {
+      "id": "card--D6",
       "wh": {
         "x": 24,
         "y": 32
@@ -600,7 +620,7 @@
             "w": 24,
             "h": 32
           },
-          "duration": 4294967295,
+          "duration": 1,
           "sliceBounds": {
             "x": 1,
             "y": 1,
@@ -610,12 +630,13 @@
           "slices": []
         }
       ],
-      "period": 4294967295,
-      "duration": 4294967295,
-      "direction": "Forward"
+      "period": 1,
+      "duration": 1,
+      "direction": "Forward",
+      "loops": null
     },
-    "CardD7": {
-      "id": "CardD7",
+    "card--D7": {
+      "id": "card--D7",
       "wh": {
         "x": 24,
         "y": 32
@@ -629,7 +650,7 @@
             "w": 24,
             "h": 32
           },
-          "duration": 4294967295,
+          "duration": 1,
           "sliceBounds": {
             "x": 1,
             "y": 1,
@@ -639,12 +660,13 @@
           "slices": []
         }
       ],
-      "period": 4294967295,
-      "duration": 4294967295,
-      "direction": "Forward"
+      "period": 1,
+      "duration": 1,
+      "direction": "Forward",
+      "loops": null
     },
-    "CardD8": {
-      "id": "CardD8",
+    "card--D8": {
+      "id": "card--D8",
       "wh": {
         "x": 24,
         "y": 32
@@ -658,7 +680,7 @@
             "w": 24,
             "h": 32
           },
-          "duration": 4294967295,
+          "duration": 1,
           "sliceBounds": {
             "x": 1,
             "y": 1,
@@ -668,12 +690,13 @@
           "slices": []
         }
       ],
-      "period": 4294967295,
-      "duration": 4294967295,
-      "direction": "Forward"
+      "period": 1,
+      "duration": 1,
+      "direction": "Forward",
+      "loops": null
     },
-    "CardD9": {
-      "id": "CardD9",
+    "card--D9": {
+      "id": "card--D9",
       "wh": {
         "x": 24,
         "y": 32
@@ -686,7 +709,7 @@
             "w": 24,
             "h": 32
           },
-          "duration": 4294967295,
+          "duration": 1,
           "sliceBounds": {
             "x": 1,
             "y": 1,
@@ -696,12 +719,13 @@
           "slices": []
         }
       ],
-      "period": 4294967295,
-      "duration": 4294967295,
-      "direction": "Forward"
+      "period": 1,
+      "duration": 1,
+      "direction": "Forward",
+      "loops": null
     },
-    "CardD10": {
-      "id": "CardD10",
+    "card--D10": {
+      "id": "card--D10",
       "wh": {
         "x": 24,
         "y": 32
@@ -715,7 +739,7 @@
             "w": 24,
             "h": 32
           },
-          "duration": 4294967295,
+          "duration": 1,
           "sliceBounds": {
             "x": 1,
             "y": 1,
@@ -725,12 +749,13 @@
           "slices": []
         }
       ],
-      "period": 4294967295,
-      "duration": 4294967295,
-      "direction": "Forward"
+      "period": 1,
+      "duration": 1,
+      "direction": "Forward",
+      "loops": null
     },
-    "CardDJ": {
-      "id": "CardDJ",
+    "card--DJ": {
+      "id": "card--DJ",
       "wh": {
         "x": 24,
         "y": 32
@@ -744,7 +769,7 @@
             "w": 24,
             "h": 32
           },
-          "duration": 4294967295,
+          "duration": 1,
           "sliceBounds": {
             "x": 1,
             "y": 1,
@@ -754,12 +779,13 @@
           "slices": []
         }
       ],
-      "period": 4294967295,
-      "duration": 4294967295,
-      "direction": "Forward"
+      "period": 1,
+      "duration": 1,
+      "direction": "Forward",
+      "loops": null
     },
-    "CardDQ": {
-      "id": "CardDQ",
+    "card--DQ": {
+      "id": "card--DQ",
       "wh": {
         "x": 24,
         "y": 32
@@ -773,7 +799,7 @@
             "w": 24,
             "h": 32
           },
-          "duration": 4294967295,
+          "duration": 1,
           "sliceBounds": {
             "x": 1,
             "y": 1,
@@ -783,12 +809,13 @@
           "slices": []
         }
       ],
-      "period": 4294967295,
-      "duration": 4294967295,
-      "direction": "Forward"
+      "period": 1,
+      "duration": 1,
+      "direction": "Forward",
+      "loops": null
     },
-    "CardDK": {
-      "id": "CardDK",
+    "card--DK": {
+      "id": "card--DK",
       "wh": {
         "x": 24,
         "y": 32
@@ -802,7 +829,7 @@
             "w": 24,
             "h": 32
           },
-          "duration": 4294967295,
+          "duration": 1,
           "sliceBounds": {
             "x": 1,
             "y": 1,
@@ -812,12 +839,13 @@
           "slices": []
         }
       ],
-      "period": 4294967295,
-      "duration": 4294967295,
-      "direction": "Forward"
+      "period": 1,
+      "duration": 1,
+      "direction": "Forward",
+      "loops": null
     },
-    "CardHA": {
-      "id": "CardHA",
+    "card--HA": {
+      "id": "card--HA",
       "wh": {
         "x": 24,
         "y": 32
@@ -831,7 +859,7 @@
             "w": 24,
             "h": 32
           },
-          "duration": 4294967295,
+          "duration": 1,
           "sliceBounds": {
             "x": 1,
             "y": 1,
@@ -841,12 +869,13 @@
           "slices": []
         }
       ],
-      "period": 4294967295,
-      "duration": 4294967295,
-      "direction": "Forward"
+      "period": 1,
+      "duration": 1,
+      "direction": "Forward",
+      "loops": null
     },
-    "CardH2": {
-      "id": "CardH2",
+    "card--H2": {
+      "id": "card--H2",
       "wh": {
         "x": 24,
         "y": 32
@@ -860,7 +889,7 @@
             "w": 24,
             "h": 32
           },
-          "duration": 4294967295,
+          "duration": 1,
           "sliceBounds": {
             "x": 1,
             "y": 1,
@@ -870,12 +899,13 @@
           "slices": []
         }
       ],
-      "period": 4294967295,
-      "duration": 4294967295,
-      "direction": "Forward"
+      "period": 1,
+      "duration": 1,
+      "direction": "Forward",
+      "loops": null
     },
-    "CardH3": {
-      "id": "CardH3",
+    "card--H3": {
+      "id": "card--H3",
       "wh": {
         "x": 24,
         "y": 32
@@ -889,7 +919,7 @@
             "w": 24,
             "h": 32
           },
-          "duration": 4294967295,
+          "duration": 1,
           "sliceBounds": {
             "x": 1,
             "y": 1,
@@ -899,12 +929,13 @@
           "slices": []
         }
       ],
-      "period": 4294967295,
-      "duration": 4294967295,
-      "direction": "Forward"
+      "period": 1,
+      "duration": 1,
+      "direction": "Forward",
+      "loops": null
     },
-    "CardH4": {
-      "id": "CardH4",
+    "card--H4": {
+      "id": "card--H4",
       "wh": {
         "x": 24,
         "y": 32
@@ -918,7 +949,7 @@
             "w": 24,
             "h": 32
           },
-          "duration": 4294967295,
+          "duration": 1,
           "sliceBounds": {
             "x": 1,
             "y": 1,
@@ -928,12 +959,13 @@
           "slices": []
         }
       ],
-      "period": 4294967295,
-      "duration": 4294967295,
-      "direction": "Forward"
+      "period": 1,
+      "duration": 1,
+      "direction": "Forward",
+      "loops": null
     },
-    "CardH5": {
-      "id": "CardH5",
+    "card--H5": {
+      "id": "card--H5",
       "wh": {
         "x": 24,
         "y": 32
@@ -946,7 +978,7 @@
             "w": 24,
             "h": 32
           },
-          "duration": 4294967295,
+          "duration": 1,
           "sliceBounds": {
             "x": 1,
             "y": 1,
@@ -956,12 +988,13 @@
           "slices": []
         }
       ],
-      "period": 4294967295,
-      "duration": 4294967295,
-      "direction": "Forward"
+      "period": 1,
+      "duration": 1,
+      "direction": "Forward",
+      "loops": null
     },
-    "CardH6": {
-      "id": "CardH6",
+    "card--H6": {
+      "id": "card--H6",
       "wh": {
         "x": 24,
         "y": 32
@@ -974,7 +1007,7 @@
             "w": 24,
             "h": 32
           },
-          "duration": 4294967295,
+          "duration": 1,
           "sliceBounds": {
             "x": 1,
             "y": 1,
@@ -984,12 +1017,13 @@
           "slices": []
         }
       ],
-      "period": 4294967295,
-      "duration": 4294967295,
-      "direction": "Forward"
+      "period": 1,
+      "duration": 1,
+      "direction": "Forward",
+      "loops": null
     },
-    "CardH7": {
-      "id": "CardH7",
+    "card--H7": {
+      "id": "card--H7",
       "wh": {
         "x": 24,
         "y": 32
@@ -1002,7 +1036,7 @@
             "w": 24,
             "h": 32
           },
-          "duration": 4294967295,
+          "duration": 1,
           "sliceBounds": {
             "x": 1,
             "y": 1,
@@ -1012,12 +1046,13 @@
           "slices": []
         }
       ],
-      "period": 4294967295,
-      "duration": 4294967295,
-      "direction": "Forward"
+      "period": 1,
+      "duration": 1,
+      "direction": "Forward",
+      "loops": null
     },
-    "CardH8": {
-      "id": "CardH8",
+    "card--H8": {
+      "id": "card--H8",
       "wh": {
         "x": 24,
         "y": 32
@@ -1030,7 +1065,7 @@
             "w": 24,
             "h": 32
           },
-          "duration": 4294967295,
+          "duration": 1,
           "sliceBounds": {
             "x": 1,
             "y": 1,
@@ -1040,12 +1075,13 @@
           "slices": []
         }
       ],
-      "period": 4294967295,
-      "duration": 4294967295,
-      "direction": "Forward"
+      "period": 1,
+      "duration": 1,
+      "direction": "Forward",
+      "loops": null
     },
-    "CardH9": {
-      "id": "CardH9",
+    "card--H9": {
+      "id": "card--H9",
       "wh": {
         "x": 24,
         "y": 32
@@ -1058,7 +1094,7 @@
             "w": 24,
             "h": 32
           },
-          "duration": 4294967295,
+          "duration": 1,
           "sliceBounds": {
             "x": 1,
             "y": 1,
@@ -1068,12 +1104,13 @@
           "slices": []
         }
       ],
-      "period": 4294967295,
-      "duration": 4294967295,
-      "direction": "Forward"
+      "period": 1,
+      "duration": 1,
+      "direction": "Forward",
+      "loops": null
     },
-    "CardH10": {
-      "id": "CardH10",
+    "card--H10": {
+      "id": "card--H10",
       "wh": {
         "x": 24,
         "y": 32
@@ -1086,7 +1123,7 @@
             "w": 24,
             "h": 32
           },
-          "duration": 4294967295,
+          "duration": 1,
           "sliceBounds": {
             "x": 1,
             "y": 1,
@@ -1096,12 +1133,13 @@
           "slices": []
         }
       ],
-      "period": 4294967295,
-      "duration": 4294967295,
-      "direction": "Forward"
+      "period": 1,
+      "duration": 1,
+      "direction": "Forward",
+      "loops": null
     },
-    "CardHJ": {
-      "id": "CardHJ",
+    "card--HJ": {
+      "id": "card--HJ",
       "wh": {
         "x": 24,
         "y": 32
@@ -1114,7 +1152,7 @@
             "w": 24,
             "h": 32
           },
-          "duration": 4294967295,
+          "duration": 1,
           "sliceBounds": {
             "x": 1,
             "y": 1,
@@ -1124,12 +1162,13 @@
           "slices": []
         }
       ],
-      "period": 4294967295,
-      "duration": 4294967295,
-      "direction": "Forward"
+      "period": 1,
+      "duration": 1,
+      "direction": "Forward",
+      "loops": null
     },
-    "CardHQ": {
-      "id": "CardHQ",
+    "card--HQ": {
+      "id": "card--HQ",
       "wh": {
         "x": 24,
         "y": 32
@@ -1142,7 +1181,7 @@
             "w": 24,
             "h": 32
           },
-          "duration": 4294967295,
+          "duration": 1,
           "sliceBounds": {
             "x": 1,
             "y": 1,
@@ -1152,12 +1191,13 @@
           "slices": []
         }
       ],
-      "period": 4294967295,
-      "duration": 4294967295,
-      "direction": "Forward"
+      "period": 1,
+      "duration": 1,
+      "direction": "Forward",
+      "loops": null
     },
-    "CardHK": {
-      "id": "CardHK",
+    "card--HK": {
+      "id": "card--HK",
       "wh": {
         "x": 24,
         "y": 32
@@ -1170,7 +1210,7 @@
             "w": 24,
             "h": 32
           },
-          "duration": 4294967295,
+          "duration": 1,
           "sliceBounds": {
             "x": 1,
             "y": 1,
@@ -1180,12 +1220,13 @@
           "slices": []
         }
       ],
-      "period": 4294967295,
-      "duration": 4294967295,
-      "direction": "Forward"
+      "period": 1,
+      "duration": 1,
+      "direction": "Forward",
+      "loops": null
     },
-    "CardSA": {
-      "id": "CardSA",
+    "card--SA": {
+      "id": "card--SA",
       "wh": {
         "x": 24,
         "y": 32
@@ -1199,7 +1240,7 @@
             "w": 24,
             "h": 32
           },
-          "duration": 4294967295,
+          "duration": 1,
           "sliceBounds": {
             "x": 1,
             "y": 1,
@@ -1209,12 +1250,13 @@
           "slices": []
         }
       ],
-      "period": 4294967295,
-      "duration": 4294967295,
-      "direction": "Forward"
+      "period": 1,
+      "duration": 1,
+      "direction": "Forward",
+      "loops": null
     },
-    "CardS2": {
-      "id": "CardS2",
+    "card--S2": {
+      "id": "card--S2",
       "wh": {
         "x": 24,
         "y": 32
@@ -1228,7 +1270,7 @@
             "w": 24,
             "h": 32
           },
-          "duration": 4294967295,
+          "duration": 1,
           "sliceBounds": {
             "x": 1,
             "y": 1,
@@ -1238,12 +1280,13 @@
           "slices": []
         }
       ],
-      "period": 4294967295,
-      "duration": 4294967295,
-      "direction": "Forward"
+      "period": 1,
+      "duration": 1,
+      "direction": "Forward",
+      "loops": null
     },
-    "CardS3": {
-      "id": "CardS3",
+    "card--S3": {
+      "id": "card--S3",
       "wh": {
         "x": 24,
         "y": 32
@@ -1257,7 +1300,7 @@
             "w": 24,
             "h": 32
           },
-          "duration": 4294967295,
+          "duration": 1,
           "sliceBounds": {
             "x": 1,
             "y": 1,
@@ -1267,12 +1310,13 @@
           "slices": []
         }
       ],
-      "period": 4294967295,
-      "duration": 4294967295,
-      "direction": "Forward"
+      "period": 1,
+      "duration": 1,
+      "direction": "Forward",
+      "loops": null
     },
-    "CardS4": {
-      "id": "CardS4",
+    "card--S4": {
+      "id": "card--S4",
       "wh": {
         "x": 24,
         "y": 32
@@ -1286,7 +1330,7 @@
             "w": 24,
             "h": 32
           },
-          "duration": 4294967295,
+          "duration": 1,
           "sliceBounds": {
             "x": 1,
             "y": 1,
@@ -1296,12 +1340,13 @@
           "slices": []
         }
       ],
-      "period": 4294967295,
-      "duration": 4294967295,
-      "direction": "Forward"
+      "period": 1,
+      "duration": 1,
+      "direction": "Forward",
+      "loops": null
     },
-    "CardS5": {
-      "id": "CardS5",
+    "card--S5": {
+      "id": "card--S5",
       "wh": {
         "x": 24,
         "y": 32
@@ -1315,7 +1360,7 @@
             "w": 24,
             "h": 32
           },
-          "duration": 4294967295,
+          "duration": 1,
           "sliceBounds": {
             "x": 1,
             "y": 1,
@@ -1325,12 +1370,13 @@
           "slices": []
         }
       ],
-      "period": 4294967295,
-      "duration": 4294967295,
-      "direction": "Forward"
+      "period": 1,
+      "duration": 1,
+      "direction": "Forward",
+      "loops": null
     },
-    "CardS6": {
-      "id": "CardS6",
+    "card--S6": {
+      "id": "card--S6",
       "wh": {
         "x": 24,
         "y": 32
@@ -1344,7 +1390,7 @@
             "w": 24,
             "h": 32
           },
-          "duration": 4294967295,
+          "duration": 1,
           "sliceBounds": {
             "x": 1,
             "y": 1,
@@ -1354,12 +1400,13 @@
           "slices": []
         }
       ],
-      "period": 4294967295,
-      "duration": 4294967295,
-      "direction": "Forward"
+      "period": 1,
+      "duration": 1,
+      "direction": "Forward",
+      "loops": null
     },
-    "CardS7": {
-      "id": "CardS7",
+    "card--S7": {
+      "id": "card--S7",
       "wh": {
         "x": 24,
         "y": 32
@@ -1371,7 +1418,7 @@
             "w": 24,
             "h": 32
           },
-          "duration": 4294967295,
+          "duration": 1,
           "sliceBounds": {
             "x": 1,
             "y": 1,
@@ -1381,12 +1428,13 @@
           "slices": []
         }
       ],
-      "period": 4294967295,
-      "duration": 4294967295,
-      "direction": "Forward"
+      "period": 1,
+      "duration": 1,
+      "direction": "Forward",
+      "loops": null
     },
-    "CardS8": {
-      "id": "CardS8",
+    "card--S8": {
+      "id": "card--S8",
       "wh": {
         "x": 24,
         "y": 32
@@ -1400,7 +1448,7 @@
             "w": 24,
             "h": 32
           },
-          "duration": 4294967295,
+          "duration": 1,
           "sliceBounds": {
             "x": 1,
             "y": 1,
@@ -1410,12 +1458,13 @@
           "slices": []
         }
       ],
-      "period": 4294967295,
-      "duration": 4294967295,
-      "direction": "Forward"
+      "period": 1,
+      "duration": 1,
+      "direction": "Forward",
+      "loops": null
     },
-    "CardS9": {
-      "id": "CardS9",
+    "card--S9": {
+      "id": "card--S9",
       "wh": {
         "x": 24,
         "y": 32
@@ -1428,7 +1477,7 @@
             "w": 24,
             "h": 32
           },
-          "duration": 4294967295,
+          "duration": 1,
           "sliceBounds": {
             "x": 1,
             "y": 1,
@@ -1438,12 +1487,13 @@
           "slices": []
         }
       ],
-      "period": 4294967295,
-      "duration": 4294967295,
-      "direction": "Forward"
+      "period": 1,
+      "duration": 1,
+      "direction": "Forward",
+      "loops": null
     },
-    "CardS10": {
-      "id": "CardS10",
+    "card--S10": {
+      "id": "card--S10",
       "wh": {
         "x": 24,
         "y": 32
@@ -1457,7 +1507,7 @@
             "w": 24,
             "h": 32
           },
-          "duration": 4294967295,
+          "duration": 1,
           "sliceBounds": {
             "x": 1,
             "y": 1,
@@ -1467,12 +1517,13 @@
           "slices": []
         }
       ],
-      "period": 4294967295,
-      "duration": 4294967295,
-      "direction": "Forward"
+      "period": 1,
+      "duration": 1,
+      "direction": "Forward",
+      "loops": null
     },
-    "CardSJ": {
-      "id": "CardSJ",
+    "card--SJ": {
+      "id": "card--SJ",
       "wh": {
         "x": 24,
         "y": 32
@@ -1486,7 +1537,7 @@
             "w": 24,
             "h": 32
           },
-          "duration": 4294967295,
+          "duration": 1,
           "sliceBounds": {
             "x": 1,
             "y": 1,
@@ -1496,12 +1547,13 @@
           "slices": []
         }
       ],
-      "period": 4294967295,
-      "duration": 4294967295,
-      "direction": "Forward"
+      "period": 1,
+      "duration": 1,
+      "direction": "Forward",
+      "loops": null
     },
-    "CardSQ": {
-      "id": "CardSQ",
+    "card--SQ": {
+      "id": "card--SQ",
       "wh": {
         "x": 24,
         "y": 32
@@ -1515,7 +1567,7 @@
             "w": 24,
             "h": 32
           },
-          "duration": 4294967295,
+          "duration": 1,
           "sliceBounds": {
             "x": 1,
             "y": 1,
@@ -1525,12 +1577,13 @@
           "slices": []
         }
       ],
-      "period": 4294967295,
-      "duration": 4294967295,
-      "direction": "Forward"
+      "period": 1,
+      "duration": 1,
+      "direction": "Forward",
+      "loops": null
     },
-    "CardSK": {
-      "id": "CardSK",
+    "card--SK": {
+      "id": "card--SK",
       "wh": {
         "x": 24,
         "y": 32
@@ -1544,7 +1597,7 @@
             "w": 24,
             "h": 32
           },
-          "duration": 4294967295,
+          "duration": 1,
           "sliceBounds": {
             "x": 1,
             "y": 1,
@@ -1554,12 +1607,13 @@
           "slices": []
         }
       ],
-      "period": 4294967295,
-      "duration": 4294967295,
-      "direction": "Forward"
+      "period": 1,
+      "duration": 1,
+      "direction": "Forward",
+      "loops": null
     },
-    "CardDown": {
-      "id": "CardDown",
+    "card--Down": {
+      "id": "card--Down",
       "wh": {
         "x": 24,
         "y": 32
@@ -1573,7 +1627,7 @@
             "w": 24,
             "h": 32
           },
-          "duration": 4294967295,
+          "duration": 1,
           "sliceBounds": {
             "x": 1,
             "y": 1,
@@ -1583,12 +1637,13 @@
           "slices": []
         }
       ],
-      "period": 4294967295,
-      "duration": 4294967295,
-      "direction": "Forward"
+      "period": 1,
+      "duration": 1,
+      "direction": "Forward",
+      "loops": null
     },
-    "CardVacantPile": {
-      "id": "CardVacantPile",
+    "card--VacantPile": {
+      "id": "card--VacantPile",
       "wh": {
         "x": 24,
         "y": 32
@@ -1602,7 +1657,7 @@
             "w": 24,
             "h": 32
           },
-          "duration": 4294967295,
+          "duration": 1,
           "sliceBounds": {
             "x": 1,
             "y": 1,
@@ -1612,12 +1667,13 @@
           "slices": []
         }
       ],
-      "period": 4294967295,
-      "duration": 4294967295,
-      "direction": "Forward"
+      "period": 1,
+      "duration": 1,
+      "direction": "Forward",
+      "loops": null
     },
-    "CardVacantStock": {
-      "id": "CardVacantStock",
+    "card--VacantStock": {
+      "id": "card--VacantStock",
       "wh": {
         "x": 24,
         "y": 32
@@ -1631,7 +1687,7 @@
             "w": 24,
             "h": 32
           },
-          "duration": 4294967295,
+          "duration": 1,
           "sliceBounds": {
             "x": 1,
             "y": 1,
@@ -1641,12 +1697,13 @@
           "slices": []
         }
       ],
-      "period": 4294967295,
-      "duration": 4294967295,
-      "direction": "Forward"
+      "period": 1,
+      "duration": 1,
+      "direction": "Forward",
+      "loops": null
     },
-    "CardVacantClubs": {
-      "id": "CardVacantClubs",
+    "card--VacantClubs": {
+      "id": "card--VacantClubs",
       "wh": {
         "x": 24,
         "y": 32
@@ -1660,7 +1717,7 @@
             "w": 24,
             "h": 32
           },
-          "duration": 4294967295,
+          "duration": 1,
           "sliceBounds": {
             "x": 1,
             "y": 1,
@@ -1670,12 +1727,13 @@
           "slices": []
         }
       ],
-      "period": 4294967295,
-      "duration": 4294967295,
-      "direction": "Forward"
+      "period": 1,
+      "duration": 1,
+      "direction": "Forward",
+      "loops": null
     },
-    "CardVacantDiamonds": {
-      "id": "CardVacantDiamonds",
+    "card--VacantDiamonds": {
+      "id": "card--VacantDiamonds",
       "wh": {
         "x": 24,
         "y": 32
@@ -1688,7 +1746,7 @@
             "w": 24,
             "h": 32
           },
-          "duration": 4294967295,
+          "duration": 1,
           "sliceBounds": {
             "x": 1,
             "y": 1,
@@ -1698,12 +1756,13 @@
           "slices": []
         }
       ],
-      "period": 4294967295,
-      "duration": 4294967295,
-      "direction": "Forward"
+      "period": 1,
+      "duration": 1,
+      "direction": "Forward",
+      "loops": null
     },
-    "CardVacantHearts": {
-      "id": "CardVacantHearts",
+    "card--VacantHearts": {
+      "id": "card--VacantHearts",
       "wh": {
         "x": 24,
         "y": 32
@@ -1717,7 +1776,7 @@
             "w": 24,
             "h": 32
           },
-          "duration": 4294967295,
+          "duration": 1,
           "sliceBounds": {
             "x": 1,
             "y": 1,
@@ -1727,12 +1786,13 @@
           "slices": []
         }
       ],
-      "period": 4294967295,
-      "duration": 4294967295,
-      "direction": "Forward"
+      "period": 1,
+      "duration": 1,
+      "direction": "Forward",
+      "loops": null
     },
-    "CardVacantSpades": {
-      "id": "CardVacantSpades",
+    "card--VacantSpades": {
+      "id": "card--VacantSpades",
       "wh": {
         "x": 24,
         "y": 32
@@ -1746,7 +1806,7 @@
             "w": 24,
             "h": 32
           },
-          "duration": 4294967295,
+          "duration": 1,
           "sliceBounds": {
             "x": 1,
             "y": 1,
@@ -1756,12 +1816,13 @@
           "slices": []
         }
       ],
-      "period": 4294967295,
-      "duration": 4294967295,
-      "direction": "Forward"
+      "period": 1,
+      "duration": 1,
+      "direction": "Forward",
+      "loops": null
     },
-    "CardOutlineFocus": {
-      "id": "CardOutlineFocus",
+    "card--OutlineFocus": {
+      "id": "card--OutlineFocus",
       "wh": {
         "x": 24,
         "y": 32
@@ -1775,7 +1836,7 @@
             "w": 24,
             "h": 32
           },
-          "duration": 4294967295,
+          "duration": 1,
           "sliceBounds": {
             "x": 1,
             "y": 1,
@@ -1785,12 +1846,13 @@
           "slices": []
         }
       ],
-      "period": 4294967295,
-      "duration": 4294967295,
-      "direction": "Forward"
+      "period": 1,
+      "duration": 1,
+      "direction": "Forward",
+      "loops": null
     },
-    "CardOutlineChecked": {
-      "id": "CardOutlineChecked",
+    "card--OutlineChecked": {
+      "id": "card--OutlineChecked",
       "wh": {
         "x": 24,
         "y": 32
@@ -1804,7 +1866,7 @@
             "w": 24,
             "h": 32
           },
-          "duration": 4294967295,
+          "duration": 1,
           "sliceBounds": {
             "x": 1,
             "y": 1,
@@ -1814,12 +1876,13 @@
           "slices": []
         }
       ],
-      "period": 4294967295,
-      "duration": 4294967295,
-      "direction": "Forward"
+      "period": 1,
+      "duration": 1,
+      "direction": "Forward",
+      "loops": null
     },
-    "CursorPoint": {
-      "id": "CursorPoint",
+    "cursor--Point": {
+      "id": "cursor--Point",
       "wh": {
         "x": 16,
         "y": 16
@@ -1833,7 +1896,7 @@
             "w": 16,
             "h": 16
           },
-          "duration": 4294967295,
+          "duration": 1,
           "sliceBounds": {
             "w": 3,
             "h": 3
@@ -1846,12 +1909,13 @@
           ]
         }
       ],
-      "period": 4294967295,
-      "duration": 4294967295,
-      "direction": "Forward"
+      "period": 1,
+      "duration": 1,
+      "direction": "Forward",
+      "loops": null
     },
-    "CursorPick": {
-      "id": "CursorPick",
+    "cursor--Pick": {
+      "id": "cursor--Pick",
       "wh": {
         "x": 16,
         "y": 16
@@ -1864,7 +1928,7 @@
             "w": 16,
             "h": 16
           },
-          "duration": 4294967295,
+          "duration": 1,
           "sliceBounds": {
             "w": 3,
             "h": 3
@@ -1877,12 +1941,13 @@
           ]
         }
       ],
-      "period": 4294967295,
-      "duration": 4294967295,
-      "direction": "Forward"
+      "period": 1,
+      "duration": 1,
+      "direction": "Forward",
+      "loops": null
     },
-    "PaletteAlpha": {
-      "id": "PaletteAlpha",
+    "palette--Alpha": {
+      "id": "palette--Alpha",
       "wh": {
         "x": 8,
         "y": 8
@@ -1896,7 +1961,7 @@
             "w": 8,
             "h": 8
           },
-          "duration": 4294967295,
+          "duration": 1,
           "sliceBounds": {
             "x": 1,
             "y": 1,
@@ -1906,12 +1971,13 @@
           "slices": []
         }
       ],
-      "period": 4294967295,
-      "duration": 4294967295,
-      "direction": "Forward"
+      "period": 1,
+      "duration": 1,
+      "direction": "Forward",
+      "loops": null
     },
-    "PaletteDark": {
-      "id": "PaletteDark",
+    "palette--Dark": {
+      "id": "palette--Dark",
       "wh": {
         "x": 8,
         "y": 8
@@ -1925,7 +1991,7 @@
             "w": 8,
             "h": 8
           },
-          "duration": 4294967295,
+          "duration": 1,
           "sliceBounds": {
             "x": 1,
             "y": 1,
@@ -1935,12 +2001,13 @@
           "slices": []
         }
       ],
-      "period": 4294967295,
-      "duration": 4294967295,
-      "direction": "Forward"
+      "period": 1,
+      "duration": 1,
+      "direction": "Forward",
+      "loops": null
     },
-    "PaletteMid": {
-      "id": "PaletteMid",
+    "palette--Mid": {
+      "id": "palette--Mid",
       "wh": {
         "x": 8,
         "y": 8
@@ -1954,7 +2021,7 @@
             "w": 8,
             "h": 8
           },
-          "duration": 4294967295,
+          "duration": 1,
           "sliceBounds": {
             "x": 1,
             "y": 1,
@@ -1964,12 +2031,13 @@
           "slices": []
         }
       ],
-      "period": 4294967295,
-      "duration": 4294967295,
-      "direction": "Forward"
+      "period": 1,
+      "duration": 1,
+      "direction": "Forward",
+      "loops": null
     },
-    "PaletteLight": {
-      "id": "PaletteLight",
+    "palette--Light": {
+      "id": "palette--Light",
       "wh": {
         "x": 8,
         "y": 8
@@ -1983,7 +2051,7 @@
             "w": 8,
             "h": 8
           },
-          "duration": 4294967295,
+          "duration": 1,
           "sliceBounds": {
             "x": 1,
             "y": 1,
@@ -1993,12 +2061,13 @@
           "slices": []
         }
       ],
-      "period": 4294967295,
-      "duration": 4294967295,
-      "direction": "Forward"
+      "period": 1,
+      "duration": 1,
+      "direction": "Forward",
+      "loops": null
     },
-    "PatienceTheDemonGood": {
-      "id": "PatienceTheDemonGood",
+    "patience-the-demon--Good": {
+      "id": "patience-the-demon--Good",
       "wh": {
         "x": 24,
         "y": 24
@@ -6007,10 +6076,11 @@
       ],
       "period": 300,
       "duration": 60000,
-      "direction": "Forward"
+      "direction": "Forward",
+      "loops": null
     },
-    "PatienceTheDemonEvil": {
-      "id": "PatienceTheDemonEvil",
+    "patience-the-demon--Evil": {
+      "id": "patience-the-demon--Evil",
       "wh": {
         "x": 24,
         "y": 24
@@ -10019,10 +10089,11 @@
       ],
       "period": 300,
       "duration": 60000,
-      "direction": "Forward"
+      "direction": "Forward",
+      "loops": null
     },
-    "Tally0": {
-      "id": "Tally0",
+    "tally--0": {
+      "id": "tally--0",
       "wh": {
         "x": 16,
         "y": 8
@@ -10036,7 +10107,7 @@
             "w": 16,
             "h": 8
           },
-          "duration": 4294967295,
+          "duration": 1,
           "sliceBounds": {
             "x": 1,
             "y": 1,
@@ -10046,12 +10117,13 @@
           "slices": []
         }
       ],
-      "period": 4294967295,
-      "duration": 4294967295,
-      "direction": "Forward"
+      "period": 1,
+      "duration": 1,
+      "direction": "Forward",
+      "loops": null
     },
-    "Tally1": {
-      "id": "Tally1",
+    "tally--1": {
+      "id": "tally--1",
       "wh": {
         "x": 16,
         "y": 8
@@ -10065,7 +10137,7 @@
             "w": 16,
             "h": 8
           },
-          "duration": 4294967295,
+          "duration": 1,
           "sliceBounds": {
             "x": 1,
             "y": 1,
@@ -10075,12 +10147,13 @@
           "slices": []
         }
       ],
-      "period": 4294967295,
-      "duration": 4294967295,
-      "direction": "Forward"
+      "period": 1,
+      "duration": 1,
+      "direction": "Forward",
+      "loops": null
     },
-    "Tally2": {
-      "id": "Tally2",
+    "tally--2": {
+      "id": "tally--2",
       "wh": {
         "x": 16,
         "y": 8
@@ -10094,7 +10167,7 @@
             "w": 16,
             "h": 8
           },
-          "duration": 4294967295,
+          "duration": 1,
           "sliceBounds": {
             "x": 1,
             "y": 1,
@@ -10104,12 +10177,13 @@
           "slices": []
         }
       ],
-      "period": 4294967295,
-      "duration": 4294967295,
-      "direction": "Forward"
+      "period": 1,
+      "duration": 1,
+      "direction": "Forward",
+      "loops": null
     },
-    "Tally3": {
-      "id": "Tally3",
+    "tally--3": {
+      "id": "tally--3",
       "wh": {
         "x": 16,
         "y": 8
@@ -10123,7 +10197,7 @@
             "w": 16,
             "h": 8
           },
-          "duration": 4294967295,
+          "duration": 1,
           "sliceBounds": {
             "x": 1,
             "y": 1,
@@ -10133,12 +10207,13 @@
           "slices": []
         }
       ],
-      "period": 4294967295,
-      "duration": 4294967295,
-      "direction": "Forward"
+      "period": 1,
+      "duration": 1,
+      "direction": "Forward",
+      "loops": null
     },
-    "Tally4": {
-      "id": "Tally4",
+    "tally--4": {
+      "id": "tally--4",
       "wh": {
         "x": 16,
         "y": 8
@@ -10151,7 +10226,7 @@
             "w": 16,
             "h": 8
           },
-          "duration": 4294967295,
+          "duration": 1,
           "sliceBounds": {
             "x": 1,
             "y": 1,
@@ -10161,12 +10236,13 @@
           "slices": []
         }
       ],
-      "period": 4294967295,
-      "duration": 4294967295,
-      "direction": "Forward"
+      "period": 1,
+      "duration": 1,
+      "direction": "Forward",
+      "loops": null
     },
-    "Tally5": {
-      "id": "Tally5",
+    "tally--5": {
+      "id": "tally--5",
       "wh": {
         "x": 16,
         "y": 8
@@ -10180,7 +10256,7 @@
             "w": 16,
             "h": 8
           },
-          "duration": 4294967295,
+          "duration": 1,
           "sliceBounds": {
             "x": 1,
             "y": 1,
@@ -10190,12 +10266,13 @@
           "slices": []
         }
       ],
-      "period": 4294967295,
-      "duration": 4294967295,
-      "direction": "Forward"
+      "period": 1,
+      "duration": 1,
+      "direction": "Forward",
+      "loops": null
     },
-    "Tally6": {
-      "id": "Tally6",
+    "tally--6": {
+      "id": "tally--6",
       "wh": {
         "x": 16,
         "y": 8
@@ -10209,7 +10286,7 @@
             "w": 16,
             "h": 8
           },
-          "duration": 4294967295,
+          "duration": 1,
           "sliceBounds": {
             "x": 1,
             "y": 1,
@@ -10219,12 +10296,13 @@
           "slices": []
         }
       ],
-      "period": 4294967295,
-      "duration": 4294967295,
-      "direction": "Forward"
+      "period": 1,
+      "duration": 1,
+      "direction": "Forward",
+      "loops": null
     },
-    "Tally7": {
-      "id": "Tally7",
+    "tally--7": {
+      "id": "tally--7",
       "wh": {
         "x": 16,
         "y": 8
@@ -10238,7 +10316,7 @@
             "w": 16,
             "h": 8
           },
-          "duration": 4294967295,
+          "duration": 1,
           "sliceBounds": {
             "x": 1,
             "y": 1,
@@ -10248,12 +10326,13 @@
           "slices": []
         }
       ],
-      "period": 4294967295,
-      "duration": 4294967295,
-      "direction": "Forward"
+      "period": 1,
+      "duration": 1,
+      "direction": "Forward",
+      "loops": null
     },
-    "Tally8": {
-      "id": "Tally8",
+    "tally--8": {
+      "id": "tally--8",
       "wh": {
         "x": 16,
         "y": 8
@@ -10267,7 +10346,7 @@
             "w": 16,
             "h": 8
           },
-          "duration": 4294967295,
+          "duration": 1,
           "sliceBounds": {
             "x": 1,
             "y": 1,
@@ -10277,12 +10356,13 @@
           "slices": []
         }
       ],
-      "period": 4294967295,
-      "duration": 4294967295,
-      "direction": "Forward"
+      "period": 1,
+      "duration": 1,
+      "direction": "Forward",
+      "loops": null
     },
-    "Tally9": {
-      "id": "Tally9",
+    "tally--9": {
+      "id": "tally--9",
       "wh": {
         "x": 16,
         "y": 8
@@ -10296,7 +10376,7 @@
             "w": 16,
             "h": 8
           },
-          "duration": 4294967295,
+          "duration": 1,
           "sliceBounds": {
             "x": 1,
             "y": 1,
@@ -10306,12 +10386,13 @@
           "slices": []
         }
       ],
-      "period": 4294967295,
-      "duration": 4294967295,
-      "direction": "Forward"
+      "period": 1,
+      "duration": 1,
+      "direction": "Forward",
+      "loops": null
     },
-    "Tally10": {
-      "id": "Tally10",
+    "tally--10": {
+      "id": "tally--10",
       "wh": {
         "x": 16,
         "y": 8
@@ -10325,7 +10406,7 @@
             "w": 16,
             "h": 8
           },
-          "duration": 4294967295,
+          "duration": 1,
           "sliceBounds": {
             "x": 1,
             "y": 1,
@@ -10335,12 +10416,13 @@
           "slices": []
         }
       ],
-      "period": 4294967295,
-      "duration": 4294967295,
-      "direction": "Forward"
+      "period": 1,
+      "duration": 1,
+      "direction": "Forward",
+      "loops": null
     },
-    "Tally11": {
-      "id": "Tally11",
+    "tally--11": {
+      "id": "tally--11",
       "wh": {
         "x": 16,
         "y": 8
@@ -10354,7 +10436,7 @@
             "w": 16,
             "h": 8
           },
-          "duration": 4294967295,
+          "duration": 1,
           "sliceBounds": {
             "x": 1,
             "y": 1,
@@ -10364,12 +10446,13 @@
           "slices": []
         }
       ],
-      "period": 4294967295,
-      "duration": 4294967295,
-      "direction": "Forward"
+      "period": 1,
+      "duration": 1,
+      "direction": "Forward",
+      "loops": null
     },
-    "Tally12": {
-      "id": "Tally12",
+    "tally--12": {
+      "id": "tally--12",
       "wh": {
         "x": 16,
         "y": 8
@@ -10383,7 +10466,7 @@
             "w": 16,
             "h": 8
           },
-          "duration": 4294967295,
+          "duration": 1,
           "sliceBounds": {
             "x": 1,
             "y": 1,
@@ -10393,12 +10476,13 @@
           "slices": []
         }
       ],
-      "period": 4294967295,
-      "duration": 4294967295,
-      "direction": "Forward"
+      "period": 1,
+      "duration": 1,
+      "direction": "Forward",
+      "loops": null
     },
-    "Tally13": {
-      "id": "Tally13",
+    "tally--13": {
+      "id": "tally--13",
       "wh": {
         "x": 16,
         "y": 8
@@ -10412,7 +10496,7 @@
             "w": 16,
             "h": 8
           },
-          "duration": 4294967295,
+          "duration": 1,
           "sliceBounds": {
             "x": 1,
             "y": 1,
@@ -10422,12 +10506,13 @@
           "slices": []
         }
       ],
-      "period": 4294967295,
-      "duration": 4294967295,
-      "direction": "Forward"
+      "period": 1,
+      "duration": 1,
+      "direction": "Forward",
+      "loops": null
     },
-    "Tally14": {
-      "id": "Tally14",
+    "tally--14": {
+      "id": "tally--14",
       "wh": {
         "x": 16,
         "y": 8
@@ -10441,7 +10526,7 @@
             "w": 16,
             "h": 8
           },
-          "duration": 4294967295,
+          "duration": 1,
           "sliceBounds": {
             "x": 1,
             "y": 1,
@@ -10451,12 +10536,13 @@
           "slices": []
         }
       ],
-      "period": 4294967295,
-      "duration": 4294967295,
-      "direction": "Forward"
+      "period": 1,
+      "duration": 1,
+      "direction": "Forward",
+      "loops": null
     },
-    "Tally15": {
-      "id": "Tally15",
+    "tally--15": {
+      "id": "tally--15",
       "wh": {
         "x": 16,
         "y": 8
@@ -10470,7 +10556,7 @@
             "w": 16,
             "h": 8
           },
-          "duration": 4294967295,
+          "duration": 1,
           "sliceBounds": {
             "x": 1,
             "y": 1,
@@ -10480,12 +10566,13 @@
           "slices": []
         }
       ],
-      "period": 4294967295,
-      "duration": 4294967295,
-      "direction": "Forward"
+      "period": 1,
+      "duration": 1,
+      "direction": "Forward",
+      "loops": null
     },
-    "Tally16": {
-      "id": "Tally16",
+    "tally--16": {
+      "id": "tally--16",
       "wh": {
         "x": 16,
         "y": 8
@@ -10499,7 +10586,7 @@
             "w": 16,
             "h": 8
           },
-          "duration": 4294967295,
+          "duration": 1,
           "sliceBounds": {
             "x": 1,
             "y": 1,
@@ -10509,12 +10596,13 @@
           "slices": []
         }
       ],
-      "period": 4294967295,
-      "duration": 4294967295,
-      "direction": "Forward"
+      "period": 1,
+      "duration": 1,
+      "direction": "Forward",
+      "loops": null
     },
-    "Tally17": {
-      "id": "Tally17",
+    "tally--17": {
+      "id": "tally--17",
       "wh": {
         "x": 16,
         "y": 8
@@ -10528,7 +10616,7 @@
             "w": 16,
             "h": 8
           },
-          "duration": 4294967295,
+          "duration": 1,
           "sliceBounds": {
             "x": 1,
             "y": 1,
@@ -10538,12 +10626,13 @@
           "slices": []
         }
       ],
-      "period": 4294967295,
-      "duration": 4294967295,
-      "direction": "Forward"
+      "period": 1,
+      "duration": 1,
+      "direction": "Forward",
+      "loops": null
     },
-    "Tally18": {
-      "id": "Tally18",
+    "tally--18": {
+      "id": "tally--18",
       "wh": {
         "x": 16,
         "y": 8
@@ -10557,7 +10646,7 @@
             "w": 16,
             "h": 8
           },
-          "duration": 4294967295,
+          "duration": 1,
           "sliceBounds": {
             "x": 1,
             "y": 1,
@@ -10567,12 +10656,13 @@
           "slices": []
         }
       ],
-      "period": 4294967295,
-      "duration": 4294967295,
-      "direction": "Forward"
+      "period": 1,
+      "duration": 1,
+      "direction": "Forward",
+      "loops": null
     },
-    "Tally19": {
-      "id": "Tally19",
+    "tally--19": {
+      "id": "tally--19",
       "wh": {
         "x": 16,
         "y": 8
@@ -10586,7 +10676,7 @@
             "w": 16,
             "h": 8
           },
-          "duration": 4294967295,
+          "duration": 1,
           "sliceBounds": {
             "x": 1,
             "y": 1,
@@ -10596,12 +10686,13 @@
           "slices": []
         }
       ],
-      "period": 4294967295,
-      "duration": 4294967295,
-      "direction": "Forward"
+      "period": 1,
+      "duration": 1,
+      "direction": "Forward",
+      "loops": null
     },
-    "Tally20": {
-      "id": "Tally20",
+    "tally--20": {
+      "id": "tally--20",
       "wh": {
         "x": 16,
         "y": 8
@@ -10615,7 +10706,7 @@
             "w": 16,
             "h": 8
           },
-          "duration": 4294967295,
+          "duration": 1,
           "sliceBounds": {
             "x": 1,
             "y": 1,
@@ -10625,9 +10716,10 @@
           "slices": []
         }
       ],
-      "period": 4294967295,
-      "duration": 4294967295,
-      "direction": "Forward"
+      "period": 1,
+      "duration": 1,
+      "direction": "Forward",
+      "loops": null
     }
   },
   "celBoundsByID": [

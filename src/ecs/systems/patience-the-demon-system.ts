@@ -36,7 +36,7 @@ export class PatienceTheDemonSystem
 }
 
 function nextFilm(update: Readonly<SPRunState>, sprite: Sprite): Film {
-  const good = sprite.film.id == 'PatienceTheDemonGood'
-  const id = `PatienceTheDemon${good ? 'Evil' : 'Good'}` as const
+  const good = sprite.film.id == 'patience-the-demon--Good'
+  const id = `patience-the-demon--${good ? 'Evil' : 'Good'}` as const
   return update.filmByID[id]
 }

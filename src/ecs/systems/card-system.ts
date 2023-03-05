@@ -164,7 +164,7 @@ function pickClosest(
       continue
     }
 
-    if (picked == null || sprite.isInFrontOf(picked.sprite)) {
+    if (picked == null || sprite.isAbove(picked.sprite)) {
       picked = { ent, card, sprite }
     }
   }

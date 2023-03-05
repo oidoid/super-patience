@@ -48,9 +48,7 @@ export class PileHitboxSystem implements System<PileHitboxEnt, SPEnt> {
           : 0) +
         gap * 2 - 1,
     )
-    // to-do: Sprite.sizeTo
     // to-do: don't process picks after it has been handled. Render and pick
     // order need to be distinct.
-    // to-do: make the input API a lot more friendly.
   }
 }

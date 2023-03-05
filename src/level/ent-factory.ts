@@ -56,13 +56,13 @@ function* newFoundation(
   // next: null
   for (const suit of Suit.values) {
     yield {
-      sprite: factory.new(`CardVacant${suit}`, 'Vacancy', {
+      sprite: factory.new(`card--Vacant${suit}`, 'Vacancy', {
         xy: getFoundationCardXY(factory.filmByID, suit),
       }),
     }
     yield {
       pile: { type: 'Foundation', suit },
-      sprite: factory.new('PaletteLight', 'Background', {
+      sprite: factory.new('palette--Light', 'Background', {
         xy: getFoundationCardXY(factory.filmByID, suit),
       }),
     }
@@ -75,7 +75,7 @@ function newStock(
 ): Partial<SPEnt>[] {
   const components: Partial<SPEnt>[] = [{
     vacantStock: true,
-    sprite: factory.new('CardVacantStock', 'Vacancy', {
+    sprite: factory.new('card--VacantStock', 'Vacancy', {
       xy: getStockXY(solitaire, solitaire.stock.length - 1),
     }),
   }]
@@ -95,12 +95,12 @@ function newTableau(
     components.push(
       {
         pile: { type: 'Tableau', x: Uint(x) },
-        sprite: factory.new('PaletteLight', 'Background', {
+        sprite: factory.new('palette--Light', 'Background', {
           xy: getTableauCardXY(factory.filmByID, x, 0),
         }),
       },
       {
-        sprite: factory.new('CardVacantPile', 'Vacancy', {
+        sprite: factory.new('card--VacantPile', 'Vacancy', {
           xy: getTableauCardXY(factory.filmByID, x, 0),
         }),
       },
@@ -125,7 +125,7 @@ function* newTallies(factory: SpriteFactory): Generator<Partial<SPEnt>> {
         pad: { x: 0, y: 8 + i * 8 },
       },
       tally: { tens: i },
-      sprite: factory.new('Tally0', 'Patience'),
+      sprite: factory.new('tally--0', 'Patience'),
     }
   }
 }
