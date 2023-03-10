@@ -25,16 +25,26 @@ export class CardSystem implements System<CardEnt, SPEnt> {
   readonly query = query
 
   #picked?: PickState | undefined
-  piles: { pile: PileConfig; sprite: Sprite }[] = []
-  vacantStock: Sprite | undefined
+  readonly #piles: { pile: PileConfig; sprite: Sprite }[]
+  readonly #vacantStock: Sprite
+
+  constructor(
+    piles: { pile: PileConfig; sprite: Sprite }[],
+    vacantStock: Sprite,
+  ) {
+    this.#piles = piles
+    this.#vacantStock = vacantStock
+  }
 
   // to-do: this list will need to be cut down by xy intersection anyway
   run(ents: ReadonlySet<CardEnt>, state: SPRunState): void {
     if (state.pickHandled) return
 
     const picked = pickClosest(ents, state)
-    const isStockClick = this.vacantStock &&
-      picked?.sprite.intersectsSprite(this.vacantStock, state.time)
+    const isStockClick = picked?.sprite.intersectsSprite(
+      this.#vacantStock,
+      state.time,
+    )
 
     if (
       picked?.card.direction == 'Down' && !isStockClick &&
@@ -131,7 +141,7 @@ export class CardSystem implements System<CardEnt, SPEnt> {
     const pointedCard = this.#picked?.ents[0]?.ent
     let bestMatch
     if (pointedCard != null && pointedCard.sprite != null) {
-      for (const pile of this.piles) {
+      for (const pile of this.#piles) {
         const intersection = pointedCard.sprite.bounds.copy().intersection(
           pile.sprite.bounds,
         )

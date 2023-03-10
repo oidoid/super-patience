@@ -50,21 +50,6 @@ export function SuperPatience(window: Window, assets: Assets): SuperPatience {
     Renderer(canvas, assets.atlas, assets.shaderLayout, assets.atlasMeta)
 
   const ecs = new ECS<SPEnt>()
-  ecs.addSystem(
-    new CamSystem(centerCam),
-    new FollowCamSystem(),
-    new CursorSystem(),
-    new FollowPointSystem(),
-  )
-  const [cardSystem] = ecs.addSystem(
-    new CardSystem(),
-    new PileHitboxSystem(),
-    new VacantStockSystem(),
-    new PatienceTheDemonSystem(),
-    new TallySystem(),
-    new RenderSystem<SPEnt>(),
-  )
-
   ecs.addEnt(
     ...newLevelComponents(
       new SpriteFactory(assets.atlasMeta.filmByID),
@@ -73,9 +58,24 @@ export function SuperPatience(window: Window, assets: Assets): SuperPatience {
     ),
   )
   ecs.patch()
-
-  cardSystem.piles = ecs.query('pile & sprite')
-  cardSystem.vacantStock = ecs.query('vacantStock & sprite')?.[0]?.sprite
+  ecs.addSystem(
+    new CamSystem(centerCam),
+    new FollowCamSystem(),
+    new CursorSystem(),
+    new FollowPointSystem(),
+    new CardSystem(
+      ecs.query('pile & sprite'),
+      NonNull(
+        ecs.query('vacantStock & sprite')?.[0]?.sprite,
+        'Missing vacant stock entity.',
+      ),
+    ),
+    new PileHitboxSystem(),
+    new VacantStockSystem(),
+    new PatienceTheDemonSystem(),
+    new TallySystem(),
+    new RenderSystem<SPEnt>(),
+  )
 
   const cam = NonNull(ecs.query('cam')[0], 'Missing cam entity.').cam
   const self: SuperPatience = {
