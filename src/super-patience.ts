@@ -1,4 +1,4 @@
-import { assertNonNull, I16, I32, NonNull, Random } from '@/ooz'
+import { assertNonNull, I16, I32, Random } from '@/ooz'
 import { Solitaire } from '@/solitaire'
 import {
   Assets,
@@ -65,10 +65,7 @@ export function SuperPatience(window: Window, assets: Assets): SuperPatience {
     new FollowPointSystem(),
     new CardSystem(
       ecs.query('pile & sprite'),
-      NonNull(
-        ecs.query('vacantStock & sprite')?.[0]?.sprite,
-        'Missing vacant stock entity.',
-      ),
+      ecs.queryOne('vacantStock & sprite').sprite,
     ),
     new PileHitboxSystem(),
     new VacantStockSystem(),
@@ -77,7 +74,7 @@ export function SuperPatience(window: Window, assets: Assets): SuperPatience {
     new RenderSystem<SPEnt>(),
   )
 
-  const cam = NonNull(ecs.query('cam')[0], 'Missing cam entity.').cam
+  const cam = ecs.queryOne('cam').cam
   const self: SuperPatience = {
     assets,
     cam,
@@ -97,8 +94,7 @@ export function SuperPatience(window: Window, assets: Assets): SuperPatience {
     tick: 1,
     time: 0,
     saveStorage,
-    cursor:
-      NonNull(ecs.query('cursor & sprite')[0], 'Missing cursor entity.').sprite,
+    cursor: ecs.queryOne('cursor & sprite').sprite,
     filmByID: assets.atlasMeta.filmByID,
   }
   return self
