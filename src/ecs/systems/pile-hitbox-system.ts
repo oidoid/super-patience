@@ -6,9 +6,9 @@ import {
   SPEnt,
   SPRunState,
 } from '@/super-patience'
-import { QueryToEnt, Sprite, System } from '@/void'
+import { QueryEnt, Sprite, System } from '@/void'
 
-export type PileHitboxEnt = QueryToEnt<
+export type PileHitboxEnt = QueryEnt<
   { pile: PileConfig; sprite: Sprite },
   typeof query
 >

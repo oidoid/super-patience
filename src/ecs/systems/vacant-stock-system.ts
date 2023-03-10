@@ -4,9 +4,9 @@ import {
   SPEnt,
   SPRunState,
 } from '@/super-patience'
-import { QueryToEnt, Sprite, System } from '@/void'
+import { QueryEnt, Sprite, System } from '@/void'
 
-export type VacantStockEnt = QueryToEnt<
+export type VacantStockEnt = QueryEnt<
   { vacantStock: Record<never, never>; sprite: Sprite },
   typeof query
 >

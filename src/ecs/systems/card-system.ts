@@ -7,9 +7,9 @@ import {
   SPLayer,
   SPRunState,
 } from '@/super-patience'
-import { QueryToEnt, Sprite, System } from '@/void'
+import { QueryEnt, Sprite, System } from '@/void'
 
-export type CardEnt = QueryToEnt<{ card: Card; sprite: Sprite }, typeof query>
+export type CardEnt = QueryEnt<{ card: Card; sprite: Sprite }, typeof query>
 
 const query = 'card & sprite'
 

@@ -1,9 +1,9 @@
 import { Film } from '@/atlas-pack'
 import { Solitaire } from '@/solitaire'
 import { SaveStorage, SPEnt, SPRunState } from '@/super-patience'
-import { QueryToEnt, Sprite, System } from '@/void'
+import { QueryEnt, Sprite, System } from '@/void'
 
-export type PatienceTheDemonEnt = QueryToEnt<
+export type PatienceTheDemonEnt = QueryEnt<
   { patienceTheDemon: Record<never, never>; sprite: Sprite },
   typeof query
 >

@@ -62,7 +62,7 @@ export function SuperPatience(window: Window, assets: Assets): SuperPatience {
     new VacantStockSystem(),
     new PatienceTheDemonSystem(),
     new TallySystem(),
-    new RenderSystem(),
+    new RenderSystem<SPEnt>(),
   )
 
   ecs.addEnt(
@@ -97,7 +97,8 @@ export function SuperPatience(window: Window, assets: Assets): SuperPatience {
     tick: 1,
     time: 0,
     saveStorage,
-    cursor: ecs.query('cursor & sprite')[0]!.sprite,
+    cursor:
+      NonNull(ecs.query('cursor & sprite')[0], 'Missing cursor entity.').sprite,
     filmByID: assets.atlasMeta.filmByID,
   }
   return self
