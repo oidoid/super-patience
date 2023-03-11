@@ -1,8 +1,8 @@
 import { SuperPatience } from '@/super-patience'
-import pkg from '../package.json' assert { type: 'json' }
+import config from '../deno.json' assert { type: 'json' }
 
 // [strings][version]
-console.log(`Super Patience v${pkg.version}
+console.log(`Super Patience v${config.version}
    ┌>°┐
 by │  │idoid
    └──┘`)

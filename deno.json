@@ -1,5 +1,4 @@
 {
-  // https://deno.land/manual@main/typescript/configuration
   "compilerOptions": {
     "exactOptionalPropertyTypes": true,
     "noImplicitOverride": true,
@@ -13,7 +12,15 @@
     "files": { "exclude": ["dist"] },
     "options": { "semiColons": false, "singleQuote": true }
   },
-  "importMap": "mods.json",
+  "imports": {
+    "@/atlas-pack": "https://deno.land/x/atlas_pack@v7.0.0/mod.ts",
+    "@/mem": "https://deno.land/x/mem@v9.0.0/mod.ts",
+    "@/ooz": "https://deno.land/x/ooz@v0.0.14/mod.ts",
+    "@/solitaire": "https://deno.land/x/solitaire@v0.0.6/mod.ts",
+    "@/super-patience": "./mod.ts",
+    "@/void": "https://deno.land/x/oid@v0.0.8/mod.ts",
+    "std/": "https://deno.land/std@0.179.0/"
+  },
   "lint": {
     "files": { "exclude": ["dist"] },
     "rules": {
@@ -21,5 +28,7 @@
     }
   },
   "lock": false,
-  "test": { "files": { "exclude": ["dist"] } }
+  "name": "super-patience",
+  "test": { "files": { "exclude": ["dist"] } },
+  "version": "1.1.2"
 }
