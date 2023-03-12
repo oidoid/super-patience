@@ -1,5 +1,4 @@
 Rework CardSystem. What a monster.
 Make win occur on final card building, not reset.
 Add dark mode support with palette swapping.
-Review draft notes in solitaire.text, NE, Linear, and elsewhere.
 Add publish script for superpatience.com. This is a messy manual process now.
