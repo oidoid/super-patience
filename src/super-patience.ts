@@ -21,7 +21,6 @@ import {
   FollowCamSystem,
   FollowPointSystem,
   Input,
-  InstanceBuffer,
   Renderer,
   RendererStateMachine,
   RenderSystem,
@@ -47,7 +46,7 @@ export function SuperPatience(window: Window, assets: Assets): SuperPatience {
   )
 
   const newRenderer = () =>
-    Renderer(canvas, assets.atlas, assets.shaderLayout, assets.atlasMeta)
+    Renderer.new(canvas, assets.atlas, assets.shaderLayout, assets.atlasMeta)
 
   const ecs = new ECS<SPEnt>()
   ecs.addEnt(
@@ -71,7 +70,7 @@ export function SuperPatience(window: Window, assets: Assets): SuperPatience {
     new VacantStockSystem(),
     new PatienceTheDemonSystem(),
     new TallySystem(),
-    new RenderSystem<SPEnt>(),
+    new RenderSystem<SPEnt>(assets.shaderLayout),
   )
 
   const cam = ecs.queryOne('cam').cam
@@ -80,11 +79,10 @@ export function SuperPatience(window: Window, assets: Assets): SuperPatience {
     cam,
     canvas,
     random: () => random.fraction(),
-    instanceBuffer: new InstanceBuffer(assets.shaderLayout),
     solitaire,
     ecs,
     input: new Input(cam),
-    rendererStateMachine: new RendererStateMachine({
+    renderer: new RendererStateMachine({
       window,
       canvas,
       onFrame: (delta) => SuperPatience.onFrame(self, delta),
@@ -108,12 +106,12 @@ export namespace SuperPatience {
 
   export function start(self: SuperPatience): void {
     self.input.register('add')
-    self.rendererStateMachine.start()
+    self.renderer.start()
   }
 
   export function stop(self: SuperPatience): void {
     self.input.register('remove')
-    self.rendererStateMachine.stop()
+    self.renderer.stop()
     // win.close()
   }
 
