@@ -1,4 +1,4 @@
-export * from './src/assets/assets.ts'
+export * from './src/assets/sp-assets.ts'
 export * from './src/assets/sp-film-id.ts'
 export * from './src/ecs/components/pile-config.ts'
 export * from './src/ecs/components/tally-config.ts'

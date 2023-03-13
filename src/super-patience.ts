@@ -1,12 +1,12 @@
 import { assertNonNull, I16, I32, Random } from '@/ooz'
 import { Solitaire } from '@/solitaire'
 import {
-  Assets,
   CardSystem,
   newLevelComponents,
   PatienceTheDemonSystem,
   PileHitboxSystem,
   SaveStorage,
+  SPAssets,
   SPEnt,
   SPFilmID,
   SpriteFactory,
@@ -14,6 +14,7 @@ import {
   VacantStockSystem,
 } from '@/super-patience'
 import {
+  Assets,
   Cam,
   CamSystem,
   CursorSystem,
@@ -29,7 +30,7 @@ import {
 } from '@/void'
 
 export interface SuperPatience extends Game<SPEnt, SPFilmID> {
-  readonly assets: Assets
+  readonly assets: Assets<SPFilmID>
   readonly canvas: HTMLCanvasElement
   readonly cursor: Sprite
   readonly solitaire: Solitaire
@@ -38,7 +39,10 @@ export interface SuperPatience extends Game<SPEnt, SPFilmID> {
   time: number
 }
 
-export function SuperPatience(window: Window, assets: Assets): SuperPatience {
+export function SuperPatience(
+  window: Window,
+  assets: Assets<SPFilmID>,
+): SuperPatience {
   const canvas = window.document.getElementsByTagName('canvas').item(0)
   assertNonNull(canvas, 'Canvas missing.')
 
@@ -105,7 +109,7 @@ export function SuperPatience(window: Window, assets: Assets): SuperPatience {
 
 export namespace SuperPatience {
   export async function make(window: Window): Promise<SuperPatience> {
-    const assets = await Assets.load()
+    const assets = await SPAssets.load()
     return SuperPatience(window, assets)
   }
 
