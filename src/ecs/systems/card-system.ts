@@ -5,7 +5,7 @@ import {
   setSpritePositionsForLayout,
   SPEnt,
   SPLayer,
-  SPRunState,
+  SuperPatience,
 } from '@/super-patience'
 import { QueryEnt, Sprite, System } from '@/void'
 
@@ -37,89 +37,89 @@ export class CardSystem implements System<CardEnt, SPEnt> {
   }
 
   // to-do: this list will need to be cut down by xy intersection anyway
-  run(ents: ReadonlySet<CardEnt>, state: SPRunState): void {
-    if (state.pickHandled) return
+  run(ents: ReadonlySet<CardEnt>, game: SuperPatience): void {
+    if (game.pickHandled) return
 
-    const picked = pickClosest(ents, state)
+    const picked = pickClosest(ents, game)
     const isStockClick = picked?.sprite.intersectsSprite(
       this.#vacantStock,
-      state.time,
+      game.time,
     )
 
     if (
       picked?.card.direction == 'Down' && !isStockClick &&
-        state.input.isOffStart('Action') ||
+        game.input.isOffStart('Action') ||
       picked?.card.direction == 'Up' && !isStockClick &&
-        state.input.isOnStart('Action') ||
+        game.input.isOnStart('Action') ||
       picked != null && isStockClick &&
-        state.input.isOffStart('Action')
+        game.input.isOffStart('Action')
     ) {
-      state.pickHandled = true
-      this.setPickRange(state, picked.card)
+      game.pickHandled = true
+      this.setPickRange(game, picked.card)
     }
 
-    if (state.input.isOn('Action') && this.#picked != null) {
-      moveToPick(state, this.#picked)
+    if (game.input.isOn('Action') && this.#picked != null) {
+      moveToPick(game, this.#picked)
     } else {
       // Only rerender if pick operation is done otherwise cards snap to fast in reserve.
       setSpritePositionsForLayout(
-        state.ecs,
-        state.filmByID,
-        state.solitaire,
-        state.time,
+        game.ecs,
+        game.filmByID,
+        game.solitaire,
+        game.time,
       )
     }
 
     if (
-      state.solitaire.selected != null && state.input.isOffStart('Action')
+      game.solitaire.selected != null && game.input.isOffStart('Action')
     ) {
       if (this.#picked == null) {
-        const picked = pickClosest(ents, state)
+        const picked = pickClosest(ents, game)
         if (picked != null) {
-          Solitaire.point(state.solitaire, picked.card)
-        } else Solitaire.deselect(state.solitaire)
+          Solitaire.point(game.solitaire, picked.card)
+        } else Solitaire.deselect(game.solitaire)
         setSpritePositionsForLayout(
-          state.ecs,
-          state.filmByID,
-          state.solitaire,
-          state.time,
+          game.ecs,
+          game.filmByID,
+          game.solitaire,
+          game.time,
         )
       } else {
         // to-do: this is essentially invalidateBoard()
 
-        const bestMatch = this.findbestmatch(state)
+        const bestMatch = this.findbestmatch(game)
         if (
-          bestMatch != null && state.solitaire.selected != null &&
+          bestMatch != null && game.solitaire.selected != null &&
           bestMatch.pile.pile.type != 'Waste'
         ) {
-          Solitaire.build(state.solitaire, bestMatch.pile.pile)
+          Solitaire.build(game.solitaire, bestMatch.pile.pile)
         }
-        Solitaire.deselect(state.solitaire)
+        Solitaire.deselect(game.solitaire)
 
         setSpritePositionsForLayout(
-          state.ecs,
-          state.filmByID,
-          state.solitaire,
-          state.time,
+          game.ecs,
+          game.filmByID,
+          game.solitaire,
+          game.time,
         )
 
         this.#picked = undefined
         // to-do: only allow dropping on top card. do i need invisi pile hit box?
-        // const newPlayLocation = Layout.play(state.layout, intersection with)
+        // const newPlayLocation = Layout.play(game.layout, intersection with)
         // update XY based on new position which may be putting back
       }
     }
   }
 
-  setPickRange(state: SPRunState, card: Card): void {
-    const selected = Solitaire.point(state.solitaire, card)
+  setPickRange(game: SuperPatience, card: Card): void {
+    const selected = Solitaire.point(game.solitaire, card)
     if (selected == null) return
     const ents = selected.cards.map(
       (card) => {
-        const ent = state.ecs.get(card)
+        const ent = game.ecs.get(card)
         return {
           ent,
-          offset: state.cursor.bounds.xy.copy().sub(ent.sprite!.bounds.xy),
+          offset: game.cursor.bounds.xy.copy().sub(ent.sprite!.bounds.xy),
         }
       },
       `Card ${card} missing sprite.`,
@@ -132,7 +132,7 @@ export class CardSystem implements System<CardEnt, SPEnt> {
     }
   }
 
-  findbestmatch(update: SPRunState):
+  findbestmatch(update: SuperPatience):
     | {
       intersection: I16Box
       pile: { pile: PileConfig; sprite: Sprite }
@@ -164,13 +164,13 @@ type Picked = { ent: CardEnt; card: Card; sprite: Sprite }
 
 function pickClosest(
   ents: ReadonlySet<CardEnt>,
-  state: SPRunState,
+  game: SuperPatience,
 ): Picked | undefined {
-  if (state.input == null) return
+  if (game.input == null) return
   let picked: Picked | undefined
   for (const ent of ents) {
     const { card, sprite } = ent
-    if (!sprite.intersectsSprite(state.cursor, state.time)) {
+    if (!sprite.intersectsSprite(game.cursor, game.time)) {
       continue
     }
 
@@ -181,11 +181,11 @@ function pickClosest(
   return picked
 }
 
-function moveToPick(state: SPRunState, picked: PickState): void {
+function moveToPick(game: SuperPatience, picked: PickState): void {
   for (const ent of picked.ents) {
     // to-do: versus const sprite = ECS.get(ecs, 'Sprite', ent);
     ent.ent.sprite!.bounds.moveToTrunc(
-      state.cursor.bounds.xy.copy().sub(ent.offset),
+      game.cursor.bounds.xy.copy().sub(ent.offset),
     )
   }
 }

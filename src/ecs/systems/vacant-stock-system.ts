@@ -2,7 +2,7 @@ import { Solitaire } from '@/solitaire'
 import {
   setSpritePositionsForLayout,
   SPEnt,
-  SPRunState,
+  SuperPatience,
 } from '@/super-patience'
 import { QueryEnt, Sprite, System } from '@/void'
 
@@ -15,17 +15,17 @@ const query = 'vacantStock & sprite'
 
 export class VacantStockSystem implements System<VacantStockEnt, SPEnt> {
   readonly query = query
-  run(ents: ReadonlySet<VacantStockEnt>, state: SPRunState) {
-    if (state.pickHandled || !state.input.isOffStart('Action')) return
+  run(ents: ReadonlySet<VacantStockEnt>, game: SuperPatience) {
+    if (game.pickHandled || !game.input.isOffStart('Action')) return
     for (const ent of ents) {
-      if (!ent.sprite.intersectsBounds(state.cursor.bounds.xy)) return
-      state.pickHandled = true
-      Solitaire.deal(state.solitaire)
+      if (!ent.sprite.intersectsBounds(game.cursor.bounds.xy)) return
+      game.pickHandled = true
+      Solitaire.deal(game.solitaire)
       setSpritePositionsForLayout(
-        state.ecs,
-        state.filmByID,
-        state.solitaire,
-        state.time,
+        game.ecs,
+        game.filmByID,
+        game.solitaire,
+        game.time,
       )
       return
     }

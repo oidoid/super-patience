@@ -8,8 +8,8 @@ import {
   PileHitboxSystem,
   SaveStorage,
   SPEnt,
+  SPFilmID,
   SpriteFactory,
-  SPRunState,
   TallySystem,
   VacantStockSystem,
 } from '@/super-patience'
@@ -20,15 +20,20 @@ import {
   ECS,
   FollowCamSystem,
   FollowPointSystem,
+  Game,
   Input,
   Renderer,
   RendererStateMachine,
   RenderSystem,
+  Sprite,
 } from '@/void'
 
-export interface SuperPatience extends SPRunState {
+export interface SuperPatience extends Game<SPEnt, SPFilmID> {
   readonly assets: Assets
   readonly canvas: HTMLCanvasElement
+  readonly cursor: Sprite
+  readonly solitaire: Solitaire
+  readonly saveStorage: SaveStorage
   tick: number
   time: number
 }

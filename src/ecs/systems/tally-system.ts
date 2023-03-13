@@ -2,7 +2,7 @@ import {
   maxTallies,
   SPEnt,
   SPFilmID,
-  SPRunState,
+  SuperPatience,
   TallyConfig,
 } from '@/super-patience'
 import { QueryEnt, Sprite, System } from '@/void'
@@ -20,18 +20,18 @@ const query = 'tally & sprite'
 
 export class TallySystem implements System<TallyEnt, SPEnt> {
   readonly query = query
-  runEnt(ent: TallyEnt, state: SPRunState) {
+  runEnt(ent: TallyEnt, game: SuperPatience) {
     const { sprite, tally } = ent
     const max = maxTallies * 10
     const wins =
-      Math.min(10, Math.max(0, state.solitaire.wins - tally.tens * 10)) +
+      Math.min(10, Math.max(0, game.solitaire.wins - tally.tens * 10)) +
       Math.min(
         10,
-        Math.max(0, state.solitaire.wins - max - tally.tens * 10),
+        Math.max(0, game.solitaire.wins - max - tally.tens * 10),
       ) as ZeroToTwenty
     const filmID: SPFilmID = `tally--${wins}`
     if (sprite.film.id != filmID) {
-      sprite.animate(state.time, state.filmByID[filmID])
+      sprite.animate(game.time, game.filmByID[filmID])
     }
   }
 }
