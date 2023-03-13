@@ -1,4 +1,4 @@
-import { assertNonNull, I16, I32, Random } from '@/ooz'
+import { assertNonNull, I16, I32, Random, U16XY } from '@/ooz'
 import { Solitaire } from '@/solitaire'
 import {
   CardSystem,
@@ -16,7 +16,6 @@ import {
 import {
   Assets,
   Cam,
-  CamSystem,
   CursorSystem,
   ECS,
   FollowCamSystem,
@@ -36,6 +35,7 @@ export interface SuperPatience extends Game<SPEnt, SPFilmID> {
   readonly saveStorage: SaveStorage
   tick: number
   time: number
+  readonly window: Window
 }
 
 export function SuperPatience(
@@ -63,7 +63,6 @@ export function SuperPatience(
   )
   ecs.patch()
   ecs.addSystem(
-    new CamSystem(centerCam),
     new FollowCamSystem(),
     new CursorSystem(),
     new FollowPointSystem(),
@@ -78,7 +77,9 @@ export function SuperPatience(
     new RenderSystem<SPEnt>(assets.shaderLayout),
   )
 
-  const cam = ecs.queryOne('cam').cam
+  // y = 2 (border) + 71 (offset) + 8 * 7 (initial stack with a king on top) + 11 * 7 (Q-2) + (A) 32 - (dont care) 24 = 214
+  const cam = new Cam(new U16XY(256, 214), window)
+
   const self: SuperPatience = {
     assets,
     cam,
@@ -99,6 +100,7 @@ export function SuperPatience(
     saveStorage,
     cursor: ecs.queryOne('cursor & sprite').sprite,
     filmByID: assets.atlasMeta.filmByID,
+    window,
   }
   return self
 }
@@ -127,6 +129,9 @@ export namespace SuperPatience {
 
     self.input.preupdate()
 
+    self.cam.resize()
+    centerCam(self.cam)
+
     self.ecs.run(self)
 
     // should actual render be here and not in the ecs?
@@ -134,7 +139,7 @@ export namespace SuperPatience {
   }
 }
 
-function centerCam(cam: Cam): void {
+function centerCam(cam: Readonly<Cam>): void {
   const camOffsetX = Math.trunc((cam.viewport.w - cam.minViewport.x) / 2)
   cam.viewport.x = I16(-camOffsetX + camOffsetX % 8)
 }

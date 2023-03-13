@@ -1,11 +1,5 @@
 [
   {
-    "//": "y = 2 (border) + 71 (offset) + 8 * 7 (initial stack with a king on top) + 11 * 7 (Q-2) + (A) 32 - (dont care) 24 = 214",
-    "name": "cam",
-    "cam": { "minViewport": { "x": 256, "y": 214 } }
-  },
-
-  {
     "name": "cursor",
     "cursor": { "pick": "cursor--Pick", "point": "cursor--Point" },
     "followPoint": {},
