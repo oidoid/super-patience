@@ -23,7 +23,6 @@ import {
   FollowPointSystem,
   Game,
   Input,
-  Renderer,
   RendererStateMachine,
   RenderSystem,
   Sprite,
@@ -53,9 +52,6 @@ export function SuperPatience(
     () => random.fraction(),
     saveStorage.save.wins,
   )
-
-  const newRenderer = () =>
-    Renderer.new(canvas, assets.atlas, assets.shaderLayout, assets.atlasMeta)
 
   const ecs = new ECS<SPEnt>()
   ecs.addEnt(
@@ -92,11 +88,11 @@ export function SuperPatience(
     ecs,
     input: new Input(cam),
     renderer: new RendererStateMachine({
+      assets,
       window,
       canvas,
       onFrame: (delta) => SuperPatience.onFrame(self, delta),
       onPause: () => self.input.reset(),
-      newRenderer,
     }),
     tick: 1,
     time: 0,
