@@ -47,11 +47,7 @@ export function SuperPatience(
 
   const random = new Random(I32.mod(Date.now()))
   const saveStorage = SaveStorage.load(localStorage)
-  const solitaire = Solitaire(
-    undefined,
-    () => random.fraction(),
-    saveStorage.save.wins,
-  )
+  const solitaire = Solitaire(() => random.fraction(), saveStorage.save.wins)
 
   const ecs = new ECS<SPEnt>()
   ecs.addEnt(
@@ -107,8 +103,7 @@ export function SuperPatience(
 
 export namespace SuperPatience {
   export async function make(window: Window): Promise<SuperPatience> {
-    const assets = await SPAssets.load()
-    return SuperPatience(window, assets)
+    return SuperPatience(window, await SPAssets.load())
   }
 
   export function start(self: SuperPatience): void {
@@ -119,7 +114,6 @@ export namespace SuperPatience {
   export function stop(self: SuperPatience): void {
     self.input.register('remove')
     self.renderer.stop()
-    // win.close()
   }
 
   export function onFrame(self: SuperPatience, delta: number): void {
@@ -134,7 +128,6 @@ export namespace SuperPatience {
 
     self.ecs.run(self)
 
-    // should actual render be here and not in the ecs?
     self.input.postupdate(self.tick)
   }
 }

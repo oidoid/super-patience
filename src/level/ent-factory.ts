@@ -14,15 +14,11 @@ import {
 } from '@/super-patience'
 import { Font } from '@/void'
 
-// to-do: move min viewport size to JSON.
-
 export function newLevelComponents(
   factory: SpriteFactory,
   font: Font | undefined,
   solitaire: Readonly<Solitaire>,
 ): Partial<SPEnt>[] {
-  // to-do: detect mobile platforms and hide cursor initially.
-  // to-do: limit cursor movement to play area.
   return [
     ...newTallies(factory),
 
@@ -34,9 +30,6 @@ export function newLevelComponents(
     ...SPLevelParser.parse(factory, font, level),
   ]
 }
-
-// stacking now but other options are clipbox or four border bits.
-// to-do: 9patch
 
 function newCard(
   factory: SpriteFactory,

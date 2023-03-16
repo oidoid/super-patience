@@ -14,18 +14,12 @@ export class PatienceTheDemonSystem
   implements System<PatienceTheDemonEnt, SPEnt> {
   readonly query = query
   run(ents: ReadonlySet<PatienceTheDemonEnt>, game: SuperPatience): void {
-    if (game.pickHandled) return
-    // to-do: need notion of handled game so that picks don't bleed.
-    // to-do: need notion of system order so that pickable is first.
-    if (!game.input.isOffStart('Action')) return
-
+    if (game.pickHandled || !game.input.isOffStart('Action')) return
     for (const ent of ents) {
-      const { sprite } = ent
-      if (sprite.intersectsSprite(game.cursor, game.time)) {
+      if (ent.sprite.intersectsSprite(game.cursor, game.time)) { // Tail.
         game.pickHandled = true
-        sprite.animate(game.time, nextFilm(game, sprite))
-        // to-do: really don't like reaching in and touching cursor or all the way to cursor.bounds.start.
-      } else if (sprite.intersectsBounds(game.cursor.bounds.xy)) {
+        ent.sprite.animate(game.time, nextFilm(game, ent.sprite))
+      } else if (ent.sprite.intersectsBounds(game.cursor)) { // Anywhere else.
         game.pickHandled = true
         Solitaire.reset(game.solitaire)
         game.saveStorage.save.wins = game.solitaire.wins
@@ -37,6 +31,5 @@ export class PatienceTheDemonSystem
 
 function nextFilm(game: Readonly<SuperPatience>, sprite: Sprite): Film {
   const good = sprite.film.id == 'patience-the-demon--Good'
-  const id = `patience-the-demon--${good ? 'Evil' : 'Good'}` as const
-  return game.filmByID[id]
+  return game.filmByID[`patience-the-demon--${good ? 'Evil' : 'Good'}`]
 }

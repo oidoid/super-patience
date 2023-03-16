@@ -18,7 +18,7 @@ export class VacantStockSystem implements System<VacantStockEnt, SPEnt> {
   run(ents: ReadonlySet<VacantStockEnt>, game: SuperPatience) {
     if (game.pickHandled || !game.input.isOffStart('Action')) return
     for (const ent of ents) {
-      if (!ent.sprite.intersectsBounds(game.cursor.bounds.xy)) return
+      if (!ent.sprite.intersectsBounds(game.cursor)) return
       game.pickHandled = true
       Solitaire.deal(game.solitaire)
       setSpritePositionsForLayout(

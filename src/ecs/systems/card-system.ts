@@ -13,34 +13,33 @@ export type CardEnt = QueryEnt<{ card: Card; sprite: Sprite }, typeof query>
 
 const query = 'card & sprite'
 
-interface PickState {
-  readonly ents: {
-    readonly ent: Partial<SPEnt>
-    /** The adjustment to offset future pick inputs by. */
-    readonly offset: Readonly<I16XY>
-  }[]
+interface PileEnt {
+  readonly pile: PileConfig
+  readonly sprite: Sprite
 }
+
+type PickState = {
+  readonly ent: Partial<SPEnt>
+  /** The adjustment to offset future pick inputs by. */
+  readonly offset: Readonly<I16XY>
+}[]
 
 export class CardSystem implements System<CardEnt, SPEnt> {
   readonly query = query
 
-  #picked?: PickState | undefined
-  readonly #piles: { pile: PileConfig; sprite: Sprite }[]
+  readonly #picked: PickState = []
+  readonly #piles: PileEnt[]
   readonly #vacantStock: Sprite
 
-  constructor(
-    piles: { pile: PileConfig; sprite: Sprite }[],
-    vacantStock: Sprite,
-  ) {
+  constructor(piles: PileEnt[], vacantStock: Sprite) {
     this.#piles = piles
     this.#vacantStock = vacantStock
   }
 
-  // to-do: this list will need to be cut down by xy intersection anyway
   run(ents: ReadonlySet<CardEnt>, game: SuperPatience): void {
     if (game.pickHandled) return
 
-    const picked = pickClosest(ents, game)
+    const picked = pick(ents, game)
     const isStockClick = picked?.sprite.intersectsSprite(
       this.#vacantStock,
       game.time,
@@ -51,14 +50,13 @@ export class CardSystem implements System<CardEnt, SPEnt> {
         game.input.isOffStart('Action') ||
       picked?.card.direction == 'Up' && !isStockClick &&
         game.input.isOnStart('Action') ||
-      picked != null && isStockClick &&
-        game.input.isOffStart('Action')
+      picked != null && isStockClick && game.input.isOffStart('Action')
     ) {
       game.pickHandled = true
       this.setPickRange(game, picked.card)
     }
 
-    if (game.input.isOn('Action') && this.#picked != null) {
+    if (game.input.isOn('Action') && this.#picked.length > 0) {
       moveToPick(game, this.#picked)
     } else {
       // Only rerender if pick operation is done otherwise cards snap to fast in reserve.
@@ -70,14 +68,11 @@ export class CardSystem implements System<CardEnt, SPEnt> {
       )
     }
 
-    if (
-      game.solitaire.selected != null && game.input.isOffStart('Action')
-    ) {
-      if (this.#picked == null) {
-        const picked = pickClosest(ents, game)
-        if (picked != null) {
-          Solitaire.point(game.solitaire, picked.card)
-        } else Solitaire.deselect(game.solitaire)
+    if (game.solitaire.selected != null && game.input.isOffStart('Action')) {
+      if (this.#picked.length == 0) {
+        const picked = pick(ents, game)
+        if (picked == null) Solitaire.deselect(game.solitaire)
+        else Solitaire.point(game.solitaire, picked.card)
         setSpritePositionsForLayout(
           game.ecs,
           game.filmByID,
@@ -90,9 +85,9 @@ export class CardSystem implements System<CardEnt, SPEnt> {
         const bestMatch = this.findbestmatch(game)
         if (
           bestMatch != null && game.solitaire.selected != null &&
-          bestMatch.pile.pile.type != 'Waste'
+          bestMatch.ent.pile.type != 'Waste'
         ) {
-          Solitaire.build(game.solitaire, bestMatch.pile.pile)
+          Solitaire.build(game.solitaire, bestMatch.ent.pile)
         }
         Solitaire.deselect(game.solitaire)
 
@@ -103,10 +98,7 @@ export class CardSystem implements System<CardEnt, SPEnt> {
           game.time,
         )
 
-        this.#picked = undefined
-        // to-do: only allow dropping on top card. do i need invisi pile hit box?
-        // const newPlayLocation = Layout.play(game.layout, intersection with)
-        // update XY based on new position which may be putting back
+        this.#picked.length = 0
       }
     }
   }
@@ -114,7 +106,7 @@ export class CardSystem implements System<CardEnt, SPEnt> {
   setPickRange(game: SuperPatience, card: Card): void {
     const selected = Solitaire.point(game.solitaire, card)
     if (selected == null) return
-    const ents = selected.cards.map(
+    const picked = selected.cards.map(
       (card) => {
         const ent = game.ecs.get(card)
         return {
@@ -124,68 +116,56 @@ export class CardSystem implements System<CardEnt, SPEnt> {
       },
       `Card ${card} missing sprite.`,
     )
-    // to-do: free this ent on ECS remove
-    this.#picked = { ents }
+    this.#picked.length = 0
+    this.#picked.push(...picked) // to-do: free this ent on ECS remove
 
-    for (const sprite of ents.map((data) => data.ent.sprite)) {
+    for (const sprite of picked.map((pick) => pick.ent.sprite)) {
       sprite!.layer = SPLayer.Picked
     }
   }
 
   findbestmatch(update: SuperPatience):
-    | {
-      intersection: I16Box
-      pile: { pile: PileConfig; sprite: Sprite }
-    }
+    | { intersection: I16Box; ent: PileEnt }
     | undefined {
-    const pointedCard = this.#picked?.ents[0]?.ent
+    const pointedCard = this.#picked[0]?.ent
     let bestMatch
     if (pointedCard != null && pointedCard.sprite != null) {
-      for (const pile of this.#piles) {
+      for (const ent of this.#piles) {
         const intersection = pointedCard.sprite.bounds.copy().intersection(
-          pile.sprite.bounds,
+          ent.sprite.bounds,
         )
-        if (intersection.flipped || intersection.areaNum <= 0) continue
+        if (intersection.flipped || intersection.empty) continue
         if (
-          pile.pile.type == 'Waste' ||
-          !Solitaire.isBuildable(update.solitaire, pile.pile)
+          ent.pile.type == 'Waste' ||
+          !Solitaire.isBuildable(update.solitaire, ent.pile)
         ) continue
         if (
           bestMatch == null ||
           intersection.areaNum > bestMatch.intersection.areaNum
-        ) bestMatch = { intersection, pile }
+        ) bestMatch = { intersection, ent }
       }
     }
     return bestMatch
   }
 }
 
-type Picked = { ent: CardEnt; card: Card; sprite: Sprite }
-
-function pickClosest(
+function pick(
   ents: ReadonlySet<CardEnt>,
   game: SuperPatience,
-): Picked | undefined {
+): CardEnt | undefined {
   if (game.input == null) return
-  let picked: Picked | undefined
+  let picked: CardEnt | undefined
   for (const ent of ents) {
-    const { card, sprite } = ent
-    if (!sprite.intersectsSprite(game.cursor, game.time)) {
-      continue
-    }
-
-    if (picked == null || sprite.isAbove(picked.sprite)) {
-      picked = { ent, card, sprite }
-    }
+    if (!ent.sprite.intersectsSprite(game.cursor, game.time)) continue
+    if (picked == null || ent.sprite.isAbove(picked.sprite)) picked = ent
   }
   return picked
 }
 
 function moveToPick(game: SuperPatience, picked: PickState): void {
-  for (const ent of picked.ents) {
-    // to-do: versus const sprite = ECS.get(ecs, 'Sprite', ent);
-    ent.ent.sprite!.bounds.moveToTrunc(
-      game.cursor.bounds.xy.copy().sub(ent.offset),
+  for (const pick of picked) {
+    pick.ent.sprite?.bounds.moveToTrunc(
+      game.cursor.bounds.xy.copy().sub(pick.offset),
     )
   }
 }

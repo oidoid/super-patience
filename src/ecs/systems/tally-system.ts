@@ -21,17 +21,16 @@ const query = 'tally & sprite'
 export class TallySystem implements System<TallyEnt, SPEnt> {
   readonly query = query
   runEnt(ent: TallyEnt, game: SuperPatience) {
-    const { sprite, tally } = ent
     const max = maxTallies * 10
     const wins =
-      Math.min(10, Math.max(0, game.solitaire.wins - tally.tens * 10)) +
+      Math.min(10, Math.max(0, game.solitaire.wins - ent.tally.tens * 10)) +
       Math.min(
         10,
-        Math.max(0, game.solitaire.wins - max - tally.tens * 10),
+        Math.max(0, game.solitaire.wins - max - ent.tally.tens * 10),
       ) as ZeroToTwenty
     const filmID: SPFilmID = `tally--${wins}`
-    if (sprite.film.id != filmID) {
-      sprite.animate(game.time, game.filmByID[filmID])
+    if (ent.sprite.film.id != filmID) {
+      ent.sprite.animate(game.time, game.filmByID[filmID])
     }
   }
 }
