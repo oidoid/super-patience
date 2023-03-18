@@ -1,6 +1,6 @@
 import { Solitaire } from '@/solitaire'
 import {
-  setSpritePositionsForLayout,
+  invalidateSolitaireSprites,
   SPEnt,
   SuperPatience,
 } from '@/super-patience'
@@ -21,7 +21,7 @@ export class VacantStockSystem implements System<VacantStockEnt, SPEnt> {
       if (!ent.sprite.intersectsBounds(game.cursor)) return
       game.pickHandled = true
       Solitaire.deal(game.solitaire)
-      setSpritePositionsForLayout(
+      invalidateSolitaireSprites(
         game.ecs,
         game.filmByID,
         game.solitaire,

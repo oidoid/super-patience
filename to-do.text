@@ -1,7 +1,6 @@
 Rework the illustrations.
 Make each card's illustration unique.
 Add a reset button instead of Patience the Demon.
-Rework CardSystem. What a monster.
 Make win occur on final card building, not reset.
 Add dark mode support with palette swapping.
 Add publish script for superpatience.com. This is a messy manual process now.

@@ -14,7 +14,7 @@ const hiddenY = -1024
 // to-do: can this be a system or systems? It seems like it's a "board" system
 // but has some overlap with CardSystem which calls these functions.
 
-export function setSpritePositionsForLayout(
+export function invalidateSolitaireSprites(
   ecs: ECS<SPEnt>,
   filmByID: FilmByID<SPFilmID>,
   solitaire: Readonly<Solitaire>,
@@ -33,8 +33,7 @@ export function setSpritePositionsForLayout(
   for (const pillar of solitaire.foundation) {
     for (const [index, card] of pillar.entries()) {
       const ent = ecs.get(card)
-      const xy = getFoundationCardXY(filmByID, card.suit)
-      ent.sprite!.moveTo(xy)
+      ent.sprite!.moveTo(getFoundationCardXY(filmByID, card.suit))
       // change this to downard for everything but top
       const animID = index == (pillar.length - 1)
         ? getCardFilmID(card)
