@@ -150,7 +150,7 @@ function pick(
 
 function moveEntsToCursor(game: SuperPatience, selected: PickState): void {
   for (const pick of selected) {
-    pick.ent.sprite?.bounds.moveToTrunc(
+    pick.ent.sprite?.bounds.moveToClamp(
       game.cursor.bounds.xy.copy().sub(pick.offset),
     )
   }

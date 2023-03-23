@@ -25,15 +25,15 @@ export class PileHitboxSystem implements System<PileHitboxEnt, SPEnt> {
     // kind of lame because this shoudl be the union of sprites
     // this should be invisible tho and the sprite should always be present
     const xy = pile.type == 'Waste'
-      ? sprite.bounds.xy.copy().addTrunc(gap - 1, gap - 1)
+      ? sprite.bounds.xy.copy().addClamp(gap - 1, gap - 1)
       : pile.type == 'Tableau'
       ? getTableauCardXY(game.filmByID, pile.x, Uint(0))
       : getFoundationCardXY(game.filmByID, pile.suit)
-    sprite.bounds.moveToTrunc(
+    sprite.bounds.moveToClamp(
       xy.x - gap + 1,
       xy.y - gap + 1,
     )
-    sprite.bounds.sizeToTrunc(
+    sprite.bounds.sizeToClamp(
       cardWH.x + gap * 2 - 1,
       cardWH.y +
         (pile.type == 'Waste'
