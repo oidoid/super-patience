@@ -34,7 +34,8 @@ export function invalidateSolitaireSprites(
     for (const [index, card] of pillar.entries()) {
       const ent = ecs.get(card)
       ent.sprite!.moveTo(getFoundationCardXY(filmByID, card.suit))
-      // change this to downard for everything but top
+      // Force all cards except the top to downward since they're in the exact
+      // same position and are not layered correctly for rendering.
       const animID = index == (pillar.length - 1)
         ? getCardFilmID(card)
         : 'card--Down'

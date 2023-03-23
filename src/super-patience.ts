@@ -63,7 +63,7 @@ export function SuperPatience(
     new CursorSystem(),
     new FollowPointSystem(),
     new CardSystem(
-      ecs.query('pile & sprite'),
+      [...ecs.query('pile & sprite')],
       ecs.queryOne('vacantStock & sprite').sprite,
     ),
     new PileHitboxSystem(),
