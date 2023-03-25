@@ -24,9 +24,9 @@ export class PileHitboxSystem implements System<PileHitboxEnt, SPEnt> {
     const gap = 8 // to-do: or at least hardcode in one place
     // kind of lame because this shoudl be the union of sprites
     // this should be invisible tho and the sprite should always be present
-    const xy = pile.type == 'Waste'
+    const xy = pile.type === 'Waste'
       ? sprite.bounds.xy.copy().addClamp(gap - 1, gap - 1)
-      : pile.type == 'Tableau'
+      : pile.type === 'Tableau'
       ? getTableauCardXY(game.filmByID, pile.x, Uint(0))
       : getFoundationCardXY(game.filmByID, pile.suit)
     sprite.bounds.moveToClamp(
@@ -36,11 +36,11 @@ export class PileHitboxSystem implements System<PileHitboxEnt, SPEnt> {
     sprite.bounds.sizeToClamp(
       cardWH.x + gap * 2 - 1,
       cardWH.y +
-        (pile.type == 'Waste'
+        (pile.type === 'Waste'
           ? (game.solitaire.waste.length > 0
             ? game.solitaire.drawSize - 1
             : 0) * gap
-          : pile.type == 'Tableau'
+          : pile.type === 'Tableau'
           ? Math.max(
             0,
             game.solitaire.tableau[pile.x]!.length - 1,

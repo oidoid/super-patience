@@ -26,7 +26,7 @@ export function invalidateSolitaireSprites(
       const xy = getTableauCardXY(filmByID, indexX, indexY)
       ent.sprite!.moveTo(xy)
       ent.sprite!.layer =
-        SPLayer[card.direction == 'Up' ? 'CardUp' : 'CardDown']
+        SPLayer[card.direction === 'Up' ? 'CardUp' : 'CardDown']
       ent.sprite!.animate(time, filmByID[getCardFilmID(card)])
     }
   }
@@ -36,18 +36,18 @@ export function invalidateSolitaireSprites(
       ent.sprite!.moveTo(getFoundationCardXY(filmByID, card.suit))
       // Force all cards except the top to downward since they're in the exact
       // same position and are not layered correctly for rendering.
-      const animID = index == (pillar.length - 1)
+      const animID = index === (pillar.length - 1)
         ? getCardFilmID(card)
         : 'card--Down'
       ent.sprite!.animate(time, filmByID[animID])
       ent.sprite!.layer =
-        SPLayer[animID == 'card--Down' ? 'CardDown' : 'CardUp']
+        SPLayer[animID === 'card--Down' ? 'CardDown' : 'CardUp']
     }
   }
   for (const [index, card] of solitaire.stock.entries()) {
     const ent = ecs.get(card)
     ent.sprite!.moveTo(getStockXY(solitaire, index))
-    ent.sprite!.layer = SPLayer[card.direction == 'Up' ? 'CardUp' : 'CardDown']
+    ent.sprite!.layer = SPLayer[card.direction === 'Up' ? 'CardUp' : 'CardDown']
     ent.sprite!.animate(time, filmByID[getCardFilmID(card)])
   }
   for (const [index, card] of solitaire.waste.entries()) {
@@ -59,7 +59,7 @@ export function invalidateSolitaireSprites(
     } else animID = 'card--Down'
     // Hide waste under the draw reserve. I can't draw them in the correct
     // order since they have identical XYs.
-    ent.sprite!.layer = SPLayer[animID == 'card--Down' ? 'CardDown' : 'CardUp']
+    ent.sprite!.layer = SPLayer[animID === 'card--Down' ? 'CardDown' : 'CardUp']
     ent.sprite!.animate(time, filmByID[animID])
   }
 }
@@ -73,7 +73,7 @@ export function getStockXY(
     // All cards in the stock are at the same point and on the same layer. Only
     // the top card should be pickable though so hide the rest off-cam since
     // they're not drawn in the correct order.
-    boardY + (solitaire.stock.length - 1 == indexY ? 0 : hiddenY),
+    boardY + (solitaire.stock.length - 1 === indexY ? 0 : hiddenY),
   )
 }
 
@@ -107,5 +107,5 @@ export function getTableauCardXY(
 }
 
 export function getCardFilmID(card: Card): SPFilmID {
-  return card.direction == 'Up' ? `card--${Card.toASCII(card)}` : 'card--Down'
+  return card.direction === 'Up' ? `card--${Card.toASCII(card)}` : 'card--Down'
 }

@@ -29,7 +29,7 @@ export class TallySystem implements System<TallyEnt, SPEnt> {
         Math.max(0, game.solitaire.wins - max - ent.tally.tens * 10),
       ) as ZeroToTwenty
     const filmID: SPFilmID = `tally--${wins}`
-    if (ent.sprite.film.id != filmID) {
+    if (ent.sprite.film.id !== filmID) {
       ent.sprite.animate(game.time, game.filmByID[filmID])
     }
   }

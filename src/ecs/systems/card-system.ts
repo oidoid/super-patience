@@ -46,9 +46,9 @@ export class CardSystem implements System<CardEnt, SPEnt> {
     )
 
     if (
-      picked?.card.direction == 'Down' && !isStockPick &&
+      picked?.card.direction === 'Down' && !isStockPick &&
         game.input.isOffStart('Action') ||
-      picked?.card.direction == 'Up' && !isStockPick &&
+      picked?.card.direction === 'Up' && !isStockPick &&
         game.input.isOnStart('Action') ||
       picked != null && isStockPick && game.input.isOffStart('Action')
     ) {
@@ -70,7 +70,7 @@ export class CardSystem implements System<CardEnt, SPEnt> {
     }
 
     if (game.solitaire.selected != null && game.input.isOffStart('Action')) {
-      if (this.#selected.length == 0) {
+      if (this.#selected.length === 0) {
         const picked = pick(ents, game)
         if (picked == null) Solitaire.deselect(game.solitaire)
         else Solitaire.point(game.solitaire, picked.card)
@@ -78,7 +78,7 @@ export class CardSystem implements System<CardEnt, SPEnt> {
         const drop = this.#drop(game)
         if (
           drop != null && game.solitaire.selected != null &&
-          drop.pile.type != 'Waste'
+          drop.pile.type !== 'Waste'
         ) Solitaire.build(game.solitaire, drop.pile)
         Solitaire.deselect(game.solitaire)
 
@@ -124,7 +124,7 @@ export class CardSystem implements System<CardEnt, SPEnt> {
     for (const ent of this.#piles) {
       const overlap = pick.sprite.bounds.copy().intersection(ent.sprite.bounds)
       if (
-        overlap.flipped || overlap.empty || ent.pile.type == 'Waste' ||
+        overlap.flipped || overlap.empty || ent.pile.type === 'Waste' ||
         !Solitaire.isBuildable(update.solitaire, ent.pile)
       ) continue
       if (drop == null || overlap.areaNum > drop.area) {

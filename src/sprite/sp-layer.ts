@@ -12,4 +12,3 @@ export const SPLayer = Immutable({
 }) satisfies { [name: string]: U8 }
 
 export type SPLayer = keyof typeof SPLayer
-

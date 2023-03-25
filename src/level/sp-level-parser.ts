@@ -39,7 +39,7 @@ function parseComponentSet(
     switch (key) { // to-do: fail when missing types.
       case 'pile':
         assert(
-          json.pile?.type == 'Waste',
+          json.pile?.type === 'Waste',
           `Unsupported pile type "${json.pile?.type}".`,
         )
         set[key] = { type: 'Waste' }

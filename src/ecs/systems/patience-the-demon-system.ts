@@ -30,6 +30,6 @@ export class PatienceTheDemonSystem
 }
 
 function nextFilm(game: Readonly<SuperPatience>, sprite: Sprite): Film {
-  const good = sprite.film.id == 'patience-the-demon--Good'
+  const good = sprite.film.id === 'patience-the-demon--Good'
   return game.filmByID[`patience-the-demon--${good ? 'Evil' : 'Good'}`]
 }
