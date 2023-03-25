@@ -83,7 +83,14 @@ export function SuperPatience(
     random: () => random.fraction(),
     solitaire,
     ecs,
-    input: new Input(cam),
+    input: new Input(
+      cam,
+      window.navigator,
+      window,
+      window.document,
+      canvas,
+      window,
+    ),
     renderer: new RendererStateMachine({
       assets,
       window,

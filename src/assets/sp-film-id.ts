@@ -14,6 +14,7 @@ export namespace SPFilmID {
     new Set(
       [
         'background--Corner',
+        'background--Checkerboard', // For debugging.
         'background--Grid',
         'cursor--Pick',
         'cursor--Point',
