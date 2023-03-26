@@ -13,12 +13,12 @@
     "options": { "semiColons": false, "singleQuote": true }
   },
   "imports": {
-    "@/atlas-pack": "https://deno.land/x/atlas_pack@v7.0.0/mod.ts",
+    "@/atlas-pack": "https://deno.land/x/atlas_pack@v7.1.0/mod.ts",
     "@/mem": "https://deno.land/x/mem@v9.0.0/mod.ts",
-    "@/ooz": "https://deno.land/x/ooz@v0.0.14/mod.ts",
-    "@/solitaire": "https://deno.land/x/solitaire@v0.0.6/mod.ts",
+    "@/ooz": "https://deno.land/x/ooz@v0.0.16/mod.ts",
+    "@/solitaire": "https://deno.land/x/solitaire@v0.0.7/mod.ts",
     "@/super-patience": "./mod.ts",
-    "@/void": "https://deno.land/x/oid@v0.0.8/mod.ts",
+    "@/void": "https://deno.land/x/oid@v0.0.9/mod.ts",
     "std/": "https://deno.land/std@0.179.0/"
   },
   "lint": {
