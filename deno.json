@@ -35,5 +35,5 @@
   "lock": false,
   "name": "super-patience",
   "test": { "files": { "exclude": ["dist"] } },
-  "version": "1.1.2"
+  "version": "1.1.3"
 }
