@@ -1,11 +1,12 @@
 import { FilmByID } from '@/atlas-pack'
-import { I16XY } from '@/ooz'
+import { I16XY, U16XY } from '@/ooz'
 import { Card, Solitaire, Suit } from '@/solitaire'
 import { SPEnt, SPFilmID, SPLayer } from '@/super-patience'
 import { ECS } from '@/void'
 
 export const mod = 8
 
+export const cardWH = new U16XY(24, 32)
 const tableauY = 72
 const boardX = 2 * mod
 const boardY = 16
@@ -82,8 +83,8 @@ export function getWasteXY(
   index: number,
 ): I16XY {
   const top = solitaire.waste.length - solitaire.drawSize
-  const betterIndex = Math.max(index - top, 0)
-  return new I16XY(208, boardY + betterIndex * mod)
+  const mul = Math.max(index - top, 0)
+  return new I16XY(208, boardY + mul * mod)
 }
 
 export function getFoundationCardXY(
@@ -91,9 +92,8 @@ export function getFoundationCardXY(
   suit: Suit,
 ): I16XY {
   const film = filmByID[`card--Vacant${suit}`]
-  const betterIndexX = { Clubs: 0, Diamonds: 1, Hearts: 2, Spades: 3 }[suit]
-  const x = boardX + mod * 4 + betterIndexX * (film.wh.x + mod)
-  return new I16XY(x, boardY)
+  const mul = { Clubs: 0, Diamonds: 1, Hearts: 2, Spades: 3 }[suit]
+  return new I16XY(boardX + mod * 4 + mul * (film.wh.x + mod), boardY)
 }
 
 export function getTableauCardXY(
@@ -102,8 +102,7 @@ export function getTableauCardXY(
   indexY: number,
 ): I16XY {
   const film = filmByID['card--VacantPile']
-  const x = boardX + indexX * (film.wh.x + mod)
-  return new I16XY(x, tableauY + indexY * mod)
+  return new I16XY(boardX + indexX * (film.wh.x + mod), tableauY + indexY * mod)
 }
 
 export function getCardFilmID(card: Card): SPFilmID {

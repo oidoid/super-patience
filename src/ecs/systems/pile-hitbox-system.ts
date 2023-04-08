@@ -1,7 +1,9 @@
-import { U16XY, Uint } from '@/ooz'
+import { Uint } from '@/ooz'
 import {
+  cardWH,
   getFoundationCardXY,
   getTableauCardXY,
+  mod,
   PileConfig,
   SPEnt,
   SuperPatience,
@@ -18,37 +20,33 @@ const query = 'pile & sprite'
 /** Size the pile's hitbox. */
 export class PileHitboxSystem implements System<PileHitboxEnt, SPEnt> {
   readonly query = query
+  // to-do: why isn't this in the invalidateSolitaireSprites() fn? Seems like it
+  // only applies to those sprite queries. Or vice-versa. Why can't those be
+  // systems.
   runEnt(ent: PileHitboxEnt, game: SuperPatience): void {
     const { pile, sprite } = ent
-    const cardWH = new U16XY(24, 32) // to-do: don't hardcode.
-    const gap = 8 // to-do: or at least hardcode in one place
     // kind of lame because this shoudl be the union of sprites
     // this should be invisible tho and the sprite should always be present
     const xy = pile.type === 'Waste'
-      ? sprite.bounds.xy.copy().addClamp(gap - 1, gap - 1)
+      ? sprite.bounds.xy.copy().addClamp(mod - 1, mod - 1)
       : pile.type === 'Tableau'
       ? getTableauCardXY(game.filmByID, pile.x, Uint(0))
       : getFoundationCardXY(game.filmByID, pile.suit)
-    sprite.bounds.moveToClamp(
-      xy.x - gap + 1,
-      xy.y - gap + 1,
-    )
+    sprite.bounds.moveToClamp(xy.x - mod + 1, xy.y - mod + 1)
     sprite.bounds.sizeToClamp(
-      cardWH.x + gap * 2 - 1,
+      cardWH.x + mod * 2 - 1,
       cardWH.y +
         (pile.type === 'Waste'
           ? (game.solitaire.waste.length > 0
             ? game.solitaire.drawSize - 1
-            : 0) * gap
+            : 0) * mod
           : pile.type === 'Tableau'
           ? Math.max(
             0,
             game.solitaire.tableau[pile.x]!.length - 1,
-          ) * gap
+          ) * mod
           : 0) +
-        gap * 2 - 1,
+        mod * 2 - 1,
     )
-    // to-do: don't process picks after it has been handled. Render and pick
-    // order need to be distinct.
   }
 }
