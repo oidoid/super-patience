@@ -71,7 +71,7 @@ $(dist_dir)/%: $(assets_dir)/% | $(dist_dir)/; $(cp) '$<' '$@'
 $(assets_dir)/atlas.json $(assets_dir)/atlas.png&: $(atlas_in_files)
   ../atlas-pack/bin/aseprite-batch \
     --merge-duplicates \
-    --sheet '$(assets_dir)/atlas.png' \
+    --sheet='$(assets_dir)/atlas.png' \
     $^ \
     --color-mode=indexed|
   ../atlas-pack/bin/atlas-pack > '$(assets_dir)/atlas.json'
@@ -80,7 +80,7 @@ $(assets_dir)/atlas.json $(assets_dir)/atlas.png&: $(atlas_in_files)
 # $2 scale
 define favicon_template =
 $$(dist_dir)/favicon$(1).png: $$(assets_dir)/favicon.aseprite | $$(dist_dir)/
-  $$(aseprite) '$$<' --scale $(2) --save-as '$$@'
+  $$(aseprite) '$$<' --scale=$(2) --save-as='$$@'
 endef
 $(eval $(call favicon_template,,1))
 $(eval $(call favicon_template,32x32,2))
