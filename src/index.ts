@@ -1,4 +1,4 @@
-import { SuperPatience } from '@/super-patience'
+import { loadAssets, spStart, SuperPatience } from '@/super-patience'
 import config from '../deno.json' assert { type: 'json' }
 
 declare global {
@@ -12,5 +12,5 @@ console.log(`Super Patience v${config.version}
 by │  │idoid
    └──┘`)
 
-globalThis.patience = await SuperPatience.make(window)
-SuperPatience.start(patience)
+globalThis.patience = await SuperPatience(window, await loadAssets())
+spStart(patience)

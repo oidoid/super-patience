@@ -1,6 +1,6 @@
 import { Film } from '@/atlas-pack'
-import { Solitaire } from '@/solitaire'
-import { SaveStorage, SPEnt, SuperPatience } from '@/super-patience'
+import { solitaireReset } from '@/solitaire'
+import { SPEnt, SuperPatience } from '@/super-patience'
 import { QueryEnt, Sprite, System } from '@/void'
 
 export type PatienceTheDemonEnt = QueryEnt<
@@ -16,14 +16,14 @@ export class PatienceTheDemonSystem
   run(ents: ReadonlySet<PatienceTheDemonEnt>, game: SuperPatience): void {
     if (game.pickHandled || !game.input.isOffStart('Action')) return
     for (const ent of ents) {
-      if (ent.sprite.intersectsSprite(game.cursor, game.time)) { // Tail.
+      if (ent.sprite.intersects(game.cursor, game.time)) { // Tail.
         game.pickHandled = true
         ent.sprite.animate(game.time, nextFilm(game, ent.sprite))
       } else if (ent.sprite.intersectsBounds(game.cursor)) { // Anywhere else.
         game.pickHandled = true
-        Solitaire.reset(game.solitaire)
-        game.saveStorage.save.wins = game.solitaire.wins
-        SaveStorage.save(game.saveStorage)
+        solitaireReset(game.solitaire)
+        game.saveStorage.data.wins = game.solitaire.wins
+        game.saveStorage.save()
       }
     }
   }

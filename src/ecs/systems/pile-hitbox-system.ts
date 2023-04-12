@@ -1,4 +1,3 @@
-import { Uint } from '@/ooz'
 import {
   cardWH,
   getFoundationCardXY,
@@ -28,25 +27,23 @@ export class PileHitboxSystem implements System<PileHitboxEnt, SPEnt> {
     // kind of lame because this shoudl be the union of sprites
     // this should be invisible tho and the sprite should always be present
     const xy = pile.type === 'Waste'
-      ? sprite.bounds.xy.copy().addClamp(mod - 1, mod - 1)
+      ? sprite.xy.copy().add(mod - 1, mod - 1)
       : pile.type === 'Tableau'
-      ? getTableauCardXY(game.filmByID, pile.x, Uint(0))
+      ? getTableauCardXY(game.filmByID, pile.x, 0)
       : getFoundationCardXY(game.filmByID, pile.suit)
-    sprite.bounds.moveToClamp(xy.x - mod + 1, xy.y - mod + 1)
-    sprite.bounds.sizeToClamp(
-      cardWH.x + mod * 2 - 1,
-      cardWH.y +
-        (pile.type === 'Waste'
-          ? (game.solitaire.waste.length > 0
-            ? game.solitaire.drawSize - 1
-            : 0) * mod
-          : pile.type === 'Tableau'
-          ? Math.max(
-            0,
-            game.solitaire.tableau[pile.x]!.length - 1,
-          ) * mod
-          : 0) +
-        mod * 2 - 1,
-    )
+    sprite.x = xy.x - mod + 1
+    sprite.y = xy.y - mod + 1
+    sprite.w = cardWH.x + mod * 2 - 1
+    sprite.h = cardWH.y +
+      (pile.type === 'Waste'
+        ? (game.solitaire.waste.length > 0 ? game.solitaire.drawSize - 1 : 0) *
+          mod
+        : pile.type === 'Tableau'
+        ? Math.max(
+          0,
+          game.solitaire.tableau[pile.x]!.length - 1,
+        ) * mod
+        : 0) +
+      mod * 2 - 1
   }
 }

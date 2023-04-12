@@ -1,4 +1,4 @@
-import { assertNonNull, I16, I32, Random, U16XY } from '@/ooz'
+import { assertNonNull, XY } from '@/ooz'
 import { Solitaire } from '@/solitaire'
 import {
   CardSystem,
@@ -6,7 +6,6 @@ import {
   PatienceTheDemonSystem,
   PileHitboxSystem,
   SaveStorage,
-  SPAssets,
   SPEnt,
   SPFilmID,
   SpriteFactory,
@@ -15,6 +14,7 @@ import {
 } from '@/super-patience'
 import {
   Assets,
+  BitmapBuffer,
   Cam,
   CursorSystem,
   ECS,
@@ -23,12 +23,12 @@ import {
   Game,
   Input,
   RendererStateMachine,
-  RenderSystem,
   Sprite,
 } from '@/void'
 
 export interface SuperPatience extends Game<SPEnt, SPFilmID> {
   readonly assets: Assets<SPFilmID>
+  readonly bitmaps: BitmapBuffer
   readonly canvas: HTMLCanvasElement
   readonly cursor: Sprite
   readonly solitaire: Solitaire
@@ -45,9 +45,9 @@ export function SuperPatience(
   const canvas = window.document.getElementsByTagName('canvas').item(0)
   assertNonNull(canvas, 'Canvas missing.')
 
-  const random = new Random(I32.mod(Date.now()))
+  const random = Math.random
   const saveStorage = SaveStorage.load(localStorage)
-  const solitaire = Solitaire(() => random.fraction(), saveStorage.save.wins)
+  const solitaire = Solitaire(random, saveStorage.data.wins)
 
   const ecs = new ECS<SPEnt>()
   ecs.addEnt(
@@ -70,17 +70,17 @@ export function SuperPatience(
     new VacantStockSystem(),
     new PatienceTheDemonSystem(),
     new TallySystem(),
-    new RenderSystem<SPEnt>(assets.shaderLayout),
   )
 
   // y = 2 (border) + 71 (offset) + 8 * 7 (initial stack with a king on top) + 11 * 7 (Q-2) + (A) 32 - (dont care) 24 = 214
-  const cam = new Cam(new U16XY(256, 214), window)
+  const cam = new Cam(new XY(256, 214), window)
 
   const self: SuperPatience = {
     assets,
+    bitmaps: new BitmapBuffer(assets.shaderLayout),
     cam,
     canvas,
-    random: () => random.fraction(),
+    random,
     solitaire,
     ecs,
     input: new Input(
@@ -95,7 +95,7 @@ export function SuperPatience(
       assets,
       window,
       canvas,
-      onFrame: (delta) => SuperPatience.onFrame(self, delta),
+      onFrame: (delta) => spOnFrame(self, delta),
       onPause: () => self.input.reset(),
     }),
     tick: 1,
@@ -108,38 +108,52 @@ export function SuperPatience(
   return self
 }
 
-export namespace SuperPatience {
-  export async function make(window: Window): Promise<SuperPatience> {
-    return SuperPatience(window, await SPAssets.load())
+export function spStart(self: SuperPatience): void {
+  self.input.register('add')
+  self.renderer.start()
+}
+
+export function spStop(self: SuperPatience): void {
+  self.input.register('remove')
+  self.renderer.stop()
+}
+
+function spOnFrame(self: SuperPatience, delta: number): void {
+  self.tick = delta
+  self.time += delta
+  self.pickHandled = false
+
+  self.input.preupdate()
+
+  self.cam.resize()
+  centerCam(self.cam)
+
+  self.ecs.run(self)
+
+  // to-do: rework.
+  // so this works well but it's hard to get notified of new sprites being
+  // made and old removed. for grid, how can i make sure that moved sprites
+  // get invalidated. is there a big sprite movement mgmt system?
+  let index = 0
+  for (const ent of self.ecs.query('sprite | sprites')) {
+    if (ent.sprite != null) {
+      self.bitmaps.set(index, ent.sprite, self.time)
+      index++
+    }
+    if (ent.sprites != null) {
+      for (const sprite of ent.sprites) {
+        self.bitmaps.set(index, sprite, self.time)
+        index++
+      }
+    }
   }
 
-  export function start(self: SuperPatience): void {
-    self.input.register('add')
-    self.renderer.start()
-  }
+  self.renderer.render(self.time, self.cam, self.bitmaps)
 
-  export function stop(self: SuperPatience): void {
-    self.input.register('remove')
-    self.renderer.stop()
-  }
-
-  export function onFrame(self: SuperPatience, delta: number): void {
-    self.tick = delta
-    self.time += delta
-    self.pickHandled = false
-
-    self.input.preupdate()
-
-    self.cam.resize()
-    centerCam(self.cam)
-
-    self.ecs.run(self)
-
-    self.input.postupdate(self.tick)
-  }
+  self.input.postupdate(self.tick)
 }
 
 function centerCam(cam: Readonly<Cam>): void {
   const camOffsetX = Math.trunc((cam.viewport.w - cam.minViewport.x) / 2)
-  cam.viewport.x = I16(-camOffsetX + camOffsetX % 8)
+  cam.viewport.x = -camOffsetX + camOffsetX % 8
 }

@@ -1,22 +1,28 @@
-import { Uint } from '@/ooz'
 import { SaveData } from '@/super-patience'
 import { JSONStorage } from '@/void'
 
-export interface SaveStorage {
-  readonly save: SaveData
-  readonly storage: Storage
-}
-
 const saveKey = 'save'
 
-export namespace SaveStorage {
-  export function load(storage: Storage): SaveStorage {
-    const save = JSONStorage.get<SaveData>(storage, saveKey) ??
-      SaveData(Uint(0))
-    return { save, storage }
+export class SaveStorage {
+  static load(storage: Storage): SaveStorage {
+    const jsonStorage = new JSONStorage(storage)
+    const save = jsonStorage.get<SaveData>(saveKey) ?? SaveData(0)
+    return new SaveStorage(save, jsonStorage)
   }
 
-  export function save(self: SaveStorage): void {
-    JSONStorage.put(self.storage, saveKey, self.save)
+  readonly #data: SaveData
+  readonly #storage: JSONStorage
+
+  constructor(data: SaveData, storage: JSONStorage) {
+    this.#data = data
+    this.#storage = storage
+  }
+
+  get data(): SaveData {
+    return this.#data
+  }
+
+  save(): void {
+    this.#storage.put(saveKey, this.#data)
   }
 }

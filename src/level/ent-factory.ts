@@ -1,5 +1,5 @@
-import { I16XY, Uint } from '@/ooz'
-import { Card, Solitaire, Suit } from '@/solitaire'
+import { XY } from '@/ooz'
+import { Card, Solitaire, SuitSet } from '@/solitaire'
 import {
   getCardFilmID,
   getFoundationCardXY,
@@ -8,8 +8,8 @@ import {
   getWasteXY,
   level,
   mod,
+  parseLevel,
   SPEnt,
-  SPLevelParser,
   SpriteFactory,
 } from '@/super-patience'
 import { Font } from '@/void'
@@ -24,26 +24,20 @@ export function* newLevelComponents(
   yield* newStock(factory, solitaire)
   yield* newTableau(solitaire, factory)
   yield* newWaste(solitaire, factory)
-  yield* SPLevelParser.parse(factory, font, level)
+  yield* parseLevel(factory, font, level)
 }
 
-function newCard(
-  factory: SpriteFactory,
-  card: Card,
-  xy: I16XY,
-): Partial<SPEnt> {
+function newCard(factory: SpriteFactory, card: Card, xy: XY): Partial<SPEnt> {
   return {
     card,
     sprite: factory.new(getCardFilmID(card), `Card${card.direction}`, { xy }),
   }
 }
 
-function* newFoundation(
-  factory: SpriteFactory,
-): Generator<Partial<SPEnt>> {
+function* newFoundation(factory: SpriteFactory): Generator<Partial<SPEnt>> {
   // prev: ComponentSet
   // next: null
-  for (const suit of Suit.values) {
+  for (const suit of SuitSet) {
     yield {
       sprite: factory.new(`card--Vacant${suit}`, 'Vacancy', {
         xy: getFoundationCardXY(factory.filmByID, suit),
@@ -80,7 +74,7 @@ function* newTableau(
   for (const [indexX, pile] of solitaire.tableau.entries()) {
     const x = indexX
     yield {
-      pile: { type: 'Tableau', x: Uint(x) },
+      pile: { type: 'Tableau', x },
       sprite: factory.new('palette--Light', 'Background', {
         xy: getTableauCardXY(factory.filmByID, x, 0),
       }),

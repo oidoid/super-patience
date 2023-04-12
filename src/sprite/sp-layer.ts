@@ -1,14 +1,13 @@
-import { Immutable, U8 } from '@/ooz'
 import { Layer } from '@/void'
 
-export const SPLayer = Immutable({
+export const SPLayer = {
   ...Layer,
-  Picked: U8(0x02),
-  CardUp: U8(0x03),
-  CardDown: U8(0x04),
-  Patience: U8(0x05),
-  Vacancy: U8(0x06),
-  Background: U8(0x07),
-}) satisfies { [name: string]: U8 }
+  Picked: 0x02,
+  CardUp: 0x03,
+  CardDown: 0x04,
+  Patience: 0x05,
+  Vacancy: 0x06,
+  Background: 0x07,
+} satisfies { [name: string]: number }
 
 export type SPLayer = keyof typeof SPLayer

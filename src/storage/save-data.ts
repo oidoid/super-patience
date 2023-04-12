@@ -1,7 +1,5 @@
-import { Uint } from '@/ooz'
+export type SaveData = { wins: number }
 
-export type SaveData = { wins: Uint }
-
-export function SaveData(wins: Uint): SaveData {
+export function SaveData(wins: number): SaveData {
   return { wins }
 }

@@ -1,12 +1,12 @@
 import { FilmByID } from '@/atlas-pack'
-import { I16XY, U16XY } from '@/ooz'
-import { Card, Solitaire, Suit } from '@/solitaire'
+import { XY } from '@/ooz'
+import { Card, cardToASCII, Solitaire, Suit } from '@/solitaire'
 import { SPEnt, SPFilmID, SPLayer } from '@/super-patience'
 import { ECS } from '@/void'
 
 export const mod = 8
 
-export const cardWH = new U16XY(24, 32)
+export const cardWH = new XY(24, 32)
 const tableauY = 72
 const boardX = 2 * mod
 const boardY = 16
@@ -24,8 +24,7 @@ export function invalidateSolitaireSprites(
   for (const [indexX, column] of solitaire.tableau.entries()) {
     for (const [indexY, card] of column.entries()) {
       const ent = ecs.get(card)
-      const xy = getTableauCardXY(filmByID, indexX, indexY)
-      ent.sprite!.moveTo(xy)
+      ent.sprite!.xy.set(getTableauCardXY(filmByID, indexX, indexY))
       ent.sprite!.layer =
         SPLayer[card.direction === 'Up' ? 'CardUp' : 'CardDown']
       ent.sprite!.animate(time, filmByID[getCardFilmID(card)])
@@ -34,7 +33,7 @@ export function invalidateSolitaireSprites(
   for (const pillar of solitaire.foundation) {
     for (const [index, card] of pillar.entries()) {
       const ent = ecs.get(card)
-      ent.sprite!.moveTo(getFoundationCardXY(filmByID, card.suit))
+      ent.sprite!.xy.set(getFoundationCardXY(filmByID, card.suit))
       // Force all cards except the top to downward since they're in the exact
       // same position and are not layered correctly for rendering.
       const animID = index === (pillar.length - 1)
@@ -47,13 +46,13 @@ export function invalidateSolitaireSprites(
   }
   for (const [index, card] of solitaire.stock.entries()) {
     const ent = ecs.get(card)
-    ent.sprite!.moveTo(getStockXY(solitaire, index))
+    ent.sprite!.xy.set(getStockXY(solitaire, index))
     ent.sprite!.layer = SPLayer[card.direction === 'Up' ? 'CardUp' : 'CardDown']
     ent.sprite!.animate(time, filmByID[getCardFilmID(card)])
   }
   for (const [index, card] of solitaire.waste.entries()) {
     const ent = ecs.get(card)
-    ent.sprite!.moveTo(getWasteXY(solitaire, index))
+    ent.sprite!.xy.set(getWasteXY(solitaire, index))
     let animID: SPFilmID
     if (index >= (solitaire.waste.length - solitaire.drawSize)) {
       animID = getCardFilmID(card)
@@ -68,8 +67,8 @@ export function invalidateSolitaireSprites(
 export function getStockXY(
   solitaire: Readonly<Solitaire>,
   indexY: number,
-): I16XY {
-  return new I16XY(
+): XY {
+  return new XY(
     boardX + 160,
     // All cards in the stock are at the same point and on the same layer. Only
     // the top card should be pickable though so hide the rest off-cam since
@@ -81,30 +80,30 @@ export function getStockXY(
 export function getWasteXY(
   solitaire: Readonly<Solitaire>,
   index: number,
-): I16XY {
+): XY {
   const top = solitaire.waste.length - solitaire.drawSize
   const mul = Math.max(index - top, 0)
-  return new I16XY(208, boardY + mul * mod)
+  return new XY(208, boardY + mul * mod)
 }
 
 export function getFoundationCardXY(
   filmByID: FilmByID<SPFilmID>,
   suit: Suit,
-): I16XY {
+): XY {
   const film = filmByID[`card--Vacant${suit}`]
   const mul = { Clubs: 0, Diamonds: 1, Hearts: 2, Spades: 3 }[suit]
-  return new I16XY(boardX + mod * 4 + mul * (film.wh.x + mod), boardY)
+  return new XY(boardX + mod * 4 + mul * (film.wh.x + mod), boardY)
 }
 
 export function getTableauCardXY(
   filmByID: FilmByID<SPFilmID>,
   indexX: number,
   indexY: number,
-): I16XY {
+): XY {
   const film = filmByID['card--VacantPile']
-  return new I16XY(boardX + indexX * (film.wh.x + mod), tableauY + indexY * mod)
+  return new XY(boardX + indexX * (film.wh.x + mod), tableauY + indexY * mod)
 }
 
 export function getCardFilmID(card: Card): SPFilmID {
-  return card.direction === 'Up' ? `card--${Card.toASCII(card)}` : 'card--Down'
+  return card.direction === 'Up' ? `card--${cardToASCII(card)}` : 'card--Down'
 }

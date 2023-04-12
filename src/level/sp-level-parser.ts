@@ -1,6 +1,6 @@
 import { assert } from '@/ooz'
 import { SPEnt, SpriteFactory } from '@/super-patience'
-import { Font, LevelParser, VoidEntJSON } from '@/void'
+import { Font, parseComponent, VoidEntJSON } from '@/void'
 
 interface SPEntJSON extends VoidEntJSON {
   readonly pile?: PileConfigJSON
@@ -11,14 +11,16 @@ interface PileConfigJSON {
   type: string
 }
 
-export namespace SPLevelParser {
-  export function parse(
-    factory: SpriteFactory,
-    font: Font | undefined,
-    json: readonly SPEntJSON[],
-  ): Partial<SPEnt>[] {
-    return json.map((setJSON) => parseComponentSet(factory, font, setJSON))
+export function parseLevel(
+  factory: SpriteFactory,
+  font: Font | undefined,
+  json: Iterable<SPEntJSON>,
+): Partial<SPEnt>[] {
+  const ents = []
+  for (const entJSON of json) {
+    ents.push(parseComponentSet(factory, font, entJSON))
   }
+  return ents
 }
 
 function parseComponentSet(
@@ -30,7 +32,7 @@ function parseComponentSet(
     Record<keyof SPEnt, SPEnt[keyof SPEnt]>
   > = {}
   for (const [key, val] of Object.entries(json)) {
-    const component = LevelParser.parseComponent(factory, font, key, val)
+    const component = parseComponent(factory, font, key, val)
     if (component != null) {
       // deno-lint-ignore no-explicit-any
       set[key as keyof SPEntJSON] = component as any

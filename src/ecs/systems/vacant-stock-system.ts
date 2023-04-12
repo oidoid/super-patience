@@ -1,4 +1,4 @@
-import { Solitaire } from '@/solitaire'
+import { solitaireDeal } from '@/solitaire'
 import {
   invalidateSolitaireSprites,
   SPEnt,
@@ -20,7 +20,7 @@ export class VacantStockSystem implements System<VacantStockEnt, SPEnt> {
     for (const ent of ents) {
       if (!ent.sprite.intersectsBounds(game.cursor)) return
       game.pickHandled = true
-      Solitaire.deal(game.solitaire)
+      solitaireDeal(game.solitaire)
       invalidateSolitaireSprites(
         game.ecs,
         game.filmByID,
