@@ -60,6 +60,7 @@ export class CardSystem implements System<CardEnt, SPEnt> {
     }
 
     if (game.input.isOn('Action') && this.#selected.length > 0) {
+      game.pickHandled = true // Dragging.
       moveEntsToCursor(game, this.#selected)
     } else {
       // Only rerender if pick operation is done otherwise cards snap too fast
@@ -73,6 +74,9 @@ export class CardSystem implements System<CardEnt, SPEnt> {
     }
 
     if (game.solitaire.selected != null && game.input.isOffStart('Action')) {
+      // Drag finished. Prevent pick off start from being rehandled elsewhere.
+      game.pickHandled = true
+
       if (this.#selected.length === 0) {
         const picked = pick(ents, game)
         if (picked == null) solitaireDeselect(game.solitaire)

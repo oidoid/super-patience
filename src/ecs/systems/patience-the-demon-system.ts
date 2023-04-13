@@ -16,10 +16,10 @@ export class PatienceTheDemonSystem
   run(ents: ReadonlySet<PatienceTheDemonEnt>, game: SuperPatience): void {
     if (game.pickHandled || !game.input.isOffStart('Action')) return
     for (const ent of ents) {
-      if (ent.sprite.intersects(game.cursor, game.time)) { // Tail.
+      if (game.cursor.intersects(ent.sprite.collision(game.time), game.time)) { // Tail.
         game.pickHandled = true
         ent.sprite.animate(game.time, nextFilm(game, ent.sprite))
-      } else if (ent.sprite.intersectsBounds(game.cursor)) { // Anywhere else.
+      } else if (game.cursor.intersects(ent.sprite.bounds, game.time)) { // Anywhere else.
         game.pickHandled = true
         solitaireReset(game.solitaire)
         game.saveStorage.data.wins = game.solitaire.wins
