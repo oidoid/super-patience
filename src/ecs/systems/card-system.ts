@@ -46,7 +46,7 @@ export class CardSystem implements System<CardEnt, SPEnt> {
     if (game.pickHandled) return
 
     const picked = pick(ents, game)
-    const isStockPick = picked?.sprite.intersects(this.#vacantStock, game.time)
+    const isStockPick = picked?.sprite.hits(this.#vacantStock)
 
     if (
       picked?.card.direction === 'Down' && !isStockPick &&
@@ -109,7 +109,10 @@ export class CardSystem implements System<CardEnt, SPEnt> {
     const selected = selection.cards.map(
       (card) => {
         const ent = game.ecs.get(card)
-        return { ent, offset: game.cursor.xy.copy().sub(ent.sprite!.xy) }
+        return {
+          ent,
+          offset: game.cursor.bounds.xy.copy().sub(ent.sprite!.bounds.xy),
+        }
       },
       `Card ${card} missing sprite.`,
     )
@@ -146,7 +149,7 @@ function pick(
   if (game.input == null) return
   let picked: CardEnt | undefined
   for (const ent of ents) {
-    if (!ent.sprite.intersects(game.cursor, game.time)) continue
+    if (!ent.sprite.hits(game.cursor)) continue
     if (picked == null || ent.sprite.isAbove(picked.sprite)) picked = ent
   }
   return picked
@@ -154,6 +157,6 @@ function pick(
 
 function moveEntsToCursor(game: SuperPatience, selected: PickState): void {
   for (const pick of selected) {
-    pick.ent.sprite?.xy.set(game.cursor.xy.copy().sub(pick.offset))
+    pick.ent.sprite?.move(game.cursor.bounds.xy.copy().sub(pick.offset))
   }
 }

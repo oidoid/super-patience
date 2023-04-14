@@ -24,7 +24,7 @@ export function invalidateSolitaireSprites(
   for (const [indexX, column] of solitaire.tableau.entries()) {
     for (const [indexY, card] of column.entries()) {
       const ent = ecs.get(card)
-      ent.sprite!.xy.set(getTableauCardXY(filmByID, indexX, indexY))
+      ent.sprite!.move(getTableauCardXY(filmByID, indexX, indexY))
       ent.sprite!.layer =
         SPLayer[card.direction === 'Up' ? 'CardUp' : 'CardDown']
       ent.sprite!.animate(time, filmByID[getCardFilmID(card)])
@@ -33,7 +33,7 @@ export function invalidateSolitaireSprites(
   for (const pillar of solitaire.foundation) {
     for (const [index, card] of pillar.entries()) {
       const ent = ecs.get(card)
-      ent.sprite!.xy.set(getFoundationCardXY(filmByID, card.suit))
+      ent.sprite!.move(getFoundationCardXY(filmByID, card.suit))
       // Force all cards except the top to downward since they're in the exact
       // same position and are not layered correctly for rendering.
       const animID = index === (pillar.length - 1)
@@ -46,13 +46,13 @@ export function invalidateSolitaireSprites(
   }
   for (const [index, card] of solitaire.stock.entries()) {
     const ent = ecs.get(card)
-    ent.sprite!.xy.set(getStockXY(solitaire, index))
+    ent.sprite!.move(getStockXY(solitaire, index))
     ent.sprite!.layer = SPLayer[card.direction === 'Up' ? 'CardUp' : 'CardDown']
     ent.sprite!.animate(time, filmByID[getCardFilmID(card)])
   }
   for (const [index, card] of solitaire.waste.entries()) {
     const ent = ecs.get(card)
-    ent.sprite!.xy.set(getWasteXY(solitaire, index))
+    ent.sprite!.move(getWasteXY(solitaire, index))
     let animID: SPFilmID
     if (index >= (solitaire.waste.length - solitaire.drawSize)) {
       animID = getCardFilmID(card)

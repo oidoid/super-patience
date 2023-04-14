@@ -27,7 +27,7 @@ export class PileHitboxSystem implements System<PileHitboxEnt, SPEnt> {
     // kind of lame because this shoudl be the union of sprites
     // this should be invisible tho and the sprite should always be present
     const xy = pile.type === 'Waste'
-      ? sprite.xy.copy().add(mod - 1, mod - 1)
+      ? sprite.bounds.xy.copy().add(mod - 1, mod - 1)
       : pile.type === 'Tableau'
       ? getTableauCardXY(game.filmByID, pile.x, 0)
       : getFoundationCardXY(game.filmByID, pile.suit)

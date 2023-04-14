@@ -9,7 +9,7 @@ Deno.test('All AtlasMeta collisions empty or singular.', () => {
       assertEquals(
         cel.slices.length === 0 || cel.slices.length === 1,
         true,
-        `Cel slice length is greater than one (${cel.slices.length}) for ` +
+        `Only up to one slice allowed per cel; ${cel.slices.length}  for ` +
           `film ${film.id}, cel ${cel.id}.`,
       )
     }
