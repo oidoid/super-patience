@@ -12,11 +12,11 @@ type ZeroToTwenty =  0 |  1 |  2  | 3 |  4 |  5 |  6 |  7 |  8 | 9 | 10 | 11 |
                     12 | 13 | 14 | 15 | 16 | 17 | 18 | 19 | 20
 
 export type TallyEnt = QueryEnt<
-  { tally: TallyConfig; sprite: Sprite },
+  { tally: TallyConfig; sprites: [Sprite, ...Sprite[]] },
   typeof query
 >
 
-const query = 'tally & sprite'
+const query = 'tally & sprites'
 
 export class TallySystem implements System<TallyEnt, SPEnt> {
   readonly query = query
@@ -29,8 +29,8 @@ export class TallySystem implements System<TallyEnt, SPEnt> {
         Math.max(0, game.solitaire.wins - max - ent.tally.tens * 10),
       ) as ZeroToTwenty
     const filmID: SPFilmID = `tally--${wins}`
-    if (ent.sprite.film.id !== filmID) {
-      ent.sprite.animate(game.time, game.filmByID[filmID])
+    if (ent.sprites[0].film.id !== filmID) {
+      ent.sprites[0].animate(game.time, game.filmByID[filmID])
     }
   }
 }

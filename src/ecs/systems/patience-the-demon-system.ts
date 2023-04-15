@@ -4,11 +4,11 @@ import { SPEnt, SuperPatience } from '@/super-patience'
 import { QueryEnt, Sprite, System } from '@/void'
 
 export type PatienceTheDemonEnt = QueryEnt<
-  { patienceTheDemon: Record<never, never>; sprite: Sprite },
+  { patienceTheDemon: Record<never, never>; sprites: [Sprite, ...Sprite[]] },
   typeof query
 >
 
-const query = 'patienceTheDemon & sprite'
+const query = 'patienceTheDemon & sprites'
 
 export class PatienceTheDemonSystem
   implements System<PatienceTheDemonEnt, SPEnt> {
@@ -16,10 +16,10 @@ export class PatienceTheDemonSystem
   run(ents: ReadonlySet<PatienceTheDemonEnt>, game: SuperPatience): void {
     if (game.pickHandled || !game.input.isOffStart('Action')) return
     for (const ent of ents) {
-      if (game.cursor.hits(ent.sprite.hitbox)) { // Tail.
+      if (game.cursor.hits(ent.sprites[0].hitbox)) { // Tail.
         game.pickHandled = true
-        ent.sprite.animate(game.time, nextFilm(game, ent.sprite))
-      } else if (game.cursor.hits(ent.sprite.bounds)) { // Anywhere else.
+        ent.sprites[0].animate(game.time, nextFilm(game, ent.sprites[0]))
+      } else if (game.cursor.hits(ent.sprites[0].bounds)) { // Anywhere else.
         game.pickHandled = true
         solitaireReset(game.solitaire)
         game.saveStorage.data.wins = game.solitaire.wins

@@ -30,7 +30,9 @@ export function* newLevelComponents(
 function newCard(factory: SpriteFactory, card: Card, xy: XY): Partial<SPEnt> {
   return {
     card,
-    sprite: factory.new(getCardFilmID(card), `Card${card.direction}`, { xy }),
+    sprites: [
+      factory.new(getCardFilmID(card), `Card${card.direction}`, { xy }),
+    ],
   }
 }
 
@@ -39,15 +41,15 @@ function* newFoundation(factory: SpriteFactory): Generator<Partial<SPEnt>> {
   // next: null
   for (const suit of SuitSet) {
     yield {
-      sprite: factory.new(`card--Vacant${suit}`, 'Vacancy', {
+      sprites: [factory.new(`card--Vacant${suit}`, 'Vacancy', {
         xy: getFoundationCardXY(factory.filmByID, suit),
-      }),
+      })],
     }
     yield {
       pile: { type: 'Foundation', suit },
-      sprite: factory.new('palette--Light', 'Background', {
+      sprites: [factory.new('palette--Light', 'Background', {
         xy: getFoundationCardXY(factory.filmByID, suit),
-      }),
+      })],
     }
   }
 }
@@ -58,9 +60,9 @@ function* newStock(
 ): IterableIterator<Partial<SPEnt>> {
   yield {
     vacantStock: true,
-    sprite: factory.new('card--VacantStock', 'Vacancy', {
+    sprites: [factory.new('card--VacantStock', 'Vacancy', {
       xy: getStockXY(solitaire, solitaire.stock.length - 1),
-    }),
+    })],
   }
   for (const [index, card] of solitaire.stock.entries()) {
     yield newCard(factory, card, getStockXY(solitaire, index))
@@ -75,14 +77,14 @@ function* newTableau(
     const x = indexX
     yield {
       pile: { type: 'Tableau', x },
-      sprite: factory.new('palette--Light', 'Background', {
+      sprites: [factory.new('palette--Light', 'Background', {
         xy: getTableauCardXY(factory.filmByID, x, 0),
-      }),
+      })],
     }
     yield {
-      sprite: factory.new('card--VacantPile', 'Vacancy', {
+      sprites: [factory.new('card--VacantPile', 'Vacancy', {
         xy: getTableauCardXY(factory.filmByID, x, 0),
-      }),
+      })],
     }
     for (const [indexY, card] of pile.entries()) {
       yield newCard(
@@ -105,7 +107,7 @@ function* newTallies(factory: SpriteFactory): IterableIterator<Partial<SPEnt>> {
         pad: { x: 0, y: 8 + i * 8 },
       },
       tally: { tens: i },
-      sprite: factory.new('tally--0', 'Patience'),
+      sprites: [factory.new('tally--0', 'Patience')],
     }
   }
 }

@@ -19,6 +19,7 @@ import {
   CursorSystem,
   ECS,
   FollowCamSystem,
+  FollowDpadSystem,
   FollowPointSystem,
   Game,
   Input,
@@ -60,11 +61,12 @@ export function SuperPatience(
   ecs.patch()
   ecs.addSystem(
     new FollowCamSystem(),
-    new CursorSystem(),
+    new CursorSystem(true),
+    new FollowDpadSystem(),
     new FollowPointSystem(),
     new CardSystem(
-      [...ecs.query('pile & sprite')],
-      ecs.queryOne('vacantStock & sprite').sprite,
+      [...ecs.query('pile & sprites')],
+      ecs.queryOne('vacantStock & sprites').sprites[0],
     ),
     new PileHitboxSystem(),
     new VacantStockSystem(),
@@ -101,7 +103,7 @@ export function SuperPatience(
     tick: 1,
     time: 0,
     saveStorage,
-    cursor: ecs.queryOne('cursor & sprite').sprite,
+    cursor: ecs.queryOne('cursor & sprites').sprites[0],
     filmByID: assets.atlasMeta.filmByID,
     window,
   }
@@ -135,16 +137,10 @@ function spOnFrame(self: SuperPatience, delta: number): void {
   // made and old removed. for grid, how can i make sure that moved sprites
   // get invalidated. is there a big sprite movement mgmt system?
   let index = 0
-  for (const ent of self.ecs.query('sprite | sprites')) {
-    if (ent.sprite != null) {
-      self.bitmaps.set(index, ent.sprite, self.time)
+  for (const ent of self.ecs.query('sprites')) {
+    for (const sprite of ent.sprites) {
+      self.bitmaps.set(index, sprite, self.time)
       index++
-    }
-    if (ent.sprites != null) {
-      for (const sprite of ent.sprites) {
-        self.bitmaps.set(index, sprite, self.time)
-        index++
-      }
     }
   }
 

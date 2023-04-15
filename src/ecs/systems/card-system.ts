@@ -15,13 +15,16 @@ import {
 } from '@/super-patience'
 import { QueryEnt, Sprite, System } from '@/void'
 
-export type CardEnt = QueryEnt<{ card: Card; sprite: Sprite }, typeof query>
+export type CardEnt = QueryEnt<
+  { card: Card; sprites: [Sprite, ...Sprite[]] },
+  typeof query
+>
 
-const query = 'card & sprite'
+const query = 'card & sprites'
 
 interface PileEnt {
   readonly pile: PileConfig
-  readonly sprite: Sprite
+  readonly sprites: [Sprite, ...Sprite[]]
 }
 
 type PickState = {
@@ -46,7 +49,7 @@ export class CardSystem implements System<CardEnt, SPEnt> {
     if (game.pickHandled) return
 
     const picked = pick(ents, game)
-    const isStockPick = picked?.sprite.hits(this.#vacantStock)
+    const isStockPick = picked?.sprites[0].hits(this.#vacantStock)
 
     if (
       picked?.card.direction === 'Down' && !isStockPick &&
@@ -111,14 +114,14 @@ export class CardSystem implements System<CardEnt, SPEnt> {
         const ent = game.ecs.get(card)
         return {
           ent,
-          offset: game.cursor.bounds.xy.copy().sub(ent.sprite!.bounds.xy),
+          offset: game.cursor.bounds.xy.copy().sub(ent.sprites![0].bounds.xy),
         }
       },
-      `Card ${card} missing sprite.`,
+      `Card ${card} missing sprites[0].`,
     )
 
     // Elevate the selection to the pick layer.
-    for (const select of selected) select.ent.sprite!.layer = SPLayer.Picked
+    for (const select of selected) select.ent.sprites![0].layer = SPLayer.Picked
 
     this.#selected.length = 0
     this.#selected.push(...selected) // to-do: free this ent on ECS remove
@@ -126,10 +129,12 @@ export class CardSystem implements System<CardEnt, SPEnt> {
 
   #drop(update: SuperPatience): PileEnt | undefined {
     const pick = this.#selected[0]?.ent
-    if (pick?.sprite == null) return
+    if (pick?.sprites == null) return
     let drop
     for (const ent of this.#piles) {
-      const overlap = pick.sprite.bounds.copy().intersection(ent.sprite.bounds)
+      const overlap = pick.sprites[0].bounds.copy().intersection(
+        ent.sprites[0].bounds,
+      )
       if (
         overlap.flipped || overlap.empty || ent.pile.type === 'Waste' ||
         !solitaireIsBuildable(update.solitaire, ent.pile)
@@ -149,14 +154,16 @@ function pick(
   if (game.input == null) return
   let picked: CardEnt | undefined
   for (const ent of ents) {
-    if (!ent.sprite.hits(game.cursor)) continue
-    if (picked == null || ent.sprite.isAbove(picked.sprite)) picked = ent
+    if (!ent.sprites[0].hits(game.cursor)) continue
+    if (picked == null || ent.sprites[0].isAbove(picked.sprites[0])) {
+      picked = ent
+    }
   }
   return picked
 }
 
 function moveEntsToCursor(game: SuperPatience, selected: PickState): void {
   for (const pick of selected) {
-    pick.ent.sprite?.move(game.cursor.bounds.xy.copy().sub(pick.offset))
+    pick.ent.sprites?.[0].setXY(game.cursor.bounds.xy.copy().sub(pick.offset))
   }
 }
