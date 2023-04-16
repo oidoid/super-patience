@@ -53,7 +53,7 @@ export function SuperPatience(
   const ecs = new ECS<SPEnt>()
   ecs.addEnt(
     ...newLevelComponents(
-      new SpriteFactory(assets.atlasMeta.filmByID),
+      new SpriteFactory(assets.atlas.filmByID),
       undefined,
       solitaire,
     ),
@@ -104,7 +104,7 @@ export function SuperPatience(
     time: 0,
     saveStorage,
     cursor: ecs.queryOne('cursor & sprites').sprites[0],
-    filmByID: assets.atlasMeta.filmByID,
+    filmByID: assets.atlas.filmByID,
     window,
   }
   return self

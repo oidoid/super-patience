@@ -1,4 +1,4 @@
-import { AtlasMeta } from '@/atlas-pack'
+import { Atlas } from '@/atlas-pack'
 import { atlasJSON, SPFilmID } from '@/super-patience'
 import {
   Assets,
@@ -8,10 +8,8 @@ import {
 } from '@/void'
 
 export async function loadAssets(): Promise<Assets<SPFilmID>> {
-  const atlas = await loadImage('atlas.png')
-  const atlasMeta = AtlasMeta.fromJSON<SPFilmID>(atlasJSON)
-  const shaderLayout = parseShaderLayout(
-    shaderLayoutConfig,
-  )
-  return { atlas, atlasMeta, shaderLayout }
+  const spritesheet = await loadImage('atlas.png')
+  const atlas = Atlas.fromJSON<SPFilmID>(atlasJSON)
+  const shaderLayout = parseShaderLayout(shaderLayoutConfig)
+  return { atlas, spritesheet, shaderLayout }
 }
