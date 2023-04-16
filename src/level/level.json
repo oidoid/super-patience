@@ -10,7 +10,7 @@
     "name": "background border",
     "followCam": { "fill": "XY", "orientation": "Northwest" },
     "sprites": [
-      { "id": "palette--Dark", "layer": "Background", "layerByHeight": true }
+      { "id": "palette--Dark", "layer": "Background", "layerAnchorEnd": true }
     ]
   },
   {
@@ -50,7 +50,7 @@
     "sprites": [{
       "id": "background--Grid",
       "layer": "Background",
-      "layerByHeight": true,
+      "layerAnchorEnd": true,
       "wrap": { "x": -1, "y": -1 }
     }]
   },
