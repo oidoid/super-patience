@@ -1,4 +1,4 @@
-import { assertNonNull, XY } from '@/ooz'
+import { assertNonNull, Box, XY } from '@/ooz'
 import { Solitaire } from '@/solitaire'
 import {
   CardSystem,
@@ -50,7 +50,7 @@ export function SuperPatience(
   const saveStorage = SaveStorage.load(localStorage)
   const solitaire = Solitaire(random, saveStorage.data.wins)
 
-  const ecs = new ECS<SPEnt>()
+  const ecs = new ECS<SPEnt>(new Box(-1024, -1024, 2048, 2048), new XY(32, 32))
   ecs.addEnt(
     ...newLevelComponents(
       new SpriteFactory(assets.atlas.filmByID),

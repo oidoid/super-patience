@@ -31,8 +31,7 @@ export class PileHitboxSystem implements System<PileHitboxEnt, SPEnt> {
       : pile.type === 'Tableau'
       ? getTableauCardXY(game.filmByID, pile.x, 0)
       : getFoundationCardXY(game.filmByID, pile.suit)
-    sprites[0].x = xy.x - mod + 1
-    sprites[0].y = xy.y - mod + 1
+    sprites[0].setXY(xy.x - mod + 1, xy.y - mod + 1)
     sprites[0].w = cardWH.x + mod * 2 - 1
     sprites[0].h = cardWH.y +
       (pile.type === 'Waste'
