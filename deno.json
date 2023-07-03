@@ -18,5 +18,5 @@
     "build": "mkdir -p dist && ../void/make --favicon=assets/favicon.aseprite --in=src/index.ts --origin=https://superpatience.com --out=dist/index.html --title='Super Patience' -- assets/atlas/*.aseprite",
     "test": "deno check src/index.ts && deno lint && deno fmt --check"
   },
-  "version": "1.2.1"
+  "version": "1.2.2"
 }
