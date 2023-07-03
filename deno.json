@@ -14,8 +14,8 @@
   "lock": false,
   "name": "super-patience",
   "tasks": {
-    "start": "mkdir -p dist && ../void/make --favicon=assets/favicon.aseprite --in=src/index.ts --out=dist/index.html --title='Super Patience' --watch=dist -- assets/atlas/*.aseprite",
-    "build": "mkdir -p dist && ../void/make --favicon=assets/favicon.aseprite --in=src/index.ts --out=dist/index.html --title='Super Patience' -- assets/atlas/*.aseprite",
+    "start": "mkdir -p dist && ../void/make --favicon=assets/favicon.aseprite --in=src/index.ts --origin=https://superpatience.com --out=dist/index.html --title='Super Patience' --watch=dist -- assets/atlas/*.aseprite",
+    "build": "mkdir -p dist && ../void/make --favicon=assets/favicon.aseprite --in=src/index.ts --origin=https://superpatience.com --out=dist/index.html --title='Super Patience' -- assets/atlas/*.aseprite",
     "test": "deno check src/index.ts && deno lint && deno fmt --check"
   },
   "version": "1.2.1"
