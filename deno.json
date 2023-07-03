@@ -3,30 +3,20 @@
     "exactOptionalPropertyTypes": true,
     "noImplicitOverride": true,
     "noUncheckedIndexedAccess": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "useUnknownInCatchVariables": true,
-    "lib": ["dom", "deno.ns"]
+    "lib": ["deno.ns", "dom"]
   },
-  "fmt": {
-    "files": { "exclude": ["dist"] },
-    "options": { "semiColons": false, "singleQuote": true }
-  },
+  "fmt": { "semiColons": false, "singleQuote": true },
   "imports": {
-    "@/atlas-pack": "https://deno.land/x/atlas_pack@v8.0.0/mod.ts",
-    "@/mem": "https://deno.land/x/mem@v9.0.0/mod.ts",
-    "@/ooz": "https://deno.land/x/ooz@v0.0.17/mod.ts",
-    "@/solitaire": "https://deno.land/x/solitaire@v0.0.8/mod.ts",
-    "@/super-patience": "./mod.ts",
-    "@/void": "https://deno.land/x/oid@v0.0.10/mod.ts",
-    "std/": "https://deno.land/std@0.179.0/"
-  },
-  "lint": {
-    "files": { "exclude": ["dist"] },
-    "rules": { "exclude": ["no-empty-interface", "no-misused-new"] }
+    "@/solitaire": "https://deno.land/x/solitaire@v0.0.9/mod.ts",
+    "@/void": "https://deno.land/x/oid@v0.0.11/mod.ts",
+    "std/": "https://deno.land/std@0.192.0/"
   },
   "lock": false,
   "name": "super-patience",
-  "test": { "files": { "exclude": ["dist"] } },
+  "tasks": {
+    "start": "mkdir -p dist && ../void/make --favicon=assets/favicon.aseprite --in=src/index.ts --out=dist/index.html --title='Super Patience' --watch=dist -- assets/atlas/*.aseprite",
+    "build": "mkdir -p dist && ../void/make --favicon=assets/favicon.aseprite --in=src/index.ts --out=dist/index.html --title='Super Patience' -- assets/atlas/*.aseprite",
+    "test": "deno check src/index.ts && deno lint && deno fmt --check"
+  },
   "version": "1.2.0"
 }

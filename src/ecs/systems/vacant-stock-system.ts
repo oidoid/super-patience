@@ -1,32 +1,21 @@
 import { solitaireDeal } from '@/solitaire'
-import {
-  invalidateSolitaireSprites,
-  SPEnt,
-  SuperPatience,
-} from '@/super-patience'
-import { QueryEnt, Sprite, System } from '@/void'
+import { Sprite } from '@/void'
+import { Game } from '../../index.ts'
+import { invalidateSolitaireSprites } from '../../level/level.ts'
 
-export type VacantStockEnt = QueryEnt<
-  { vacantStock: Record<never, never>; sprites: [Sprite, ...Sprite[]] },
-  typeof query
+export type VacantStockEnt = Readonly<
+  { vacantStock: Record<never, never>; sprite: Sprite }
 >
 
-const query = 'vacantStock & sprites'
-
-export class VacantStockSystem implements System<VacantStockEnt, SPEnt> {
-  readonly query = query
-  run(ents: ReadonlySet<VacantStockEnt>, game: SuperPatience) {
-    if (game.pickHandled || !game.input.isOffStart('Action')) return
+export class VacantStockSystem {
+  readonly query: (keyof VacantStockEnt)[] = ['vacantStock', 'sprite']
+  run(ents: Iterable<VacantStockEnt>, game: Game) {
+    if (game.v.ctrl.handled || !game.v.ctrl.isOffStart('A')) return
     for (const ent of ents) {
-      if (!ent.sprites[0].hits(game.cursor)) return
-      game.pickHandled = true
+      if (!ent.sprite.hits(game.cursor)) return
+      game.v.ctrl.handled = true
       solitaireDeal(game.solitaire)
-      invalidateSolitaireSprites(
-        game.ecs,
-        game.filmByID,
-        game.solitaire,
-        game.time,
-      )
+      invalidateSolitaireSprites(game)
       return
     }
   }

@@ -1,12 +1,11 @@
-import { FilmByID } from '@/atlas-pack'
-import { XY } from '@/ooz'
 import { Card, cardToASCII, Solitaire, Suit } from '@/solitaire'
-import { SPEnt, SPFilmID, SPLayer } from '@/super-patience'
-import { ECS } from '@/void'
+import { Atlas, WH, XY } from '@/void'
+import { SPAnimTag } from '../assets/sp-anim-tag.ts'
+import { Game } from '../index.ts'
+import { Layer } from '../layer.ts'
 
 export const mod = 8
-
-export const cardWH = new XY(24, 32)
+export const cardWH: WH = { w: 24, h: 32 }
 const tableauY = 72
 const boardX = 2 * mod
 const boardY = 16
@@ -15,97 +14,79 @@ const hiddenY = -1024
 // to-do: can this be a system or systems? It seems like it's a "board" system
 // but has some overlap with CardSystem which calls these functions.
 
-export function invalidateSolitaireSprites(
-  ecs: ECS<SPEnt>,
-  filmByID: FilmByID<SPFilmID>,
-  solitaire: Readonly<Solitaire>,
-  time: number,
-): void {
-  for (const [indexX, column] of solitaire.tableau.entries()) {
+export function invalidateSolitaireSprites(game: Game): void {
+  for (const [indexX, column] of game.solitaire.tableau.entries()) {
     for (const [indexY, card] of column.entries()) {
-      const ent = ecs.get(card)
-      ent.sprites![0].setXY(getTableauCardXY(filmByID, indexX, indexY))
-      ent.sprites![0].layer =
-        SPLayer[card.direction === 'Up' ? 'CardUp' : 'CardDown']
-      ent.sprites![0].animate(time, filmByID[getCardFilmID(card)])
+      const sprite = game.spriteByCard.get(card)!
+      sprite.xy = getTableauCardXY(game.v.atlas, indexX, indexY)
+      sprite.z = Layer[card.direction === 'Up' ? 'CardUp' : 'CardDown']
+      sprite.tag = getCardTag(card)
     }
   }
-  for (const pillar of solitaire.foundation) {
+  for (const pillar of game.solitaire.foundation) {
     for (const [index, card] of pillar.entries()) {
-      const ent = ecs.get(card)
-      ent.sprites![0].setXY(getFoundationCardXY(filmByID, card.suit))
+      const sprite = game.spriteByCard.get(card)!
+      sprite.xy = getFoundationCardXY(game.v.atlas, card.suit)
       // Force all cards except the top to downward since they're in the exact
       // same position and are not layered correctly for rendering.
-      const animID = index === (pillar.length - 1)
-        ? getCardFilmID(card)
+      const tag = index === (pillar.length - 1)
+        ? getCardTag(card)
         : 'card--Down'
-      ent.sprites![0].animate(time, filmByID[animID])
-      ent.sprites![0].layer =
-        SPLayer[animID === 'card--Down' ? 'CardDown' : 'CardUp']
+      sprite.z = Layer[tag === 'card--Down' ? 'CardDown' : 'CardUp']
+      sprite.tag = tag
     }
   }
-  for (const [index, card] of solitaire.stock.entries()) {
-    const ent = ecs.get(card)
-    ent.sprites![0].setXY(getStockXY(solitaire, index))
-    ent.sprites![0].layer =
-      SPLayer[card.direction === 'Up' ? 'CardUp' : 'CardDown']
-    ent.sprites![0].animate(time, filmByID[getCardFilmID(card)])
+  for (const [index, card] of game.solitaire.stock.entries()) {
+    const sprite = game.spriteByCard.get(card)!
+    sprite.xy = getStockXY(game.solitaire, index)
+    sprite.z = Layer[card.direction === 'Up' ? 'CardUp' : 'CardDown']
+    sprite.tag = getCardTag(card)
   }
-  for (const [index, card] of solitaire.waste.entries()) {
-    const ent = ecs.get(card)
-    ent.sprites![0].setXY(getWasteXY(solitaire, index))
-    let animID: SPFilmID
-    if (index >= (solitaire.waste.length - solitaire.drawSize)) {
-      animID = getCardFilmID(card)
-    } else animID = 'card--Down'
+  for (const [index, card] of game.solitaire.waste.entries()) {
+    const sprite = game.spriteByCard.get(card)!
+    sprite.xy = getWasteXY(game.solitaire, index)
+    let tag: SPAnimTag
+    if (index >= (game.solitaire.waste.length - game.solitaire.drawSize)) {
+      tag = getCardTag(card)
+    } else tag = 'card--Down'
     // Hide waste under the draw reserve. I can't draw them in the correct
     // order since they have identical XYs.
-    ent.sprites![0].layer =
-      SPLayer[animID === 'card--Down' ? 'CardDown' : 'CardUp']
-    ent.sprites![0].animate(time, filmByID[animID])
+    sprite.z = Layer[tag === 'card--Down' ? 'CardDown' : 'CardUp']
+    sprite.tag = tag
   }
 }
 
-export function getStockXY(
-  solitaire: Readonly<Solitaire>,
-  indexY: number,
-): XY {
-  return new XY(
-    boardX + 160,
+export function getStockXY(solitaire: Readonly<Solitaire>, indexY: number): XY {
+  return {
+    x: boardX + 160,
     // All cards in the stock are at the same point and on the same layer. Only
     // the top card should be pickable though so hide the rest off-cam since
     // they're not drawn in the correct order.
-    boardY + (solitaire.stock.length - 1 === indexY ? 0 : hiddenY),
-  )
+    y: boardY + (solitaire.stock.length - 1 === indexY ? 0 : hiddenY),
+  }
 }
 
-export function getWasteXY(
-  solitaire: Readonly<Solitaire>,
-  index: number,
-): XY {
+export function getWasteXY(solitaire: Readonly<Solitaire>, index: number): XY {
   const top = solitaire.waste.length - solitaire.drawSize
   const mul = Math.max(index - top, 0)
-  return new XY(208, boardY + mul * mod)
+  return { x: 208, y: boardY + mul * mod }
 }
 
-export function getFoundationCardXY(
-  filmByID: FilmByID<SPFilmID>,
-  suit: Suit,
-): XY {
-  const film = filmByID[`card--Vacant${suit}`]
+export function getFoundationCardXY(atlas: Atlas<SPAnimTag>, suit: Suit): XY {
+  const anim = atlas[`card--Vacant${suit}`]
   const mul = { Clubs: 0, Diamonds: 1, Hearts: 2, Spades: 3 }[suit]
-  return new XY(boardX + mod * 4 + mul * (film.wh.x + mod), boardY)
+  return { x: boardX + mod * 4 + mul * (anim.w + mod), y: boardY }
 }
 
 export function getTableauCardXY(
-  filmByID: FilmByID<SPFilmID>,
+  atlas: Atlas<SPAnimTag>,
   indexX: number,
   indexY: number,
 ): XY {
-  const film = filmByID['card--VacantPile']
-  return new XY(boardX + indexX * (film.wh.x + mod), tableauY + indexY * mod)
+  const anim = atlas['card--VacantPile']
+  return { x: boardX + indexX * (anim.w + mod), y: tableauY + indexY * mod }
 }
 
-export function getCardFilmID(card: Card): SPFilmID {
+export function getCardTag(card: Card): SPAnimTag {
   return card.direction === 'Up' ? `card--${cardToASCII(card)}` : 'card--Down'
 }

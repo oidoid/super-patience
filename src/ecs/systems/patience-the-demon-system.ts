@@ -1,35 +1,36 @@
-import { Film } from '@/atlas-pack'
 import { solitaireReset } from '@/solitaire'
-import { SPEnt, SuperPatience } from '@/super-patience'
-import { QueryEnt, Sprite, System } from '@/void'
+import { Sprite } from '@/void'
+import { SPAnimTag } from '../../assets/sp-anim-tag.ts'
+import { Game } from '../../index.ts'
+import { SaveData, saveKey } from '../../save-data.ts'
 
-export type PatienceTheDemonEnt = QueryEnt<
-  { patienceTheDemon: Record<never, never>; sprites: [Sprite, ...Sprite[]] },
-  typeof query
+export type PatienceTheDemonEnt = Readonly<
+  { patienceTheDemon: Record<never, never>; sprite: Sprite<SPAnimTag> }
 >
 
-const query = 'patienceTheDemon & sprites'
-
-export class PatienceTheDemonSystem
-  implements System<PatienceTheDemonEnt, SPEnt> {
-  readonly query = query
-  run(ents: ReadonlySet<PatienceTheDemonEnt>, game: SuperPatience): void {
-    if (game.pickHandled || !game.input.isOffStart('Action')) return
+export class PatienceTheDemonSystem {
+  readonly query: (keyof PatienceTheDemonEnt)[] = ['patienceTheDemon', 'sprite']
+  run(ents: Iterable<PatienceTheDemonEnt>, game: Game): void {
     for (const ent of ents) {
-      if (game.cursor.hits(ent.sprites[0].hitbox)) { // Tail.
-        game.pickHandled = true
-        ent.sprites[0].animate(game.time, nextFilm(game, ent.sprites[0]))
-      } else if (game.cursor.hits(ent.sprites[0].bounds)) { // Anywhere else.
-        game.pickHandled = true
+      const blink = (game.v.frame % (60 * 60)) < 18 ? 'Blink' : ''
+      const good = ent.sprite.tag.includes('Good')
+      ent.sprite.tag = `patience-the-demon--${good ? 'Good' : 'Evil'}${blink}`
+      if (game.v.ctrl.handled || !game.v.ctrl.isOffStart('A')) return
+      if (game.cursor.hits(ent.sprite)) { // Tail.
+        game.v.ctrl.handled = true
+        ent.sprite.tag = `patience-the-demon--${good ? 'Evil' : 'Good'}${blink}`
+      } else if (
+        game.cursor.hits({
+          x: ent.sprite.x,
+          y: ent.sprite.y,
+          w: ent.sprite.w,
+          h: ent.sprite.h,
+        })
+      ) { // Anywhere else.
+        game.v.ctrl.handled = true
         solitaireReset(game.solitaire)
-        game.saveStorage.data.wins = game.solitaire.wins
-        game.saveStorage.save()
+        game.v.kv.put<SaveData>(saveKey, { wins: game.solitaire.wins })
       }
     }
   }
-}
-
-function nextFilm(game: Readonly<SuperPatience>, sprite: Sprite): Film {
-  const good = sprite.film.id === 'patience-the-demon--Good'
-  return game.filmByID[`patience-the-demon--${good ? 'Evil' : 'Good'}`]
 }

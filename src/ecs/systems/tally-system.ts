@@ -1,36 +1,26 @@
-import {
-  maxTallies,
-  SPEnt,
-  SPFilmID,
-  SuperPatience,
-  TallyConfig,
-} from '@/super-patience'
-import { QueryEnt, Sprite, System } from '@/void'
+import { Sprite } from '@/void'
+import { Game } from '../../index.ts'
+import { maxTallies } from '../../level/ent-factory.ts'
+import { TallyConfig } from '../components/tally-config.ts'
 
 // deno-fmt-ignore
-type ZeroToTwenty =  0 |  1 |  2  | 3 |  4 |  5 |  6 |  7 |  8 | 9 | 10 | 11 |
+type ZeroToTwenty =  0 |  1 |  2 |  3 |  4 |  5 |  6 |  7 |  8 | 9 | 10 | 11 |
                     12 | 13 | 14 | 15 | 16 | 17 | 18 | 19 | 20
 
-export type TallyEnt = QueryEnt<
-  { tally: TallyConfig; sprites: [Sprite, ...Sprite[]] },
-  typeof query
->
+export type TallyEnt = Readonly<{ tally: TallyConfig; sprite: Sprite }>
 
-const query = 'tally & sprites'
-
-export class TallySystem implements System<TallyEnt, SPEnt> {
-  readonly query = query
-  runEnt(ent: TallyEnt, game: SuperPatience) {
-    const max = maxTallies * 10
-    const wins =
-      Math.min(10, Math.max(0, game.solitaire.wins - ent.tally.tens * 10)) +
-      Math.min(
-        10,
-        Math.max(0, game.solitaire.wins - max - ent.tally.tens * 10),
-      ) as ZeroToTwenty
-    const filmID: SPFilmID = `tally--${wins}`
-    if (ent.sprites[0].film.id !== filmID) {
-      ent.sprites[0].animate(game.time, game.filmByID[filmID])
+export class TallySystem {
+  readonly query: (keyof TallyEnt)[] = ['sprite', 'tally']
+  run(ents: Iterable<TallyEnt>, game: Game): void {
+    for (const ent of ents) {
+      const max = maxTallies * 10
+      const wins =
+        Math.min(10, Math.max(0, game.solitaire.wins - ent.tally.tens * 10)) +
+        Math.min(
+          10,
+          Math.max(0, game.solitaire.wins - max - ent.tally.tens * 10),
+        ) as ZeroToTwenty
+      ent.sprite.tag = `tally--${wins}`
     }
   }
 }

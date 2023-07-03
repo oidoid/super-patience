@@ -1,14 +1,8 @@
-import { AsepriteFileTag } from '@/atlas-pack'
+import { AnimTag } from '@/void'
 
-/**
- * The identifiers for all the films in the atlas. IDs are used to reference
- * immutable image source properties, such as dimensions and animation duration,
- * from the Atlas. The tag convention used here is
- * `<file stem>[-<state or variant>]*`.
- */
-export type SPFilmID = Parameters<typeof SPFilmIDSet['has']>[0]
+export type SPAnimTag = Parameters<typeof SPAnimTagSet['has']>[0]
 
-export const SPFilmIDSet = new Set(
+export const SPAnimTagSet = new Set(
   [
     'background--Corner',
     'background--Checkerboard', // For debugging.
@@ -81,7 +75,9 @@ export const SPFilmIDSet = new Set(
     'palette--Light',
     'palette--Mid',
     'patience-the-demon--Good',
+    'patience-the-demon--GoodBlink',
     'patience-the-demon--Evil',
+    'patience-the-demon--EvilBlink',
     'tally--0',
     'tally--1',
     'tally--2',
@@ -103,5 +99,5 @@ export const SPFilmIDSet = new Set(
     'tally--18',
     'tally--19',
     'tally--20',
-  ] satisfies AsepriteFileTag[],
+  ] satisfies AnimTag[],
 )

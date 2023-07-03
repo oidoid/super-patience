@@ -1,3 +1,1 @@
-export interface TallyConfig {
-  tens: number
-}
+export type TallyConfig = { tens: number }
