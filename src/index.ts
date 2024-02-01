@@ -21,7 +21,7 @@ export type Game = {
   readonly spriteByCard: Map<Card, Sprite>
 }
 
-console.log(`Super Patience v${config.version} by oidoid`)
+console.log(`Super Patience v${config.version} by ──oidoid>°─`)
 
 const v = await Void.new<SPAnimTag>()
 v.background = 0x0a1a1aff
@@ -64,7 +64,6 @@ function loop(): void {
   v.cam.x = -camOffsetX + camOffsetX % 8
 
   for (const system of systems) {
-    // deno-lint-ignore no-extra-semi
     ;(system as { run(ents: Iterable<Partial<Ent>>, game: Game): void }).run(
       filter(ents, ...system.query),
       game,
