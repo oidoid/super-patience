@@ -3,14 +3,18 @@
     "exactOptionalPropertyTypes": true,
     "noImplicitOverride": true,
     "noUncheckedIndexedAccess": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
     "lib": ["deno.ns", "dom"]
   },
+  "exclude": ["dist"],
   "fmt": { "semiColons": false, "singleQuote": true },
   "imports": {
     "@/solitaire": "https://deno.land/x/solitaire@v0.0.9/mod.ts",
     "@/void": "https://deno.land/x/oid@v0.0.11/mod.ts",
-    "std/": "https://deno.land/std@0.192.0/"
+    "std/": "https://deno.land/std@0.213.0/"
   },
+  "lint": { "rules": { "exclude": ["no-inferrable-types"] } },
   "lock": false,
   "name": "super-patience",
   "tasks": {
