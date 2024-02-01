@@ -14,12 +14,12 @@ import { VacantStockSystem } from './ecs/systems/vacant-stock-system.ts'
 import { newLevelComponents } from './level/ent-factory.ts'
 import { SaveData, saveKey } from './save-data.ts'
 
-export type Game = Readonly<{
-  v: Void<SPAnimTag>
-  cursor: Sprite
-  solitaire: Solitaire
-  spriteByCard: Map<Card, Sprite>
-}>
+export type Game = {
+  readonly v: Void<SPAnimTag>
+  readonly cursor: Sprite
+  readonly solitaire: Solitaire
+  readonly spriteByCard: Map<Card, Sprite>
+}
 
 console.log(`Super Patience v${config.version} by oidoid`)
 

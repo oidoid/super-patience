@@ -1,11 +1,11 @@
 import { XY } from '@/void'
 
-export type FollowCamConfig = Readonly<{
-  fill?: 'X' | 'Y' | 'XY'
-  modulo?: Partial<XY> | undefined
-  orientation: FollowCamOrientation
-  pad?: Partial<XY> | undefined
-}>
+export type FollowCamConfig = {
+  readonly fill?: 'X' | 'Y' | 'XY'
+  readonly modulo?: Partial<XY> | undefined
+  readonly orientation: FollowCamOrientation
+  readonly pad?: Partial<XY> | undefined
+}
 
 /** The position relative the camera's bounding box. */
 export type FollowCamOrientation =

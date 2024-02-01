@@ -11,15 +11,15 @@ import { Layer } from '../../layer.ts'
 import { invalidateSolitaireSprites } from '../../level/level.ts'
 import { PileConfig } from '../components/pile-config.ts'
 
-export type CardEnt = Readonly<{ card: Card; sprite: Sprite }>
+export type CardEnt = { readonly card: Card; readonly sprite: Sprite }
 
-export type PileEnt = Readonly<{ pile: PileConfig; sprite: Sprite }>
+export type PileEnt = { readonly pile: PileConfig; readonly sprite: Sprite }
 
-type PickState = Readonly<{
-  sprite: Sprite
+type PickState = {
+  readonly sprite: Sprite
   /** The adjustment to offset future pick inputs by. */
-  offset: Readonly<XY>
-}>[]
+  readonly offset: Readonly<XY>
+}[]
 
 export class CardSystem {
   readonly query: (keyof CardEnt)[] = ['card', 'sprite']

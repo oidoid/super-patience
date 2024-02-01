@@ -8,7 +8,10 @@ import {
 } from '../../level/level.ts'
 import { PileConfig } from '../components/pile-config.ts'
 
-export type PileHitboxEnt = Readonly<{ pile: PileConfig; sprite: Sprite }>
+export type PileHitboxEnt = {
+  readonly pile: PileConfig
+  readonly sprite: Sprite
+}
 
 /** Size the pile's hitbox. */
 export class PileHitboxSystem {
