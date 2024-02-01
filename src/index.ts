@@ -1,6 +1,6 @@
 import { Card, Solitaire } from '@/solitaire'
 import { Sprite, Void } from '@/void'
-import config from '../deno.json' assert { type: 'json' }
+import config from '../deno.json' with { type: 'json' }
 import { SPAnimTag } from './assets/sp-anim-tag.ts'
 import { Ent } from './ecs/ent.ts'
 import { CardSystem, PileEnt } from './ecs/systems/card-system.ts'

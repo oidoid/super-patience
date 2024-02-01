@@ -3,7 +3,7 @@ import { SPAnimTag } from '../assets/sp-anim-tag.ts'
 import { FollowCamConfig } from '../ecs/components/follow-cam.ts'
 import { Ent } from '../ecs/ent.ts'
 import { Layer } from '../layer.ts'
-import levelJSON from './level.json' assert { type: 'json' }
+import levelJSON from './level.json' with { type: 'json' }
 
 export function parseLevel(atlas: Atlas<SPAnimTag>): Partial<Ent>[] {
   return levelJSON.map((json) => parseComponentSet(atlas, json))
