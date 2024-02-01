@@ -54,7 +54,7 @@ function* newStock(
   const vacant = v.sprite('card--VacantStock')
   vacant.z = Layer.Decal
   vacant.xy = getStockXY(solitaire, solitaire.stock.length - 1)
-  yield { vacantStock: true, sprite: vacant }
+  yield { vacantStock: {}, sprite: vacant }
   for (const [index, card] of solitaire.stock.entries()) {
     yield newCard(v, card, getStockXY(solitaire, index))
   }

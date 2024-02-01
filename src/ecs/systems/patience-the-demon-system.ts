@@ -5,7 +5,7 @@ import { Game } from '../../index.ts'
 import { SaveData, saveKey } from '../../save-data.ts'
 
 export type PatienceTheDemonEnt = Readonly<
-  { patienceTheDemon: Record<never, never>; sprite: Sprite<SPAnimTag> }
+  { patienceTheDemon: object; sprite: Sprite<SPAnimTag> }
 >
 
 export class PatienceTheDemonSystem {

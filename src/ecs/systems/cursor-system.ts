@@ -4,7 +4,7 @@ import { Game } from '../../index.ts'
 import { Layer } from '../../layer.ts'
 
 export type CursorEnt = Readonly<
-  { cursor: Record<never, never>; sprite: Sprite<SPAnimTag> }
+  { cursor: object; sprite: Sprite<SPAnimTag> }
 >
 
 export class CursorSystem {

@@ -4,7 +4,7 @@ import { Game } from '../../index.ts'
 import { invalidateSolitaireSprites } from '../../level/level.ts'
 
 export type VacantStockEnt = Readonly<
-  { vacantStock: Record<never, never>; sprite: Sprite }
+  { vacantStock: object; sprite: Sprite }
 >
 
 export class VacantStockSystem {

@@ -2,7 +2,7 @@ import { Sprite } from '@/void'
 import { Game } from '../../index.ts'
 
 export type FollowPointEnt = Readonly<
-  { followPoint: Record<never, never>; sprite: Sprite }
+  { followPoint: object; sprite: Sprite }
 >
 
 export class FollowPointSystem {
