@@ -1,4 +1,4 @@
-import { XY } from '@/void'
+import type {XY} from '@oidoid/void'
 
 export type FollowCamConfig = {
   readonly fill?: 'X' | 'Y' | 'XY'
@@ -8,7 +8,7 @@ export type FollowCamConfig = {
 }
 
 /** The position relative the camera's bounding box. */
+// prettier-ignore
 export type FollowCamOrientation =
-  // deno-fmt-ignore
   'North' | 'Northeast' | 'East' | 'Southeast' | 'South' | 'Southwest' |
   'West' | 'Northwest' | 'Center'

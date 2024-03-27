@@ -1,9 +1,11 @@
-import { Sprite } from '@/void'
-import { Game } from '../../index.ts'
+import {Sprite} from '@oidoid/void'
+import type {SPAnimTag} from '../../assets/sp-anim-tag.js'
+import {type Game} from '../../index.js'
 
-export type FollowPointEnt = Readonly<
-  { followPoint: object; sprite: Sprite }
->
+export type FollowPointEnt = {
+  readonly followPoint: object
+  readonly sprite: Sprite<SPAnimTag>
+}
 
 export class FollowPointSystem {
   readonly query: (keyof FollowPointEnt)[] = ['followPoint', 'sprite']

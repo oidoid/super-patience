@@ -1,11 +1,12 @@
-import { Sprite } from '@/void'
-import { SPAnimTag } from '../../assets/sp-anim-tag.ts'
-import { Game } from '../../index.ts'
-import { Layer } from '../../layer.ts'
+import {Sprite} from '@oidoid/void'
+import type {SPAnimTag} from '../../assets/sp-anim-tag.js'
+import type {Game} from '../../index.js'
+import {Layer} from '../../layer.js'
 
-export type CursorEnt = Readonly<
-  { cursor: object; sprite: Sprite<SPAnimTag> }
->
+export type CursorEnt = {
+  readonly cursor: object
+  readonly sprite: Sprite<SPAnimTag>
+}
 
 export class CursorSystem {
   readonly query: (keyof CursorEnt)[] = ['cursor', 'sprite']
@@ -15,8 +16,10 @@ export class CursorSystem {
       else if (game.v.ctrl.isOffStart('A')) ent.sprite.tag = 'cursor--Point'
       if (game.v.ctrl.point) {
         if (
-          game.v.ctrl.pointType === 'pen' || game.v.ctrl.pointType === 'touch'
-        ) ent.sprite.z = Layer.Hidden
+          game.v.ctrl.pointType === 'pen' ||
+          game.v.ctrl.pointType === 'touch'
+        )
+          ent.sprite.z = Layer.Hidden
         else ent.sprite.z = Layer.Cursor
       }
     }

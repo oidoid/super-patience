@@ -3,12 +3,12 @@
     "name": "cursor",
     "cursor": {},
     "followPoint": {},
-    "sprite": { "tag": "cursor--Point", "layer": "Hidden" }
+    "sprite": {"tag": "cursor--Point", "layer": "Hidden"}
   },
 
   {
     "name": "background corner NW",
-    "followCam": { "orientation": "Northwest" },
+    "followCam": {"orientation": "Northwest"},
     "sprite": {
       "tag": "background--Corner",
       "layer": "Background"
@@ -16,7 +16,7 @@
   },
   {
     "name": "background corner NE",
-    "followCam": { "orientation": "Northeast" },
+    "followCam": {"orientation": "Northeast"},
     "sprite": {
       "tag": "background--Corner",
       "layer": "Background",
@@ -25,7 +25,7 @@
   },
   {
     "name": "background corner SE",
-    "followCam": { "orientation": "Southeast" },
+    "followCam": {"orientation": "Southeast"},
     "sprite": {
       "tag": "background--Corner",
       "layer": "Background",
@@ -34,7 +34,7 @@
   },
   {
     "name": "background corner SW",
-    "followCam": { "orientation": "Southwest" },
+    "followCam": {"orientation": "Southwest"},
     "sprite": {
       "tag": "background--Corner",
       "layer": "Background",
@@ -47,7 +47,7 @@
     "followCam": {
       "fill": "XY",
       "orientation": "Northwest",
-      "pad": { "x": 1, "y": 1 }
+      "pad": {"x": 1, "y": 1}
     },
     "sprite": {
       "tag": "background--Grid",
@@ -69,7 +69,7 @@
   },
 
   {
-    "pile": { "type": "Waste" },
+    "pile": {"type": "Waste"},
     "sprite": {
       "tag": "palette--Light",
       "layer": "Background",
@@ -80,17 +80,17 @@
 
   {
     "name": "waste vacancy",
-    "sprite": { "tag": "card--VacantPile", "layer": "Decal", "x": 208, "y": 16 }
+    "sprite": {"tag": "card--VacantPile", "layer": "Decal", "x": 208, "y": 16}
   },
 
   {
     "name": "Patience the Demon",
     "followCam": {
-      "modulo": { "x": 8, "y": 8 },
+      "modulo": {"x": 8, "y": 8},
       "orientation": "Northwest",
-      "pad": { "x": 16, "y": 16 }
+      "pad": {"x": 16, "y": 16}
     },
     "patienceTheDemon": {},
-    "sprite": { "tag": "patience-the-demon--Good", "layer": "Decal" }
+    "sprite": {"tag": "patience-the-demon--Good", "layer": "Decal"}
   }
 ]

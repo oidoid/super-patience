@@ -1,0 +1,46 @@
+{
+  "author": "oidoid",
+  "background_color": "#e6e6e6",
+  "description": "Pixelated solitaire.",
+  "display": "standalone",
+  "homepage_url": "https://oidoid.com",
+  "icons": [
+    {
+      "src": "../dist/favicon/favicon16.png",
+      "sizes": "16x16",
+      "type": "image/png"
+    },
+    {
+      "src": "../dist/favicon/favicon32.png",
+      "sizes": "32x32",
+      "type": "image/png"
+    },
+    {
+      "src": "../dist/favicon/favicon48.png",
+      "sizes": "48x48",
+      "type": "image/png"
+    },
+    {
+      "src": "../dist/favicon/favicon64.png",
+      "sizes": "64x64",
+      "type": "image/png"
+    },
+    {
+      "src": "../dist/favicon/favicon192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "../dist/favicon/favicon512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "manifest_version": 3,
+  "name": "Super Patience",
+  "orientation": "any",
+  "short_name": "Patience",
+  "start_url": "https://superpatience.com",
+  "theme_color": "#e6e6e6",
+  "version": "0.0.0"
+}

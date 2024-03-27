@@ -1,17 +1,19 @@
-import { Box, Sprite } from '@/void'
-import { Game } from '../../index.ts'
-import { FollowCamConfig } from '../components/follow-cam.ts'
+import type {Box, Sprite} from '@oidoid/void'
+import type {SPAnimTag} from '../../assets/sp-anim-tag.js'
+import type {Game} from '../../index.js'
+import type {FollowCamConfig} from '../components/follow-cam.js'
 
-export type FollowCamEnt = Readonly<
-  { followCam: FollowCamConfig; sprite: Sprite }
->
+export type FollowCamEnt = {
+  readonly followCam: FollowCamConfig
+  readonly sprite: Sprite<SPAnimTag>
+}
 
 export class FollowCamSystem {
   readonly query: (keyof FollowCamEnt)[] = ['followCam', 'sprite']
   run(ents: Iterable<FollowCamEnt>, game: Game): void {
     for (const ent of ents) {
-      const { followCam, sprite } = ent
-      const pad = { x: followCam.pad?.x ?? 0, y: followCam.pad?.y ?? 0 }
+      const {followCam, sprite} = ent
+      const pad = {x: followCam.pad?.x ?? 0, y: followCam.pad?.y ?? 0}
       if (followCam.fill === 'X' || followCam.fill === 'XY') {
         sprite.w = game.v.cam.w - pad.x * 2
       }
@@ -27,7 +29,7 @@ export class FollowCamSystem {
 function computeX(
   sprite: Readonly<Sprite>,
   cam: Readonly<Box>,
-  component: Readonly<FollowCamConfig>,
+  component: Readonly<FollowCamConfig>
 ): number {
   const padW = component.pad?.x ?? 0
   let x = cam.x
@@ -49,13 +51,13 @@ function computeX(
       break
   }
   const modulo = (component.modulo?.x ?? x) || 1
-  return x - x % modulo
+  return x - (x % modulo)
 }
 
 function computeY(
   sprite: Readonly<Sprite>,
   cam: Readonly<Box>,
-  component: Readonly<FollowCamConfig>,
+  component: Readonly<FollowCamConfig>
 ): number {
   const padH = component.pad?.y ?? 0
   let y = cam.y
@@ -77,5 +79,5 @@ function computeY(
       break
   }
   const modulo = (component.modulo?.y ?? y) || 1
-  return y - y % modulo
+  return y - (y % modulo)
 }

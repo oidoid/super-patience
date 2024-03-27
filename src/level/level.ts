@@ -1,11 +1,11 @@
-import { Card, cardToASCII, Solitaire, Suit } from '@/solitaire'
-import { Atlas, WH, XY } from '@/void'
-import { SPAnimTag } from '../assets/sp-anim-tag.ts'
-import { Game } from '../index.ts'
-import { Layer } from '../layer.ts'
+import type {Atlas, WH, XY} from '@oidoid/void'
+import {Card, cardToASCII, Solitaire, type Suit} from 'klondike-solitaire'
+import type {SPAnimTag} from '../assets/sp-anim-tag.js'
+import type {Game} from '../index.js'
+import {Layer} from '../layer.js'
 
 export const mod = 8
-export const cardWH: WH = { w: 24, h: 32 }
+export const cardWH: WH = {w: 24, h: 32}
 const tableauY = 72
 const boardX = 2 * mod
 const boardY = 16
@@ -29,9 +29,7 @@ export function invalidateSolitaireSprites(game: Game): void {
       sprite.xy = getFoundationCardXY(game.v.atlas, card.suit)
       // Force all cards except the top to downward since they're in the exact
       // same position and are not layered correctly for rendering.
-      const tag = index === (pillar.length - 1)
-        ? getCardTag(card)
-        : 'card--Down'
+      const tag = index === pillar.length - 1 ? getCardTag(card) : 'card--Down'
       sprite.z = Layer[tag === 'card--Down' ? 'CardDown' : 'CardUp']
       sprite.tag = tag
     }
@@ -46,7 +44,7 @@ export function invalidateSolitaireSprites(game: Game): void {
     const sprite = game.spriteByCard.get(card)!
     sprite.xy = getWasteXY(game.solitaire, index)
     let tag: SPAnimTag
-    if (index >= (game.solitaire.waste.length - game.solitaire.drawSize)) {
+    if (index >= game.solitaire.waste.length - game.solitaire.drawSize) {
       tag = getCardTag(card)
     } else tag = 'card--Down'
     // Hide waste under the draw reserve. I can't draw them in the correct
@@ -62,29 +60,29 @@ export function getStockXY(solitaire: Readonly<Solitaire>, indexY: number): XY {
     // All cards in the stock are at the same point and on the same layer. Only
     // the top card should be pickable though so hide the rest off-cam since
     // they're not drawn in the correct order.
-    y: boardY + (solitaire.stock.length - 1 === indexY ? 0 : hiddenY),
+    y: boardY + (solitaire.stock.length - 1 === indexY ? 0 : hiddenY)
   }
 }
 
 export function getWasteXY(solitaire: Readonly<Solitaire>, index: number): XY {
   const top = solitaire.waste.length - solitaire.drawSize
   const mul = Math.max(index - top, 0)
-  return { x: 208, y: boardY + mul * mod }
+  return {x: 208, y: boardY + mul * mod}
 }
 
 export function getFoundationCardXY(atlas: Atlas<SPAnimTag>, suit: Suit): XY {
   const anim = atlas[`card--Vacant${suit}`]
-  const mul = { Clubs: 0, Diamonds: 1, Hearts: 2, Spades: 3 }[suit]
-  return { x: boardX + mod * 4 + mul * (anim.w + mod), y: boardY }
+  const mul = {Clubs: 0, Diamonds: 1, Hearts: 2, Spades: 3}[suit]
+  return {x: boardX + mod * 4 + mul * (anim.w + mod), y: boardY}
 }
 
 export function getTableauCardXY(
   atlas: Atlas<SPAnimTag>,
   indexX: number,
-  indexY: number,
+  indexY: number
 ): XY {
   const anim = atlas['card--VacantPile']
-  return { x: boardX + indexX * (anim.w + mod), y: tableauY + indexY * mod }
+  return {x: boardX + indexX * (anim.w + mod), y: tableauY + indexY * mod}
 }
 
 export function getCardTag(card: Card): SPAnimTag {

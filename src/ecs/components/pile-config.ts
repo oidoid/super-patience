@@ -1,7 +1,6 @@
-import { Suit } from '@/solitaire'
+import type {Suit} from 'klondike-solitaire'
 
-export type PileConfig = Readonly<
-  { type: 'Foundation'; suit: Suit } | { type: 'Tableau'; x: number } | {
-    type: 'Waste'
-  }
->
+export type PileConfig =
+  | {readonly type: 'Foundation'; readonly suit: Suit}
+  | {readonly type: 'Tableau'; readonly x: number}
+  | {readonly type: 'Waste'}

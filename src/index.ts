@@ -1,18 +1,18 @@
-import { Card, Solitaire } from '@/solitaire'
-import { Sprite, Void } from '@/void'
-import config from '../deno.json' with { type: 'json' }
-import { SPAnimTag } from './assets/sp-anim-tag.ts'
-import { Ent } from './ecs/ent.ts'
-import { CardSystem, PileEnt } from './ecs/systems/card-system.ts'
-import { CursorSystem } from './ecs/systems/cursor-system.ts'
-import { FollowCamSystem } from './ecs/systems/follow-cam-system.ts'
-import { FollowPointSystem } from './ecs/systems/follow-point-system.ts'
-import { PatienceTheDemonSystem } from './ecs/systems/patience-the-demon-system.ts'
-import { PileHitboxSystem } from './ecs/systems/pile-hitbox-system.ts'
-import { TallySystem } from './ecs/systems/tally-system.ts'
-import { VacantStockSystem } from './ecs/systems/vacant-stock-system.ts'
-import { newLevelComponents } from './level/ent-factory.ts'
-import { SaveData, saveKey } from './save-data.ts'
+import {Sprite, Void} from '@oidoid/void'
+import {Card, Solitaire} from 'klondike-solitaire'
+import config from '../package.json' with {type: 'json'}
+import type {SPAnimTag} from './assets/sp-anim-tag.js'
+import type {Ent} from './ecs/ent.js'
+import {CardSystem, type PileEnt} from './ecs/systems/card-system.js'
+import {CursorSystem} from './ecs/systems/cursor-system.js'
+import {FollowCamSystem} from './ecs/systems/follow-cam-system.js'
+import {FollowPointSystem} from './ecs/systems/follow-point-system.js'
+import {PatienceTheDemonSystem} from './ecs/systems/patience-the-demon-system.js'
+import {PileHitboxSystem} from './ecs/systems/pile-hitbox-system.js'
+import {TallySystem} from './ecs/systems/tally-system.js'
+import {VacantStockSystem} from './ecs/systems/vacant-stock-system.js'
+import {newLevelComponents} from './level/ent-factory.js'
+import {saveKey, type Save} from './save.js'
 
 export type Game = {
   readonly v: Void<SPAnimTag>
@@ -30,7 +30,7 @@ v.cam.minWH.w = 256
 v.cam.minWH.h = 214
 v.ctrl.mapStandard()
 
-const save = v.kv.get<SaveData>(saveKey) ?? { wins: 0 }
+const save = v.kv.get<Save>(saveKey) ?? {wins: 0}
 const solitaire = Solitaire(Math.random, save.wins)
 
 const ents = [...newLevelComponents(v, solitaire)]
@@ -39,13 +39,13 @@ const systems = [
   new CursorSystem(),
   new FollowPointSystem(),
   new CardSystem(
-    filter(ents, 'pile', 'sprite') as PileEnt[],
-    filter(ents, 'vacantStock', 'sprite')[0]!.sprite!,
+    <PileEnt[]>filter(ents, 'pile', 'sprite'),
+    filter(ents, 'vacantStock', 'sprite')[0]!.sprite!
   ),
   new PileHitboxSystem(),
   new VacantStockSystem(),
   new PatienceTheDemonSystem(),
-  new TallySystem(),
+  new TallySystem()
 ]
 
 // gotta make 512px wide sprites for background
@@ -54,19 +54,19 @@ const game: Game = {
   solitaire,
   cursor: filter(ents, 'cursor', 'sprite')[0]!.sprite!,
   spriteByCard: new Map(
-    filter(ents, 'card', 'sprite').map((ent) => [ent.card!, ent.sprite!]),
-  ),
+    filter(ents, 'card', 'sprite').map(ent => [ent.card!, ent.sprite!])
+  )
 }
 game.v.render(loop)
 
 function loop(): void {
   const camOffsetX = Math.trunc((v.cam.w - v.cam.minWH.w) / 2)
-  v.cam.x = -camOffsetX + camOffsetX % 8
+  v.cam.x = -camOffsetX + (camOffsetX % 8)
 
   for (const system of systems) {
-    ;(system as { run(ents: Iterable<Partial<Ent>>, game: Game): void }).run(
+    ;(<{run(ents: Iterable<Partial<Ent>>, game: Game): void}>system).run(
       filter(ents, ...system.query),
-      game,
+      game
     )
   }
 
@@ -75,5 +75,5 @@ function loop(): void {
 }
 
 function filter(ents: Partial<Ent>[], ...keys: (keyof Ent)[]): Partial<Ent>[] {
-  return ents.filter((ent) => keys.every((key) => ent[key] != null))
+  return ents.filter(ent => keys.every(key => ent[key] != null))
 }

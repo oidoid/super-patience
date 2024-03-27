@@ -1,19 +1,20 @@
+import {Sprite, type Box, type XY} from '@oidoid/void'
 import {
   Card,
   solitaireBuild,
   solitaireDeselect,
   solitaireIsBuildable,
-  solitairePoint,
-} from '@/solitaire'
-import { Box, Sprite, XY } from '@/void'
-import { Game } from '../../index.ts'
-import { Layer } from '../../layer.ts'
-import { invalidateSolitaireSprites } from '../../level/level.ts'
-import { PileConfig } from '../components/pile-config.ts'
+  solitairePoint
+} from 'klondike-solitaire'
+import type {SPAnimTag} from '../../assets/sp-anim-tag.js'
+import type {Game} from '../../index.js'
+import {Layer} from '../../layer.js'
+import {invalidateSolitaireSprites} from '../../level/level.js'
+import type {PileConfig} from '../components/pile-config.js'
 
-export type CardEnt = { readonly card: Card; readonly sprite: Sprite }
+export type CardEnt = {readonly card: Card; readonly sprite: Sprite<SPAnimTag>}
 
-export type PileEnt = { readonly pile: PileConfig; readonly sprite: Sprite }
+export type PileEnt = {readonly pile: PileConfig; readonly sprite: Sprite}
 
 type PickState = {
   readonly sprite: Sprite
@@ -40,11 +41,13 @@ export class CardSystem {
     const isStockPick = picked?.sprite.hits(this.#vacantStock)
 
     if (
-      picked?.card.direction === 'Down' && !isStockPick &&
-        game.v.ctrl.isOffStart('A') ||
-      picked?.card.direction === 'Up' && !isStockPick &&
-        game.v.ctrl.isOnStart('A') ||
-      picked != null && isStockPick && game.v.ctrl.isOffStart('A')
+      (picked?.card.direction === 'Down' &&
+        !isStockPick &&
+        game.v.ctrl.isOffStart('A')) ||
+      (picked?.card.direction === 'Up' &&
+        !isStockPick &&
+        game.v.ctrl.isOnStart('A')) ||
+      (picked != null && isStockPick && game.v.ctrl.isOffStart('A'))
     ) {
       game.v.ctrl.handled = true
       this.#setSelected(game, picked.card)
@@ -70,9 +73,11 @@ export class CardSystem {
       } else {
         const drop = this.#drop(game)
         if (
-          drop != null && game.solitaire.selected != null &&
+          drop != null &&
+          game.solitaire.selected != null &&
           drop.pile.type !== 'Waste'
-        ) solitaireBuild(game.solitaire, drop.pile)
+        )
+          solitaireBuild(game.solitaire, drop.pile)
         solitaireDeselect(game.solitaire)
 
         this.#selected.length = 0
@@ -85,15 +90,13 @@ export class CardSystem {
     const selection = solitairePoint(game.solitaire, card)
     if (selection == null) return
 
-    const selected = selection.cards.map(
-      (card) => {
-        const sprite = game.spriteByCard.get(card)!
-        return {
-          sprite,
-          offset: { x: game.cursor.x - sprite.x, y: game.cursor.y - sprite.y },
-        }
-      },
-    )
+    const selected = selection.cards.map(card => {
+      const sprite = game.spriteByCard.get(card)!
+      return {
+        sprite,
+        offset: {x: game.cursor.x - sprite.x, y: game.cursor.y - sprite.y}
+      }
+    })
 
     // Elevate the selection to the pick layer.
     for (const select of selected) select.sprite.z = Layer.Picked
@@ -109,11 +112,14 @@ export class CardSystem {
     for (const ent of this.#piles) {
       const overlap = intersection(pick.sprite, ent.sprite) // .hitbox
       if (
-        overlap.w <= 0 || overlap.h <= 0 || ent.pile.type === 'Waste' ||
+        overlap.w <= 0 ||
+        overlap.h <= 0 ||
+        ent.pile.type === 'Waste' ||
         !solitaireIsBuildable(update.solitaire, ent.pile)
-      ) continue
+      )
+        continue
       const area = overlap.w * overlap.h
-      if (drop == null || area > drop.area) drop = { area, ent }
+      if (drop == null || area > drop.area) drop = {area, ent}
     }
     return drop?.ent
   }
@@ -142,6 +148,6 @@ function intersection(lhs: Readonly<Box>, rhs: Readonly<Box>): Box {
     x,
     y,
     w: Math.min(lhs.x + lhs.w, rhs.x + rhs.w) - x,
-    h: Math.min(lhs.y + lhs.h, rhs.y + rhs.h) - y,
+    h: Math.min(lhs.y + lhs.h, rhs.y + rhs.h) - y
   }
 }

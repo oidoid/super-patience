@@ -1,0 +1,61 @@
+{
+  "author": "Stephen Niedzielski <stephen@oidoid.com> (https://oidoid.com)",
+  "bugs": "https://github.com/oidoid/super-patience/issues",
+  "description": "Pixelated solitaire.",
+  "devDependencies": {
+    "@oidoid/void": "0.1.0-1",
+    "klondike-solitaire": "0.1.0-1",
+    "prettier": "3.2.5",
+    "typescript": "5.4.3",
+    "vitest": "1.4.0"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "files": [
+    "dist",
+    "!dist/**/tsconfig.tsbuildinfo"
+  ],
+  "homepage": "https://github.com/oidoid/super-patience",
+  "keywords": [
+    "solitaire",
+    "patience",
+    "canfield",
+    "game",
+    "webgl"
+  ],
+  "license": "AGPL-3.0-only",
+  "main": "dist/src/index.js",
+  "name": "super-patience",
+  "prettier": {
+    "arrowParens": "avoid",
+    "bracketSpacing": false,
+    "jsxSingleQuote": true,
+    "proseWrap": "always",
+    "semi": false,
+    "singleQuote": true,
+    "trailingComma": "none"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/oidoid/super-patience.git"
+  },
+  "scripts": {
+    "build": "tsc --build && npm run build:favicon && npm run build:html",
+    "build:favicon": "for s in 1 2 3 4 12 32; do aseprite assets/favicon.aseprite --batch --color-mode=indexed --scale=$s --save-as=dist/favicon/favicon$(($s * 16)).png; done",
+    "build:html": "void --html=src/index.html --out=dist assets/atlas/*.aseprite",
+    "clean": "rm -rf dist",
+    "format": "npm run formatter -- --write",
+    "formatter": "prettier --cache --log-level warn './**/*.{json,md,ts,yaml}'",
+    "preversion": "[ -z \"$(git status -z)\" ]",
+    "prepublishOnly": "! git symbolic-ref --quiet HEAD || git push --follow-tags origin \"$(git branch --show-current)\"",
+    "start": "npm run build:favicon && npm run build:html -- --watch",
+    "test": "npm run test:format && npm run test:unit && npm run build",
+    "test:format": "npm run formatter -- --check",
+    "test:unit": "vitest run",
+    "version": "npm test"
+  },
+  "type": "module",
+  "types": "dist/src/index.d.ts",
+  "version": "1.2.3"
+}

@@ -1,6 +1,6 @@
 # Super Patience
 
-## License
+## Copyright and License
 
 © oidoid.
 
