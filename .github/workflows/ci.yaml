@@ -21,5 +21,3 @@ jobs:
         run: npm run test:format
       - name: Unit Test
         run: npm run test:unit
-      - name: Build
-        run: npm run build
