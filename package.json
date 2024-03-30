@@ -3,7 +3,7 @@
   "bugs": "https://github.com/oidoid/super-patience/issues",
   "description": "Pixelated solitaire.",
   "devDependencies": {
-    "@oidoid/void": "0.1.0-2",
+    "@oidoid/void": "0.1.0-4",
     "klondike-solitaire": "0.1.0-1",
     "prettier": "3.2.5",
     "typescript": "5.4.3",
