@@ -43,7 +43,7 @@
   "scripts": {
     "build": "tsc --build && npm run build:favicon && npm run build:html",
     "build:favicon": "for s in 1 2 3 4 12 32; do aseprite assets/favicon.aseprite --batch --color-mode=indexed --scale=$s --save-as=dist/favicon/favicon$(($s * 16)).png; done",
-    "build:html": "void --html=src/index.html --out=dist assets/atlas/*.aseprite",
+    "build:html": "void src/config.json",
     "clean": "rm -rf dist",
     "format": "npm run formatter -- --write",
     "formatter": "prettier --cache --log-level warn './**/*.{json,md,ts,yaml}'",

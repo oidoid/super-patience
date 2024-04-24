@@ -1,6 +1,6 @@
-import type {Void, XY} from '@oidoid/void'
+import type {StandardButton, Void, XY} from '@oidoid/void'
 import {Card, Solitaire, SuitSet} from 'klondike-solitaire'
-import type {SPAnimTag} from '../assets/sp-anim-tag.js'
+import type {Tag} from '../config.js'
 import type {Ent} from '../ecs/ent.js'
 import {Layer} from '../layer.js'
 import {parseLevel} from './level-parser.js'
@@ -16,7 +16,7 @@ import {
 export const maxTallies = 26
 
 export function* newLevelComponents(
-  v: Void<SPAnimTag>,
+  v: Void<Tag, StandardButton>,
   solitaire: Solitaire
 ): IterableIterator<Partial<Ent>> {
   yield* newTallies(v)
@@ -27,14 +27,18 @@ export function* newLevelComponents(
   yield* parseLevel(v.atlas)
 }
 
-function newCard(v: Void<SPAnimTag>, card: Card, xy: XY): Partial<Ent> {
+function newCard(
+  v: Void<Tag, StandardButton>,
+  card: Card,
+  xy: XY
+): Partial<Ent> {
   const sprite = v.sprite(getCardTag(card))
   sprite.z = Layer[`Card${card.direction}`]
   sprite.xy = xy
   return {card, sprite}
 }
 
-function* newFoundation(v: Void<SPAnimTag>): Generator<Partial<Ent>> {
+function* newFoundation(v: Void<Tag, StandardButton>): Generator<Partial<Ent>> {
   for (const suit of SuitSet) {
     const vacant = v.sprite(`card--Vacant${suit}`)
     vacant.xy = getFoundationCardXY(v.atlas, suit)
@@ -48,7 +52,7 @@ function* newFoundation(v: Void<SPAnimTag>): Generator<Partial<Ent>> {
 }
 
 function* newStock(
-  v: Void<SPAnimTag>,
+  v: Void<Tag, StandardButton>,
   solitaire: Solitaire
 ): IterableIterator<Partial<Ent>> {
   const vacant = v.sprite('card--VacantStock')
@@ -61,7 +65,7 @@ function* newStock(
 }
 
 function* newTableau(
-  v: Void<SPAnimTag>,
+  v: Void<Tag, StandardButton>,
   solitaire: Solitaire
 ): IterableIterator<Partial<Ent>> {
   for (const [indexX, pile] of solitaire.tableau.entries()) {
@@ -80,7 +84,9 @@ function* newTableau(
   }
 }
 
-function* newTallies(v: Void<SPAnimTag>): IterableIterator<Partial<Ent>> {
+function* newTallies(
+  v: Void<Tag, StandardButton>
+): IterableIterator<Partial<Ent>> {
   for (let i = 0; i < maxTallies; i++) {
     const sprite = v.sprite('tally--0')
     sprite.z = Layer.Decal
@@ -97,7 +103,7 @@ function* newTallies(v: Void<SPAnimTag>): IterableIterator<Partial<Ent>> {
 }
 
 function* newWaste(
-  v: Void<SPAnimTag>,
+  v: Void<Tag, StandardButton>,
   solitaire: Solitaire
 ): IterableIterator<Partial<Ent>> {
   for (const [index, card] of solitaire.waste.entries()) {

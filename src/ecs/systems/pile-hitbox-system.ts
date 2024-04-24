@@ -1,5 +1,5 @@
 import {Sprite} from '@oidoid/void'
-import type {SPAnimTag} from '../../assets/sp-anim-tag.js'
+import type {Tag} from '../../config.js'
 import type {Game} from '../../index.js'
 import {
   cardWH,
@@ -11,7 +11,7 @@ import type {PileConfig} from '../components/pile-config.js'
 
 export type PileHitboxEnt = {
   readonly pile: PileConfig
-  readonly sprite: Sprite<SPAnimTag>
+  readonly sprite: Sprite<Tag>
 }
 
 /** Size the pile's hitbox. */

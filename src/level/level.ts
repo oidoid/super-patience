@@ -1,6 +1,6 @@
 import type {Atlas, WH, XY} from '@oidoid/void'
-import {Card, cardToASCII, Solitaire, type Suit} from 'klondike-solitaire'
-import type {SPAnimTag} from '../assets/sp-anim-tag.js'
+import {Card, Solitaire, cardToASCII, type Suit} from 'klondike-solitaire'
+import type {Tag} from '../config.js'
 import type {Game} from '../index.js'
 import {Layer} from '../layer.js'
 
@@ -43,7 +43,7 @@ export function invalidateSolitaireSprites(game: Game): void {
   for (const [index, card] of game.solitaire.waste.entries()) {
     const sprite = game.spriteByCard.get(card)!
     sprite.xy = getWasteXY(game.solitaire, index)
-    let tag: SPAnimTag
+    let tag: Tag
     if (index >= game.solitaire.waste.length - game.solitaire.drawSize) {
       tag = getCardTag(card)
     } else tag = 'card--Down'
@@ -70,21 +70,21 @@ export function getWasteXY(solitaire: Readonly<Solitaire>, index: number): XY {
   return {x: 208, y: boardY + mul * mod}
 }
 
-export function getFoundationCardXY(atlas: Atlas<SPAnimTag>, suit: Suit): XY {
-  const anim = atlas[`card--Vacant${suit}`]
+export function getFoundationCardXY(atlas: Atlas<Tag>, suit: Suit): XY {
+  const anim = atlas.anim[`card--Vacant${suit}`]
   const mul = {Clubs: 0, Diamonds: 1, Hearts: 2, Spades: 3}[suit]
   return {x: boardX + mod * 4 + mul * (anim.w + mod), y: boardY}
 }
 
 export function getTableauCardXY(
-  atlas: Atlas<SPAnimTag>,
+  atlas: Atlas<Tag>,
   indexX: number,
   indexY: number
 ): XY {
-  const anim = atlas['card--VacantPile']
+  const anim = atlas.anim['card--VacantPile']
   return {x: boardX + indexX * (anim.w + mod), y: tableauY + indexY * mod}
 }
 
-export function getCardTag(card: Card): SPAnimTag {
+export function getCardTag(card: Card): Tag {
   return card.direction === 'Up' ? `card--${cardToASCII(card)}` : 'card--Down'
 }

@@ -1,11 +1,11 @@
 import {Sprite} from '@oidoid/void'
-import type {SPAnimTag} from '../../assets/sp-anim-tag.js'
+import type {Tag} from '../../config.js'
 import type {Game} from '../../index.js'
 import {Layer} from '../../layer.js'
 
 export type CursorEnt = {
   readonly cursor: object
-  readonly sprite: Sprite<SPAnimTag>
+  readonly sprite: Sprite<Tag>
 }
 
 export class CursorSystem {

@@ -6,18 +6,21 @@ import {
   solitaireIsBuildable,
   solitairePoint
 } from 'klondike-solitaire'
-import type {SPAnimTag} from '../../assets/sp-anim-tag.js'
+import type {Tag} from '../../config.js'
 import type {Game} from '../../index.js'
 import {Layer} from '../../layer.js'
 import {invalidateSolitaireSprites} from '../../level/level.js'
 import type {PileConfig} from '../components/pile-config.js'
 
-export type CardEnt = {readonly card: Card; readonly sprite: Sprite<SPAnimTag>}
+export type CardEnt = {readonly card: Card; readonly sprite: Sprite<Tag>}
 
-export type PileEnt = {readonly pile: PileConfig; readonly sprite: Sprite}
+export type PileEnt = {
+  readonly pile: PileConfig
+  readonly sprite: Sprite<Tag>
+}
 
 type PickState = {
-  readonly sprite: Sprite
+  readonly sprite: Sprite<Tag>
   /** The adjustment to offset future pick inputs by. */
   readonly offset: Readonly<XY>
 }[]
@@ -27,9 +30,9 @@ export class CardSystem {
 
   readonly #selected: PickState = []
   readonly #piles: PileEnt[]
-  readonly #vacantStock: Sprite
+  readonly #vacantStock: Sprite<Tag>
 
-  constructor(piles: PileEnt[], vacantStock: Sprite) {
+  constructor(piles: PileEnt[], vacantStock: Sprite<Tag>) {
     this.#piles = piles
     this.#vacantStock = vacantStock
   }

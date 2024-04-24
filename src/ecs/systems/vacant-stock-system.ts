@@ -1,12 +1,12 @@
 import {Sprite} from '@oidoid/void'
 import {solitaireDeal} from 'klondike-solitaire'
-import type {SPAnimTag} from '../../assets/sp-anim-tag.js'
+import type {Tag} from '../../config.js'
 import {type Game} from '../../index.js'
 import {invalidateSolitaireSprites} from '../../level/level.js'
 
 export type VacantStockEnt = {
   readonly vacantStock: object
-  readonly sprite: Sprite<SPAnimTag>
+  readonly sprite: Sprite<Tag>
 }
 
 export class VacantStockSystem {

@@ -1,5 +1,5 @@
 import {Sprite} from '@oidoid/void'
-import type {SPAnimTag} from '../../assets/sp-anim-tag.js'
+import type {Tag} from '../../config.js'
 import type {Game} from '../../index.js'
 import {maxTallies} from '../../level/ent-factory.js'
 import type {TallyConfig} from '../components/tally-config.js'
@@ -10,7 +10,7 @@ type ZeroToTwenty =  0 |  1 |  2 |  3 |  4 |  5 |  6 |  7 |  8 | 9 | 10 | 11 |
 
 export type TallyEnt = {
   readonly tally: TallyConfig
-  readonly sprite: Sprite<SPAnimTag>
+  readonly sprite: Sprite<Tag>
 }
 
 export class TallySystem {

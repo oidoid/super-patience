@@ -1,11 +1,11 @@
 import type {Box, Sprite} from '@oidoid/void'
-import type {SPAnimTag} from '../../assets/sp-anim-tag.js'
+import type {Tag} from '../../config.js'
 import type {Game} from '../../index.js'
 import type {FollowCamConfig} from '../components/follow-cam.js'
 
 export type FollowCamEnt = {
   readonly followCam: FollowCamConfig
-  readonly sprite: Sprite<SPAnimTag>
+  readonly sprite: Sprite<Tag>
 }
 
 export class FollowCamSystem {
@@ -27,7 +27,7 @@ export class FollowCamSystem {
 }
 
 function computeX(
-  sprite: Readonly<Sprite>,
+  sprite: Readonly<Sprite<Tag>>,
   cam: Readonly<Box>,
   component: Readonly<FollowCamConfig>
 ): number {
@@ -55,7 +55,7 @@ function computeX(
 }
 
 function computeY(
-  sprite: Readonly<Sprite>,
+  sprite: Readonly<Sprite<Tag>>,
   cam: Readonly<Box>,
   component: Readonly<FollowCamConfig>
 ): number {

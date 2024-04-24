@@ -1,12 +1,12 @@
 import {Sprite} from '@oidoid/void'
 import {solitaireReset} from 'klondike-solitaire'
-import type {SPAnimTag} from '../../assets/sp-anim-tag.js'
+import type {Tag} from '../../config.js'
 import type {Game} from '../../index.js'
 import {saveKey, type Save} from '../../save.js'
 
 export type PatienceTheDemonEnt = {
   readonly patienceTheDemon: object
-  readonly sprite: Sprite<SPAnimTag>
+  readonly sprite: Sprite<Tag>
 }
 
 export class PatienceTheDemonSystem {
