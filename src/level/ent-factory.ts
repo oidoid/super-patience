@@ -1,9 +1,5 @@
-import type {StandardButton, Void, XY} from '@oidoid/void'
-import {Card, Solitaire, SuitSet} from 'klondike-solitaire'
-import type {Tag} from '../config.js'
-import type {Ent} from '../ecs/ent.js'
-import {Layer} from '../layer.js'
-import {parseLevel} from './level-parser.js'
+import * as V from '@oidoid/void'
+import {type Card, SuitSet} from 'klondike-solitaire'
 import {
   getCardTag,
   getFoundationCardXY,
@@ -11,103 +7,105 @@ import {
   getTableauCardXY,
   getWasteXY,
   mod
-} from './level.js'
+} from './level.ts'
+import type {VacantStockEnt} from '../ents/vacant-stock.ts'
+import type {CardEnt, PileEnt} from '../ents/ent.ts'
+import type {TallyEnt} from '../ents/tally.ts'
 
-export const maxTallies = 26
+export const maxTallies: number = 26
 
-export function* newLevelComponents(
-  v: Void<Tag, StandardButton>,
-  solitaire: Solitaire
-): IterableIterator<Partial<Ent>> {
+// these are dynamic ents based on the solitaire and tally models. it'd be neat
+// to explore extending the parser and generating `EntSchema` below but it'd
+// need to sync references to the `v.solitaire` model.
+
+export function* newLevelComponents(v: V.Void): IterableIterator<V.Ent> {
   yield* newTallies(v)
   yield* newFoundation(v)
-  yield* newStock(v, solitaire)
-  yield* newTableau(v, solitaire)
-  yield* newWaste(v, solitaire)
-  yield* parseLevel(v.atlas)
+  yield* newStock(v)
+  yield* newTableau(v)
+  yield* newWaste(v)
 }
 
-function newCard(
-  v: Void<Tag, StandardButton>,
-  card: Card,
-  xy: XY
-): Partial<Ent> {
-  const sprite = v.sprite(getCardTag(card))
-  sprite.z = Layer[`Card${card.direction}`]
-  sprite.xy = xy
-  return {card, sprite}
+function CardEnt(v: V.Void, card: Card, xy: V.XY): CardEnt {
+  const sprite = v.pool.default.alloc()
+  sprite.tag = getCardTag(card)
+  sprite.x = xy.x
+  sprite.y = xy.y
+  sprite.z = card.direction === 'Up' ? V.Layer.F : V.Layer.E
+  return {sprite, card}
 }
 
-function* newFoundation(v: Void<Tag, StandardButton>): Generator<Partial<Ent>> {
+function* newFoundation(v: V.Void): IterableIterator<V.SpriteEnt | PileEnt> {
   for (const suit of SuitSet) {
-    const vacant = v.sprite(`card--Vacant${suit}`)
-    vacant.xy = getFoundationCardXY(v.atlas, suit)
-    vacant.z = Layer.Decal
+    const vacant = v.pool.default.alloc()
+    vacant.tag = `card--Vacant${suit}`
+    const xy = getFoundationCardXY(v.preload, suit)
+    vacant.x = xy.x
+    vacant.y = xy.y
+    vacant.z = V.Layer.D
     yield {sprite: vacant}
-    const palette = v.sprite('palette--Light')
-    palette.xy = getFoundationCardXY(v.atlas, suit)
-    palette.z = Layer['Background']
-    yield {pile: {type: 'Foundation', suit}, sprite: palette}
+    const palette = v.pool.default.alloc()
+    palette.tag = 'palette--Light'
+    palette.x = xy.x
+    palette.y = xy.y
+    palette.z = V.Layer.C
+    yield {sprite: palette, pile: {type: 'Foundation', suit}}
   }
 }
 
-function* newStock(
-  v: Void<Tag, StandardButton>,
-  solitaire: Solitaire
-): IterableIterator<Partial<Ent>> {
-  const vacant = v.sprite('card--VacantStock')
-  vacant.z = Layer.Decal
-  vacant.xy = getStockXY(solitaire, solitaire.stock.length - 1)
-  yield {vacantStock: {}, sprite: vacant}
-  for (const [index, card] of solitaire.stock.entries()) {
-    yield newCard(v, card, getStockXY(solitaire, index))
-  }
+function* newStock(v: V.Void): IterableIterator<VacantStockEnt | CardEnt> {
+  const vacant = v.pool.default.alloc()
+  vacant.tag = 'card--VacantStock'
+  vacant.z = V.Layer.C
+  const xy = getStockXY(v.solitaire, v.solitaire.stock.length - 1)
+  vacant.x = xy.x
+  vacant.y = xy.y
+  yield {id: 'VacantStock', sprite: vacant, vacantStock: {}}
+  for (const [i, card] of v.solitaire.stock.entries())
+    yield CardEnt(v, card, getStockXY(v.solitaire, i))
 }
 
 function* newTableau(
-  v: Void<Tag, StandardButton>,
-  solitaire: Solitaire
-): IterableIterator<Partial<Ent>> {
-  for (const [indexX, pile] of solitaire.tableau.entries()) {
-    const x = indexX
-    const palette = v.sprite('palette--Light')
-    palette.z = Layer.Background
-    palette.xy = getTableauCardXY(v.atlas, x, 0)
-    yield {pile: {type: 'Tableau', x}, sprite: palette}
-    const vacant = v.sprite('card--VacantPile')
-    vacant.z = Layer.Decal
-    vacant.xy = getTableauCardXY(v.atlas, x, 0)
+  v: V.Void
+): IterableIterator<PileEnt | V.SpriteEnt | CardEnt> {
+  for (const [iX, pile] of v.solitaire.tableau.entries()) {
+    const x = iX
+    const palette = v.pool.default.alloc()
+    palette.tag = 'palette--Light'
+    palette.z = V.Layer.C
+    const xy = getTableauCardXY(v.preload, x, 0)
+    palette.x = xy.x
+    palette.y = xy.y
+    yield {sprite: palette, pile: {type: 'Tableau', x}}
+    const vacant = v.pool.default.alloc()
+    vacant.tag = 'card--VacantPile'
+    vacant.z = V.Layer.D
+    vacant.x = xy.x
+    vacant.y = xy.y
     yield {sprite: vacant}
-    for (const [indexY, card] of pile.entries()) {
-      yield newCard(v, card, getTableauCardXY(v.atlas, x, indexY))
-    }
+    for (const [iY, card] of pile.entries())
+      yield CardEnt(v, card, getTableauCardXY(v.preload, x, iY))
   }
 }
 
-function* newTallies(
-  v: Void<Tag, StandardButton>
-): IterableIterator<Partial<Ent>> {
+function* newTallies(v: V.Void): IterableIterator<TallyEnt> {
   for (let i = 0; i < maxTallies; i++) {
-    const sprite = v.sprite('tally--0')
-    sprite.z = Layer.Decal
+    const sprite = v.pool.default.alloc()
+    sprite.tag = 'tally--0'
+    sprite.z = V.Layer.D
     yield {
-      followCam: {
-        modulo: {x: mod, y: mod},
-        orientation: 'Northeast',
-        pad: {x: 0, y: 8 + i * 8}
-      },
+      sprite,
       tally: {tens: i},
-      sprite
+      hud: {
+        modulo: {x: mod, y: mod},
+        origin: 'NE',
+        margin: {n: 8 + i * 8, s: 8 + i * 8, w: 0, e: 0}
+      }
     }
   }
 }
 
-function* newWaste(
-  v: Void<Tag, StandardButton>,
-  solitaire: Solitaire
-): IterableIterator<Partial<Ent>> {
-  for (const [index, card] of solitaire.waste.entries()) {
-    const xy = getWasteXY(solitaire, index)
-    yield newCard(v, card, xy)
-  }
+function* newWaste(v: V.Void): IterableIterator<CardEnt> {
+  for (const [i, card] of v.solitaire.waste.entries())
+    yield CardEnt(v, card, getWasteXY(v.solitaire, i))
 }

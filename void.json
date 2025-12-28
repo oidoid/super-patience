@@ -1,0 +1,13 @@
+{
+  "$schema": "https://oidoid.github.io/void/config-file.v0.json",
+  "out": {
+    "name": "super-patience",
+    "dir": "dist/public/",
+    "game": "src/assets/void.game.json"
+  },
+  "preloadAtlas": {
+    "dir": "src/assets/atlas/",
+    "image": "dist/public/atlas.webp"
+  },
+  "init": {"minWH": {"w": 256, "h": 214}}
+}

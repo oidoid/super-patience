@@ -1,5 +1,10 @@
 # Super Patience
 
+## Native Dependencies
+
+- Aseprite
+- cwebp
+
 ## Copyright and License
 
 © oidoid.

@@ -1,49 +1,63 @@
 {
   "compilerOptions": {
-    // Enable incremental builds.
+    // enable incremental builds.
     "composite": true,
 
-    // Maximize type checking.
+    // enable type-stripping.
+    "allowImportingTsExtensions": true,
+
+    // only allow type-strippable syntax.
+    "erasableSyntaxOnly": true,
+
+    // maximize type checking.
     "allowUnreachableCode": false,
     "allowUnusedLabels": false,
     "exactOptionalPropertyTypes": true,
     "forceConsistentCasingInFileNames": true,
     "noImplicitOverride": true,
     "noUncheckedIndexedAccess": true,
+    "noUncheckedSideEffectImports": true,
     "noUnusedLocals": true,
-    "noUnusedParameters": true,
     "resolveJsonModule": true,
     "strict": true,
 
-    // Projects add types needed.
+    // projects add types needed.
+    "lib": ["DOM", "ES2024", "ESNext.disposable"],
     "types": [],
 
-    // Improve compatibility with compilers that aren't type system aware.
+    "isolatedDeclarations": true, // require explicit types.
+
+    // improve compatibility with compilers that aren't type system aware.
     "isolatedModules": true,
 
-    "lib": ["DOM", "ES2023"],
+    "esModuleInterop": true, // use ESM.
 
-    // Allow JSON type-checking and imports.
-    "module": "NodeNext",
-    "moduleResolution": "NodeNext",
+    // allow JSON type-checking and imports.
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
 
-    // Assume library types are checked and compatible.
-    "skipLibCheck": true,
-    "skipDefaultLibCheck": true,
+    "rewriteRelativeImportExtensions": true, // rewrite .ts imports to .js.
 
     "outDir": "dist",
 
-    "sourceMap": true,
+    // assume library types are checked and compatible.
+    "skipLibCheck": true,
+    "skipDefaultLibCheck": true,
 
-    "target": "ES2022",
+    "sourceMap": true,
+    "declarationMap": true, // map back to original sources, not .d.ts.
+
+    "target": "ES2024",
 
     "tsBuildInfoFile": "dist/tsconfig.tsbuildinfo",
 
-    // Don't transform type-only imports.
-    "verbatimModuleSyntax": true
+    // don't transform type-only imports.
+    "verbatimModuleSyntax": true,
+
+    "paths": {
+      "@oidoid/void": ["../void"]
+    }
   },
-  // https://github.com/Microsoft/TypeScript/issues/25636
-  "include": ["**/*", "**/*.json"],
-  // https://github.com/microsoft/TypeScript/wiki/Performance#misconfigured-include-and-exclude
-  "exclude": ["dist", "node_modules", ".*/", "**/*.snap.ts"]
+  "include": ["./", "**/*.json"],
+  "exclude": ["dist/", "node_modules/"]
 }

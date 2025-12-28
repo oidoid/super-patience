@@ -3,37 +3,32 @@
   "background_color": "#e6e6e6",
   "description": "Pixelated solitaire.",
   "display": "standalone",
-  "homepage_url": "https://oidoid.com",
+  "homepage_url": "https://oidoid.com/",
   "icons": [
     {
-      "src": "../dist/favicon/favicon16.png",
+      "src": "../../dist/public/favicon/favicon16.webp",
       "sizes": "16x16",
-      "type": "image/png"
+      "type": "image/webp"
     },
     {
-      "src": "../dist/favicon/favicon32.png",
+      "src": "../../dist/public/favicon/favicon32.webp",
       "sizes": "32x32",
-      "type": "image/png"
+      "type": "image/webp"
     },
     {
-      "src": "../dist/favicon/favicon48.png",
+      "src": "../../dist/public/favicon/favicon48.webp",
       "sizes": "48x48",
-      "type": "image/png"
+      "type": "image/webp"
     },
     {
-      "src": "../dist/favicon/favicon64.png",
+      "src": "../../dist/public/favicon/favicon64.webp",
       "sizes": "64x64",
-      "type": "image/png"
+      "type": "image/webp"
     },
     {
-      "src": "../dist/favicon/favicon192.png",
+      "src": "../../dist/public/favicon/favicon192.webp",
       "sizes": "192x192",
-      "type": "image/png"
-    },
-    {
-      "src": "../dist/favicon/favicon512.png",
-      "sizes": "512x512",
-      "type": "image/png"
+      "type": "image/webp"
     }
   ],
   "manifest_version": 3,

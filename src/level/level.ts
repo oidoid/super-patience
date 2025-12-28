@@ -1,90 +1,118 @@
-import type {Atlas, WH, XY} from '@oidoid/void'
-import {Card, Solitaire, cardToASCII, type Suit} from 'klondike-solitaire'
-import type {Tag} from '../config.js'
-import type {Game} from '../index.js'
-import {Layer} from '../layer.js'
+import * as V from '@oidoid/void'
+import {
+  type Card,
+  cardToASCII,
+  type Solitaire,
+  type Suit
+} from 'klondike-solitaire'
 
-export const mod = 8
-export const cardWH: WH = {w: 24, h: 32}
-const tableauY = 72
-const boardX = 2 * mod
-const boardY = 16
-const hiddenY = -1024
+export const mod: number = 8
+export const cardWH: V.WH = {w: 24, h: 32}
+const tableauY: number = 72
+const boardX: number = 2 * mod
+const boardY: number = 16
+const hiddenY: number = -1024
 
 // to-do: can this be a system or systems? It seems like it's a "board" system
-// but has some overlap with CardSystem which calls these functions.
+// but has some overlap with `BoardSys` which calls these functions.
 
-export function invalidateSolitaireSprites(game: Game): void {
-  for (const [indexX, column] of game.solitaire.tableau.entries()) {
-    for (const [indexY, card] of column.entries()) {
-      const sprite = game.spriteByCard.get(card)!
-      sprite.xy = getTableauCardXY(game.v.atlas, indexX, indexY)
-      sprite.z = Layer[card.direction === 'Up' ? 'CardUp' : 'CardDown']
+export function invalidateSolitaireSprites(v: V.Void): void {
+  for (const [iX, col] of v.solitaire.tableau.entries()) {
+    for (const [iY, card] of col.entries()) {
+      const sprite = v.spriteByCard.get(card)
+      if (!sprite) throw Error('no sprite')
+      const xy = getTableauCardXY(v.preload, iX, iY)
+      sprite.x = xy.x
+      sprite.y = xy.y
+      sprite.z = card.direction === 'Up' ? V.Layer.F : V.Layer.E
       sprite.tag = getCardTag(card)
     }
   }
-  for (const pillar of game.solitaire.foundation) {
-    for (const [index, card] of pillar.entries()) {
-      const sprite = game.spriteByCard.get(card)!
-      sprite.xy = getFoundationCardXY(game.v.atlas, card.suit)
+  for (const pillar of v.solitaire.foundation) {
+    for (const [i, card] of pillar.entries()) {
+      const sprite = v.spriteByCard.get(card)
+      if (!sprite) throw Error('no sprite')
+      const xy = getFoundationCardXY(v.preload, card.suit)
+      sprite.x = xy.x
+      sprite.y = xy.y
       // Force all cards except the top to downward since they're in the exact
       // same position and are not layered correctly for rendering.
-      const tag = index === pillar.length - 1 ? getCardTag(card) : 'card--Down'
-      sprite.z = Layer[tag === 'card--Down' ? 'CardDown' : 'CardUp']
+      const tag = i === pillar.length - 1 ? getCardTag(card) : 'card--Down'
+      sprite.z = tag === 'card--Down' ? V.Layer.E : V.Layer.F
       sprite.tag = tag
     }
   }
-  for (const [index, card] of game.solitaire.stock.entries()) {
-    const sprite = game.spriteByCard.get(card)!
-    sprite.xy = getStockXY(game.solitaire, index)
-    sprite.z = Layer[card.direction === 'Up' ? 'CardUp' : 'CardDown']
+  for (const [i, card] of v.solitaire.stock.entries()) {
+    const sprite = v.spriteByCard.get(card)
+    if (!sprite) throw Error('no sprite')
+    const xy = getStockXY(v.solitaire, i)
+    sprite.x = xy.x
+    sprite.y = xy.y
+    sprite.z = card.direction === 'Up' ? V.Layer.F : V.Layer.E
     sprite.tag = getCardTag(card)
   }
-  for (const [index, card] of game.solitaire.waste.entries()) {
-    const sprite = game.spriteByCard.get(card)!
-    sprite.xy = getWasteXY(game.solitaire, index)
-    let tag: Tag
-    if (index >= game.solitaire.waste.length - game.solitaire.drawSize) {
-      tag = getCardTag(card)
-    } else tag = 'card--Down'
-    // Hide waste under the draw reserve. I can't draw them in the correct
+  for (const [i, card] of v.solitaire.waste.entries()) {
+    const sprite = v.spriteByCard.get(card)
+    if (!sprite) throw Error('no sprite')
+    const xy = getWasteXY(v.solitaire, i)
+    sprite.x = xy.x
+    sprite.y = xy.y
+    let tag: V.Tag
+
+    const selected =
+      v.solitaire.selected?.pile === 'Waste'
+        ? (v.solitaire.selected?.cards.length ?? 0)
+        : 0
+    const top = Math.max(
+      v.solitaire.waste.length + selected - v.solitaire.drawSize,
+      0
+    )
+
+    if (i >= top) tag = getCardTag(card)
+    else tag = 'card--Down'
+    // hide waste under the draw reserve. I can't draw them in the correct
     // order since they have identical XYs.
-    sprite.z = Layer[tag === 'card--Down' ? 'CardDown' : 'CardUp']
+    sprite.z = tag === 'card--Down' ? V.Layer.E : V.Layer.F
     sprite.tag = tag
   }
+  // to-do: don't invalidate every frame.
+  v.invalid = true // to-do: move somewhere else.
 }
 
-export function getStockXY(solitaire: Readonly<Solitaire>, indexY: number): XY {
+export function getStockXY(solitaire: Readonly<Solitaire>, iY: number): V.XY {
   return {
     x: boardX + 160,
     // All cards in the stock are at the same point and on the same layer. Only
     // the top card should be pickable though so hide the rest off-cam since
     // they're not drawn in the correct order.
-    y: boardY + (solitaire.stock.length - 1 === indexY ? 0 : hiddenY)
+    y: boardY + (solitaire.stock.length - 1 === iY ? 0 : hiddenY)
   }
 }
 
-export function getWasteXY(solitaire: Readonly<Solitaire>, index: number): XY {
-  const top = solitaire.waste.length - solitaire.drawSize
-  const mul = Math.max(index - top, 0)
+export function getWasteXY(solitaire: Readonly<Solitaire>, i: number): V.XY {
+  const selected =
+    solitaire.selected?.pile === 'Waste'
+      ? (solitaire.selected?.cards.length ?? 0)
+      : 0
+  const top = Math.max(
+    solitaire.waste.length + selected - solitaire.drawSize,
+    0
+  )
+  const mul = Math.max(i - top, 0)
   return {x: 208, y: boardY + mul * mod}
 }
 
-export function getFoundationCardXY(atlas: Atlas<Tag>, suit: Suit): XY {
+export function getFoundationCardXY(atlas: V.Atlas, suit: Suit): V.XY {
   const anim = atlas.anim[`card--Vacant${suit}`]
   const mul = {Clubs: 0, Diamonds: 1, Hearts: 2, Spades: 3}[suit]
   return {x: boardX + mod * 4 + mul * (anim.w + mod), y: boardY}
 }
 
-export function getTableauCardXY(
-  atlas: Atlas<Tag>,
-  indexX: number,
-  indexY: number
-): XY {
+export function getTableauCardXY(atlas: V.Atlas, iX: number, iY: number): V.XY {
   const anim = atlas.anim['card--VacantPile']
-  return {x: boardX + indexX * (anim.w + mod), y: tableauY + indexY * mod}
+  return {x: boardX + iX * (anim.w + mod), y: tableauY + iY * mod}
 }
 
-export function getCardTag(card: Card): Tag {
+export function getCardTag(card: Card): V.Tag {
   return card.direction === 'Up' ? `card--${cardToASCII(card)}` : 'card--Down'
 }
