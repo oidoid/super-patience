@@ -31,7 +31,7 @@
   "publishConfig": {
     "access": "public"
   },
-  "published": "20251227",
+  "published": "20260101",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/oidoid/super-patience.git"
@@ -48,5 +48,5 @@
     "version": "npm pkg set published=$(date +%Y%m%d) && npm run clean && npm test"
   },
   "type": "module",
-  "version": "1.2.4"
+  "version": "1.2.5"
 }
