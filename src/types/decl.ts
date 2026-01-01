@@ -1,4 +1,7 @@
+import type * as V from '@oidoid/void'
 import type {Card, Solitaire} from 'klondike-solitaire'
+// biome-ignore lint/correctness/useJsonImportAttributes:;
+import type gameJSON from '../assets/void.game.json'
 import type {
   Board,
   PatienceTheDemon,
@@ -11,9 +14,6 @@ import type {
   PatienceTheDemonSchema,
   PileSchema
 } from '../level/level-schema.ts'
-import type * as V from '@oidoid/void'
-// biome-ignore lint/correctness/useJsonImportAttributes:;
-import type gameJSON from '../assets/void.game.json'
 
 declare module '@oidoid/void' {
   interface Ent {

@@ -1,4 +1,4 @@
-import * as V from '@oidoid/void'
+import type * as V from '@oidoid/void'
 import type {Suit} from 'klondike-solitaire'
 import type {VacantStockEnt} from './vacant-stock.ts'
 

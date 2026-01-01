@@ -1,7 +1,7 @@
 import * as V from '@oidoid/void'
 import {solitaireReset} from 'klondike-solitaire'
-import {type Save, saveKey} from '../types/save.js'
-import {invalidateSolitaireSprites} from '../level/level.js'
+import {invalidateSolitaireSprites} from '../level/level.ts'
+import {type Save, saveKey} from '../types/save.ts'
 
 export type PatienceTheDemonEnt = V.SysEnt<PatienceTheDemonSystem>
 

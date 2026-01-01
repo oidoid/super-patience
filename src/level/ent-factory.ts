@@ -1,5 +1,8 @@
 import * as V from '@oidoid/void'
 import {type Card, SuitSet} from 'klondike-solitaire'
+import type {CardEnt, PileEnt} from '../ents/ent.ts'
+import type {TallyEnt} from '../ents/tally.ts'
+import type {VacantStockEnt} from '../ents/vacant-stock.ts'
 import {
   getCardTag,
   getFoundationCardXY,
@@ -8,9 +11,6 @@ import {
   getWasteXY,
   mod
 } from './level.ts'
-import type {VacantStockEnt} from '../ents/vacant-stock.ts'
-import type {CardEnt, PileEnt} from '../ents/ent.ts'
-import type {TallyEnt} from '../ents/tally.ts'
 
 export const maxTallies: number = 26
 

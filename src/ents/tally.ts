@@ -1,7 +1,7 @@
 import type * as V from '@oidoid/void'
 import {maxTallies} from '../level/ent-factory.ts'
 
-// prettier-ignore
+// biome-ignore format:;
 type ZeroToTwenty =  0 |  1 |  2 |  3 |  4 |  5 |  6 |  7 |  8 | 9 | 10 | 11 |  
                     12 | 13 | 14 | 15 | 16 | 17 | 18 | 19 | 20
 

@@ -6,9 +6,9 @@ import {
   solitaireIsBuildable,
   solitairePoint
 } from 'klondike-solitaire'
-import {invalidateSolitaireSprites} from '../level/level.js'
-import type {VacantStockEnt} from './vacant-stock.js'
-import type {PileEnt, CardEnt, PickState} from './ent.js'
+import {invalidateSolitaireSprites} from '../level/level.ts'
+import type {CardEnt, PickState, PileEnt} from './ent.ts'
+import type {VacantStockEnt} from './vacant-stock.ts'
 
 export type BoardEnt = V.SysEnt<BoardSystem>
 
@@ -43,10 +43,10 @@ export class BoardSystem implements V.Sys {
     if (v.input.isOn('A') && ent.board.selected.length > 0) {
       v.input.handled = true // dragging.
       moveEntsToCursor(v, ent.board.selected)
-    } else
-      // only rerender if pick operation is done otherwise cards snap too fast
-      // in the reserve.
-      invalidateSolitaireSprites(v)
+    }
+    // only rerender if pick operation is done otherwise cards snap too fast
+    // in the reserve.
+    else invalidateSolitaireSprites(v)
 
     if (v.solitaire.selected != null && v.input.isOffStart('A')) {
       // drag finished.

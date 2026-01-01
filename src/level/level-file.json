@@ -6,11 +6,16 @@
     "Board": {"type": "object", "description": "board config."},
     "Ent": {
       "allOf": [
-        {"$ref": "https://oidoid.github.io/void/level-file.v0.json#/$defs/Ent"},
+        {
+          "$ref": "https://oidoid.github.io/void/level-file.v0.json#/$defs/Ent"
+        },
         {
           "type": "object",
           "properties": {
-            "board": {"$ref": "#/$defs/Board", "unevaluatedProperties": false},
+            "board": {
+              "$ref": "#/$defs/Board",
+              "unevaluatedProperties": false
+            },
             "patienceTheDemon": {
               "$ref": "#/$defs/PatienceTheDemon",
               "unevaluatedProperties": false
