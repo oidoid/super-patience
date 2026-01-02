@@ -1,13 +1,5 @@
 {
-  "extends": "@oidoid/config/tsconfig",
-  "compilerOptions": {
-    "lib": ["DOM", "ES2023", "ESNext.disposable"],
-    "outDir": "dist/"
-  },
-  "exclude": [
-    "node_modules/",
-    "dist/",
-    "${configDir}/**/*.test.*",
-    "${configDir}/**/test/"
-  ]
+  "extends": "./tsconfig.prod.json",
+  "compilerOptions": {"customConditions": ["dev"]},
+  "references": [{"path": "../void"}]
 }
