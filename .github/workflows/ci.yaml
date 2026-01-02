@@ -21,7 +21,7 @@ jobs:
       - name: Install Dependencies
         run: npm ci --no-fund
       - name: Typecheck
-        run: npx tsc --build
+        run: npm run test:types
       - name: Lint
         run: npx lint
       - name: Unit Test

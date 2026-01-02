@@ -37,13 +37,14 @@
     "url": "git+https://github.com/oidoid/super-patience.git"
   },
   "scripts": {
-    "build": "tsc --build tsconfig.prod.json && npm run build:favicon && void --minify --one-file --tsconfig=tsconfig.prod.json",
+    "build": "npm run build:favicon && void --minify --one-file --tsconfig=tsconfig.prod.json",
     "build:favicon": "for s in 1 2 3 4 12; do f=dist/public/favicon/favicon$(($s * 16)); aseprite src/assets/favicon.aseprite --batch --color-mode=indexed --scale=$s --save-as=$f.png && cwebp -exact -lossless -mt -quiet -z 9 $f.png -o $f.webp; done",
     "clean": "rm -rf dist/",
     "preversion": "[ -z \"$(git status -z)\" ]",
     "prepublishOnly": "! git symbolic-ref --quiet HEAD || git push --follow-tags origin \"$(git branch --show-current)\"",
     "start": "tsc --build --preserveWatchOutput --watch& npm run build:favicon && void --watch& wait",
-    "test": "lint && npm run test:unit && npm run build",
+    "test": "lint && npm run test:types && npm run test:unit && npm run build",
+    "test:types": "tsc --build tsconfig.prod.json",
     "test:unit": "sh -c 'node --experimental-test-coverage --test ${@:-$(find src/ -name \\*.test.ts -printf %p\\ )}' --",
     "version": "npm pkg set published=$(date +%Y%m%d) && npm run clean && npm test"
   },
