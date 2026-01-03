@@ -10,9 +10,9 @@ import {invalidateSolitaireSprites} from '../level/level.ts'
 import type {CardEnt, PickState, PileEnt} from './ent.ts'
 import type {VacantStockEnt} from './vacant-stock.ts'
 
-export type BoardEnt = V.SysEnt<BoardSystem>
+export type BoardEnt = V.SysEnt<BoardSys>
 
-export class BoardSystem implements V.Sys {
+export class BoardSys implements V.Sys {
   readonly query = 'board'
 
   // to-do: assumes will be called every _frame_ to _invalidate_.

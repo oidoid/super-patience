@@ -2,9 +2,9 @@ import type * as V from '@oidoid/void'
 import {solitaireDeal} from 'klondike-solitaire'
 import {invalidateSolitaireSprites} from '../level/level.ts'
 
-export type VacantStockEnt = V.SysEnt<VacantStockSystem>
+export type VacantStockEnt = V.SysEnt<VacantStockSys>
 
-export class VacantStockSystem implements V.Sys {
+export class VacantStockSys implements V.Sys {
   readonly query = 'sprite & vacantStock'
   update(ent: VacantStockEnt, v: V.Void): void {
     if (!v.input.isOffStart('A')) return

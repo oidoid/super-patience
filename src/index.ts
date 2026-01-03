@@ -28,4 +28,3 @@ setTimeout(
 const save = V.loadJSON<Save>(saveKey) ?? {wins: 0}
 v.solitaire = Solitaire(() => v.random.num, save.wins)
 await v.register('add')
-if (V.debug) (globalThis as {v?: V.Void}).v = v

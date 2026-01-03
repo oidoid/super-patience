@@ -5,9 +5,9 @@ import {maxTallies} from '../level/ent-factory.ts'
 type ZeroToTwenty =  0 |  1 |  2 |  3 |  4 |  5 |  6 |  7 |  8 | 9 | 10 | 11 |  
                     12 | 13 | 14 | 15 | 16 | 17 | 18 | 19 | 20
 
-export type TallyEnt = V.SysEnt<TallySystem>
+export type TallyEnt = V.SysEnt<TallySys>
 
-export class TallySystem implements V.Sys {
+export class TallySys implements V.Sys {
   readonly query = 'sprite & tally'
   update(ent: TallyEnt, v: V.Void): void {
     const max = maxTallies * 10

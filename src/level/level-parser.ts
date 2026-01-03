@@ -12,8 +12,6 @@ export function parseLevel(
 export const parseComponent: V.ComponentHook = (_ent, json, k) => {
   if (json[k] == null) throw Error('no component val')
   switch (k) {
-    case 'cam':
-    case 'draw':
     case 'patienceTheDemon':
     case 'pile':
       return json[k] satisfies V.Ent[typeof k]

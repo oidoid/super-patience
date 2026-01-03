@@ -3,9 +3,9 @@ import {solitaireReset} from 'klondike-solitaire'
 import {invalidateSolitaireSprites} from '../level/level.ts'
 import {type Save, saveKey} from '../types/save.ts'
 
-export type PatienceTheDemonEnt = V.SysEnt<PatienceTheDemonSystem>
+export type PatienceTheDemonEnt = V.SysEnt<PatienceTheDemonSys>
 
-export class PatienceTheDemonSystem implements V.Sys {
+export class PatienceTheDemonSys implements V.Sys {
   readonly query = 'patienceTheDemon & sprite'
   update(ent: PatienceTheDemonEnt, v: V.Void): void {
     const millis = Date.now() % 60000

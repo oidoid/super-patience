@@ -6,10 +6,10 @@ import {
   mod
 } from '../level/level.ts'
 
-export type PileHitboxEnt = V.SysEnt<PileHitboxSystem>
+export type PileHitboxEnt = V.SysEnt<PileHitboxSys>
 
 /** size the pile's hitbox. */
-export class PileHitboxSystem implements V.Sys {
+export class PileHitboxSys implements V.Sys {
   readonly query = 'pile & sprite'
   update(ent: PileHitboxEnt, v: V.Void): void {
     // to-do: why isn't this in the invalidateSolitaireSprites() fn? Seems like it
