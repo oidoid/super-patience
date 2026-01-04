@@ -1,5 +1,5 @@
 import type * as V from '@oidoid/void'
-import type {Card, Solitaire} from 'klondike-solitaire'
+import type { Card, Solitaire } from 'klondike-solitaire'
 // biome-ignore lint/correctness/useJsonImportAttributes:;
 import type gameJSON from '../assets/void.game.json'
 import type {
@@ -30,6 +30,8 @@ declare module '@oidoid/void' {
     patienceTheDemon?: PatienceTheDemonSchema
     pile?: PileSchema
   }
+
+  interface LevelZoo {end: Ent[]}
 
   interface Loader {
     level: undefined | 'Init'

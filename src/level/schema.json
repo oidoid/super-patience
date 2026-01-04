@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$defs": {
+    "Board": {"type": "object", "description": "board config."},
+    "Ent": {
+      "allOf": [
+        {"$ref": "level-file.v0.json#/$defs/Ent"},
+        {
+          "type": "object",
+          "properties": {
+            "board": {"$ref": "#/$defs/Board", "unevaluatedProperties": false},
+            "patienceTheDemon": {
+              "$ref": "#/$defs/PatienceTheDemon",
+              "unevaluatedProperties": false
+            },
+            "pile": {"$ref": "#/$defs/Pile", "unevaluatedProperties": false},
+            "tally": {"$ref": "#/$defs/Tally", "unevaluatedProperties": false}
+          }
+        }
+      ]
+    },
+    "Pile": {
+      "type": "object",
+      "description": "pile config.",
+      "properties": {"type": {"description": "pile type.", "enum": ["Waste"]}}
+    },
+    "PatienceTheDemon": {
+      "type": "object",
+      "description": "Patience the Demon config."
+    },
+    "Tally": {"type": "object", "description": "tally config."}
+  }
+}

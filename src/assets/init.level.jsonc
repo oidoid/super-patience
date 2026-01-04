@@ -1,67 +1,70 @@
 {
-  "$schema": "../level/level-file.json",
-  "ents": [
-    {"name": "Cam", "cam": {}},
+  "$schema": "../level/level-file.v0.json",
+  "zoo": {
+    "default": [
+      {"name": "Cam", "cam": {}},
 
-    {
-      "id": "Cursor",
-      "sprite": {"tag": "cursor--Point"},
-      "cursor": {"keyboard": 128, "pick": "cursor--Pick"}
-    },
-
-    {
-      "name": "Border",
-      "sprite": {"tag": "palette--Dark", "z": "A"},
-      "hud": {"origin": "NW", "fill": "XY"},
-      "ninePatch": {
-        "patch": {
-          "nw": {"tag": "background--Corner", "z": "B"},
-          "ne": {"tag": "background--Corner", "flip": "X", "z": "B"},
-          "sw": {"tag": "background--Corner", "flip": "Y", "z": "B"},
-          "se": {"tag": "background--Corner", "flip": "XY", "z": "B"}
-        },
-        "border": 8
-      }
-    },
-
-    {
-      "sprite": {"tag": "background--Grid", "z": "B", "zend": true},
-      "hud": {"origin": "NW", "fill": "XY", "margin": 1}
-    },
-
-    {"board": {}},
-
-    {
-      "name": "Stock Background",
-      "sprite": {
-        "tag": "palette--Light",
-        "x": 169,
-        "y": 9,
-        "z": "B",
-        "w": 39,
-        "h": 47
-      }
-    },
-
-    {
-      "name": "Waste Pile",
-      "sprite": {"tag": "palette--Light", "x": 201, "y": 9, "z": "B"},
-      "pile": {"type": "Waste"}
-    },
-    {
-      "name": "Waste Vacancy",
-      "sprite": {"tag": "card--VacantPile", "x": 208, "y": 16, "z": "C"}
-    },
-
-    {
-      "name": "Patience the Demon",
-      "sprite": {"tag": "patience-the-demon--Good", "z": "C"},
-      "hud": {
-        "modulo": {"x": 8, "y": 8},
-        "origin": "NW",
-        "margin": {"x": 16, "y": 16}
+      {
+        "id": "Cursor",
+        "sprite": {"tag": "cursor--Point"},
+        "cursor": {"keyboard": 128, "pick": "cursor--Pick"}
       },
-      "patienceTheDemon": {}
-    }
-  ]
+
+      {
+        "name": "Border",
+        "sprite": {"tag": "palette--Dark", "z": "A"},
+        "hud": {"origin": "NW", "fill": "XY"},
+        "ninePatch": {
+          "patch": {
+            "nw": {"tag": "background--Corner", "z": "B"},
+            "ne": {"tag": "background--Corner", "flip": "X", "z": "B"},
+            "sw": {"tag": "background--Corner", "flip": "Y", "z": "B"},
+            "se": {"tag": "background--Corner", "flip": "XY", "z": "B"}
+          },
+          "border": 8
+        }
+      },
+
+      {
+        "sprite": {"tag": "background--Grid", "z": "B", "zend": true},
+        "hud": {"origin": "NW", "fill": "XY", "margin": 1}
+      },
+
+      {"board": {}},
+
+      {
+        "name": "Stock Background",
+        "sprite": {
+          "tag": "palette--Light",
+          "x": 169,
+          "y": 9,
+          "z": "B",
+          "w": 39,
+          "h": 47
+        }
+      },
+
+      {
+        "name": "Waste Pile",
+        "sprite": {"tag": "palette--Light", "x": 201, "y": 9, "z": "B"},
+        "pile": {"type": "Waste"}
+      },
+      {
+        "name": "Waste Vacancy",
+        "sprite": {"tag": "card--VacantPile", "x": 208, "y": 16, "z": "C"}
+      },
+
+      {
+        "name": "Patience the Demon",
+        "sprite": {"tag": "patience-the-demon--Good", "z": "C"},
+        "hud": {
+          "modulo": {"x": 8, "y": 8},
+          "origin": "NW",
+          "margin": {"x": 16, "y": 16}
+        },
+        "patienceTheDemon": {}
+      }
+    ],
+    "end": [{"draw": {}}]
+  }
 }
