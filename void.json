@@ -3,7 +3,8 @@
   "out": {
     "name": "super-patience",
     "dir": "dist/public/",
-    "game": "src/assets/void.game.json"
+    "game": "src/assets/void.game.json",
+    "tagSchema": "src/level/tags.json"
   },
   "preloadAtlas": {
     "dir": "src/assets/atlas/",

@@ -1,14 +1,14 @@
 import type * as V from '@oidoid/void'
-import levelJSON from '../assets/init.level.jsonc' with { type: 'json' }
-import { newLevelComponents } from '../level/ent-factory.ts'
-import { parseLevel } from '../level/level-parser.ts'
-import { BoardSys } from './board.ts'
-import { CamSys } from './cam.ts'
-import { DrawSys } from './draw.ts'
-import { PatienceTheDemonSys } from './patience-the-demon.ts'
-import { PileHitboxSys } from './pile-hitbox.ts'
-import { TallySys } from './tally.ts'
-import { VacantStockSys } from './vacant-stock.ts'
+import levelJSON from '../assets/init.level.jsonc' with {type: 'json'}
+import {newLevelComponents} from '../level/ent-factory.ts'
+import {parseLevel} from '../level/level-parser.ts'
+import {BoardSys} from './board.ts'
+import {CamSys} from './cam.ts'
+import {DrawSys} from './draw.ts'
+import {PatienceTheDemonSys} from './patience-the-demon.ts'
+import {PileHitboxSys} from './pile-hitbox.ts'
+import {TallySys} from './tally.ts'
+import {VacantStockSys} from './vacant-stock.ts'
 
 export class LoaderSys implements V.Sys {
   readonly query = 'loader'
