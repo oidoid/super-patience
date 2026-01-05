@@ -4,11 +4,14 @@ import type {Card, Solitaire} from 'klondike-solitaire'
 import type gameJSON from '../assets/void.game.json'
 import type {
   Board,
+  CardEnt,
   PatienceTheDemon,
   Pile,
+  PileEnt,
   Tally,
   VacantStock
 } from '../ents/ent.ts'
+import type {VacantStockEnt} from '../ents/vacant-stock.ts'
 import type {
   BoardSchema,
   PatienceTheDemonSchema,
@@ -31,12 +34,14 @@ declare module '@oidoid/void' {
     pile?: PileSchema
   }
 
-  interface LevelZoo {
-    end: Ent[]
+  interface Loader {
+    cards: CardEnt[]
+    piles: PileEnt[]
+    vacantStock: VacantStockEnt | undefined
   }
 
-  interface Loader {
-    level: undefined | 'Init'
+  interface Zoo {
+    end: Set<Ent>
   }
 
   interface ReturnTag {

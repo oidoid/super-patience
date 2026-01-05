@@ -2,7 +2,7 @@ import * as V from '@oidoid/void'
 import {Solitaire} from 'klondike-solitaire'
 import {description} from './assets/manifest.json' // non-standard import to treeshake.
 import config from './assets/void.game.json' with {type: 'json'}
-import {LoaderSys} from './ents/loader.ts'
+import {Loader} from './level/loader.ts'
 import {type Save, saveKey} from './types/save.ts'
 
 console.debug(
@@ -13,8 +13,7 @@ const v = new V.Void({
   atlas: document.querySelector<HTMLImageElement>('#atlas'),
   config: config as V.VoidConfig,
   description,
-  loader: {loader: {level: undefined}},
-  loaderSys: new LoaderSys()
+  loader: new Loader()
 })
 v.setPoller(60_000 as V.Millis, () => V.millisUntilNext(new Date(), 'Min'))
 setTimeout(

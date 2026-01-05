@@ -1,13 +1,7 @@
 import type * as V from '@oidoid/void'
 import type {Suit} from 'klondike-solitaire'
-import type {VacantStockEnt} from './vacant-stock.ts'
 
-export type Board = {
-  cards: CardEnt[] | undefined
-  selected: PickState
-  piles: PileEnt[] | undefined
-  vacantStock: VacantStockEnt | undefined
-}
+export type Board = {selected: PickState}
 export type CardEnt = V.QueryEnt<'card & sprite'>
 export type PatienceTheDemon = object
 export type PickState = {

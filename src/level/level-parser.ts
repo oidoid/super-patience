@@ -8,11 +8,6 @@ export const parseComponent: V.ComponentHook = (_ent, json, k) => {
       return json[k] satisfies V.Ent[typeof k]
 
     case 'board':
-      return {
-        cards: undefined,
-        piles: undefined,
-        selected: [],
-        vacantStock: undefined
-      } satisfies V.Ent[typeof k]
+      return {selected: []} satisfies V.Ent[typeof k]
   }
 }

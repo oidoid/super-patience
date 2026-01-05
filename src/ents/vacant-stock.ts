@@ -8,7 +8,7 @@ export class VacantStockSys implements V.Sys {
   readonly query = 'sprite & vacantStock'
   update(ent: VacantStockEnt, v: V.Void): void {
     if (!v.input.isOffStart('A')) return
-    if (!v.zoo.cursor?.sprite.hitsZ(ent.sprite, v.cam)) return
+    if (!v.loader.cursor?.sprite.hitsZ(ent.sprite, v.cam)) return
     v.input.handled = true
     solitaireDeal(v.solitaire)
     invalidateSolitaireSprites(v)

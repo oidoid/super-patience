@@ -24,11 +24,14 @@ export class PatienceTheDemonSys implements V.Sys {
       ent.invalid = true
     }
     if (!v.input.isOffStart('A')) return
-    if (v.zoo.cursor?.sprite.hitsZ(ent.sprite, v.cam)) {
+    if (v.loader.cursor?.sprite.hitsZ(ent.sprite, v.cam)) {
       // tail.
       v.input.handled = true
       ent.invalid = true
-    } else if (v.zoo.cursor && ent.sprite.hitsZ(v.zoo.cursor.sprite, v.cam)) {
+    } else if (
+      v.loader.cursor &&
+      ent.sprite.hitsZ(v.loader.cursor.sprite, v.cam)
+    ) {
       // anywhere else.
       v.input.handled = true
       solitaireReset(v.solitaire)

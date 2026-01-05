@@ -8,7 +8,6 @@ import {
 } from 'klondike-solitaire'
 import {invalidateSolitaireSprites} from '../level/level.ts'
 import type {CardEnt, PickState, PileEnt} from './ent.ts'
-import type {VacantStockEnt} from './vacant-stock.ts'
 
 export type BoardEnt = V.SysEnt<BoardSys>
 
@@ -19,16 +18,10 @@ export class BoardSys implements V.Sys {
   update(ent: BoardEnt, v: V.Void): void {
     if (v.input.handled) return
 
-    ent.board.cards ??= [...v.zoo.query('card & sprite')]
-    ent.board.piles ??= [...v.zoo.query('pile & sprite')]
-    if (!ent.board.vacantStock)
-      ent.board.vacantStock = v.zoo.findById<VacantStockEnt>('VacantStock')!
-
-    const picked = pick(ent, v)
-    const isStockPick = picked?.sprite.hitsZ(
-      ent.board.vacantStock.sprite,
-      v.cam
-    )
+    const picked = pick(v)
+    const isStockPick =
+      v.loader.vacantStock &&
+      picked?.sprite.hitsZ(v.loader.vacantStock.sprite, v.cam)
 
     if (
       picked != null &&
@@ -64,7 +57,7 @@ export class BoardSys implements V.Sys {
 
         ent.board.selected.length = 0
       } else {
-        const picked = pick(ent, v)
+        const picked = pick(v)
         if (picked == null) solitaireDeselect(v.solitaire)
         else solitairePoint(v.solitaire, picked.card)
       }
@@ -77,8 +70,8 @@ function drop(boardEnt: BoardEnt, v: V.Void): PileEnt | undefined {
   const pick = boardEnt.board.selected[0]
   if (pick == null) return
   let drop: {area: number; ent: PileEnt} | undefined
-  for (const ent of boardEnt.board.piles!) {
-    const overlap = intersection(pick.sprite, ent.sprite) // .hitbox
+  for (const ent of v.loader.piles) {
+    const overlap = intersection(pick.sprite, ent.sprite)
     if (
       overlap.w <= 0 ||
       overlap.h <= 0 ||
@@ -103,20 +96,20 @@ function intersection(lhs: Readonly<V.Box>, rhs: Readonly<V.Box>): V.Box {
   }
 }
 
-function pick(boardEnt: BoardEnt, v: V.Void): CardEnt | undefined {
+function pick(v: V.Void): CardEnt | undefined {
   let picked: CardEnt | undefined
-  for (const ent of boardEnt.board.cards!) {
-    if (!v.zoo.cursor?.sprite.hitsZ(ent.sprite, v.cam)) continue
+  for (const ent of v.loader.cards) {
+    if (!v.loader.cursor?.sprite.hitsZ(ent.sprite, v.cam)) continue
     if (picked == null || ent.sprite.above(picked.sprite)) picked = ent
   }
   return picked
 }
 
 function moveEntsToCursor(v: V.Void, selected: PickState): void {
-  if (!v.zoo.cursor) return
+  if (!v.loader.cursor) return
   for (const pick of selected) {
-    pick.sprite.x = Math.trunc(v.zoo.cursor.sprite.x) - pick.offset.x
-    pick.sprite.y = Math.trunc(v.zoo.cursor.sprite.y) - pick.offset.y
+    pick.sprite.x = Math.trunc(v.loader.cursor.sprite.x) - pick.offset.x
+    pick.sprite.y = Math.trunc(v.loader.cursor.sprite.y) - pick.offset.y
   }
 }
 
@@ -127,12 +120,12 @@ function setSelected(ent: BoardEnt, v: V.Void, card: Card): void {
   const selected = selection.cards.map(card => {
     const sprite = v.spriteByCard.get(card)
     if (!sprite) throw Error('no sprite')
-    if (!v.zoo.cursor) throw Error('no cursor')
+    if (!v.loader.cursor) throw Error('no cursor')
     return {
       sprite,
       offset: {
-        x: Math.trunc(v.zoo.cursor.sprite.x) - sprite.x,
-        y: Math.trunc(v.zoo.cursor.sprite.y) - sprite.y
+        x: Math.trunc(v.loader.cursor.sprite.x) - sprite.x,
+        y: Math.trunc(v.loader.cursor.sprite.y) - sprite.y
       }
     }
   })
