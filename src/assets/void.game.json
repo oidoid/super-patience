@@ -530,11 +530,6 @@
       96, 232, 112, 232, 112, 224
     ]
   },
-  "init": {
-    "input": "Default",
-    "minWH": {"w": 256, "h": 214},
-    "minScale": 1,
-    "mode": "Int",
-    "zoomOut": 0
-  }
+  "input": "Default",
+  "mode": "Int"
 }

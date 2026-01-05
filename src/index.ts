@@ -10,9 +10,9 @@ console.debug(
 )
 
 const v = new V.Void({
-  config: config as V.GameConfig,
+  atlas: document.querySelector<HTMLImageElement>('#atlas'),
+  config: config as V.VoidConfig,
   description,
-  preloadAtlas: document.querySelector<HTMLImageElement>('#atlas'),
   loader: {loader: {level: undefined}},
   loaderSys: new LoaderSys()
 })

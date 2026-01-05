@@ -20,8 +20,8 @@ export class PileHitboxSys implements V.Sys {
       pile.type === 'Waste'
         ? {x: sprite.x + mod - 1, y: sprite.y + mod - 1}
         : pile.type === 'Tableau'
-          ? getTableauCardXY(v.preload, pile.x, 0)
-          : getFoundationCardXY(v.preload, pile.suit)
+          ? getTableauCardXY(v.atlas.default, pile.x, 0)
+          : getFoundationCardXY(v.atlas.default, pile.suit)
     sprite.x = xy.x - mod + 1
     sprite.y = xy.y - mod + 1
     sprite.w = cardWH.w + mod * 2 - 1

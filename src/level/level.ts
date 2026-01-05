@@ -21,7 +21,7 @@ export function invalidateSolitaireSprites(v: V.Void): void {
     for (const [iY, card] of col.entries()) {
       const sprite = v.spriteByCard.get(card)
       if (!sprite) throw Error('no sprite')
-      const xy = getTableauCardXY(v.preload, iX, iY)
+      const xy = getTableauCardXY(v.atlas.default, iX, iY)
       sprite.x = xy.x
       sprite.y = xy.y
       sprite.z = card.direction === 'Up' ? V.Layer.F : V.Layer.E
@@ -32,7 +32,7 @@ export function invalidateSolitaireSprites(v: V.Void): void {
     for (const [i, card] of pillar.entries()) {
       const sprite = v.spriteByCard.get(card)
       if (!sprite) throw Error('no sprite')
-      const xy = getFoundationCardXY(v.preload, card.suit)
+      const xy = getFoundationCardXY(v.atlas.default, card.suit)
       sprite.x = xy.x
       sprite.y = xy.y
       // Force all cards except the top to downward since they're in the exact

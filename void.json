@@ -6,9 +6,5 @@
     "game": "src/assets/void.game.json",
     "tagSchema": "src/level/tags.json"
   },
-  "preloadAtlas": {
-    "dir": "src/assets/atlas/",
-    "image": "dist/public/atlas.webp"
-  },
-  "init": {"minWH": {"w": 256, "h": 214}}
+  "atlas": {"dir": "src/assets/atlas/", "image": "dist/public/atlas.webp"}
 }

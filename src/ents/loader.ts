@@ -1,7 +1,7 @@
-import type * as V from '@oidoid/void'
+import * as V from '@oidoid/void'
 import levelJSON from '../assets/init.level.jsonc' with {type: 'json'}
 import {newLevelComponents} from '../level/ent-factory.ts'
-import {parseLevel} from '../level/level-parser.ts'
+import {parseComponent} from '../level/level-parser.ts'
 import {BoardSys} from './board.ts'
 import {CamSys} from './cam.ts'
 import {DrawSys} from './draw.ts'
@@ -28,21 +28,26 @@ export class LoaderSys implements V.Sys {
 }
 
 function init(ent: V.LoaderEnt, v: V.Void): void {
-  v.zoo.addDefaultSystems()
-  const level = parseLevel(levelJSON, v.pool, v.preload)
-  v.zoo.add(...level.zoo.default, ...newLevelComponents(v), ...level.zoo.end)
-  v.spriteByCard = new Map(
-    [...v.zoo.query('card & sprite')].map(ent => [ent.card, ent.sprite])
-  )
   v.zoo.addSystem({
     board: new BoardSys(),
     cam: new CamSys(),
+    cursor: new V.CursorSys(),
     draw: new DrawSys(),
+    hud: new V.HUDSys(),
+    ninePatch: new V.NinePatchSys(),
+    override: new V.OverrideSys(),
     patienceTheDemon: new PatienceTheDemonSys(),
     pile: new PileHitboxSys(),
+    sprite: new V.SpriteSys(),
     tally: new TallySys(),
+    textWH: new V.TextWHSys(),
+    textXY: new V.TextXYSys(),
     vacantStock: new VacantStockSys()
   })
-  // to-do: validate all ents on a system add.
+  const zoo = v.loadLevel(levelJSON, 'default', parseComponent)
+  v.zoo.add(...zoo.default, ...newLevelComponents(v), ...zoo.end)
+  v.spriteByCard = new Map(
+    [...v.zoo.query('card & sprite')].map(ent => [ent.card, ent.sprite])
+  )
   ent.loader.level = 'Init'
 }

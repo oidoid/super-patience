@@ -39,7 +39,7 @@ function* newFoundation(v: V.Void): IterableIterator<V.SpriteEnt | PileEnt> {
   for (const suit of SuitSet) {
     const vacant = v.pool.default.alloc()
     vacant.tag = `card--Vacant${suit}`
-    const xy = getFoundationCardXY(v.preload, suit)
+    const xy = getFoundationCardXY(v.atlas.default, suit)
     vacant.x = xy.x
     vacant.y = xy.y
     vacant.z = V.Layer.D
@@ -73,7 +73,7 @@ function* newTableau(
     const palette = v.pool.default.alloc()
     palette.tag = 'palette--Light'
     palette.z = V.Layer.C
-    const xy = getTableauCardXY(v.preload, x, 0)
+    const xy = getTableauCardXY(v.atlas.default, x, 0)
     palette.x = xy.x
     palette.y = xy.y
     yield {sprite: palette, pile: {type: 'Tableau', x}}
@@ -84,7 +84,7 @@ function* newTableau(
     vacant.y = xy.y
     yield {sprite: vacant}
     for (const [iY, card] of pile.entries())
-      yield CardEnt(v, card, getTableauCardXY(v.preload, x, iY))
+      yield CardEnt(v, card, getTableauCardXY(v.atlas.default, x, iY))
   }
 }
 
