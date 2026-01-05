@@ -11,21 +11,17 @@ export class PatienceTheDemonSys implements V.Sys {
     const millis = Date.now() % 60000
     const blink = millis < 59700 ? '' : 'Blink'
     const good = ent.sprite.tag.includes('Good')
-    const align = v.input.isOffStart('A')
-      ? good
-        ? 'Evil'
-        : 'Good'
-      : good
-        ? 'Good'
-        : 'Evil'
+    const tail =
+      v.input.isOffStart('A') &&
+      v.loader.cursor?.sprite.hitsZ(ent.sprite, v.cam)
+    const align = tail ? (good ? 'Evil' : 'Good') : good ? 'Good' : 'Evil'
     const tag = `patience-the-demon--${align}${blink}` as const
     if (ent.sprite.tag !== tag) {
       ent.sprite.tag = tag
       ent.invalid = true
     }
     if (!v.input.isOffStart('A')) return
-    if (v.loader.cursor?.sprite.hitsZ(ent.sprite, v.cam)) {
-      // tail.
+    if (tail) {
       v.input.handled = true
       ent.invalid = true
     } else if (
