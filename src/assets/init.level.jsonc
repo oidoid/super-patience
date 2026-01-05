@@ -1,6 +1,6 @@
 {
   "$schema": "../level/level-file.v0.json",
-  "minWH": {"w": 256, "h": 214},
+  "minWH": {"w": 256, "h": 200},
   "zoo": {
     "default": [
       {"name": "Cam", "cam": {}},
