@@ -5,7 +5,7 @@
   "devDependencies": {
     "@biomejs/biome": "2.3.10",
     "@oidoid/config": "0.0.5",
-    "@oidoid/void": "0.1.6",
+    "@oidoid/void": "0.1.7",
     "klondike-solitaire": "0.1.0-1",
     "typescript": "5.9.3"
   },
