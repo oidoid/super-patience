@@ -3,8 +3,8 @@
   "bugs": "https://github.com/oidoid/super-patience/issues",
   "description": "Pixelated solitaire.",
   "devDependencies": {
-    "@biomejs/biome": "2.3.10",
-    "@oidoid/config": "0.0.5",
+    "@biomejs/biome": "2.3.11",
+    "@oidoid/config": "0.0.6",
     "@oidoid/void": "0.1.7",
     "klondike-solitaire": "0.1.0-1",
     "typescript": "5.9.3"
