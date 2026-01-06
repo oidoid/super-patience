@@ -26,10 +26,10 @@ export function invalidateSolitaireSprites(v: V.Void): void {
       const z = card.direction === 'Up' ? V.Layer.F : V.Layer.E
       // to-do: how can this be on the ent level and also not invalidate the world?
       v.invalid ||=
-        sprite.x !== xy.x ||
-        sprite.y !== xy.y ||
-        sprite.z !== z ||
-        sprite.tag !== tag
+        xy.x !== sprite.x ||
+        xy.y !== sprite.y ||
+        z !== sprite.z ||
+        tag !== sprite.tag
       sprite.x = xy.x
       sprite.y = xy.y
       sprite.z = z
@@ -46,10 +46,10 @@ export function invalidateSolitaireSprites(v: V.Void): void {
       const tag = i === pillar.length - 1 ? getCardTag(card) : 'card--Down'
       const z = tag === 'card--Down' ? V.Layer.E : V.Layer.F
       v.invalid ||=
-        sprite.x !== xy.x ||
-        sprite.y !== xy.y ||
-        sprite.z !== z ||
-        sprite.tag !== tag
+        xy.x !== sprite.x ||
+        xy.y !== sprite.y ||
+        z !== sprite.z ||
+        tag !== sprite.tag
       sprite.x = xy.x
       sprite.y = xy.y
       sprite.z = z
@@ -63,10 +63,10 @@ export function invalidateSolitaireSprites(v: V.Void): void {
     const tag = getCardTag(card)
     const z = card.direction === 'Up' ? V.Layer.F : V.Layer.E
     v.invalid ||=
-      sprite.x !== xy.x ||
-      sprite.y !== xy.y ||
-      sprite.z !== z ||
-      sprite.tag !== tag
+      xy.x !== sprite.x ||
+      xy.y !== sprite.y ||
+      z !== sprite.z ||
+      tag !== sprite.tag
     sprite.x = xy.x
     sprite.y = xy.y
     sprite.z = z
@@ -89,10 +89,10 @@ export function invalidateSolitaireSprites(v: V.Void): void {
     // order since they have identical XYs.
     const z = tag === 'card--Down' ? V.Layer.E : V.Layer.F
     v.invalid ||=
-      sprite.x !== xy.x ||
-      sprite.y !== xy.y ||
-      sprite.z !== z ||
-      sprite.tag !== tag
+      xy.x !== sprite.x ||
+      xy.y !== sprite.y ||
+      z !== sprite.z ||
+      tag !== sprite.tag
     sprite.x = xy.x
     sprite.y = xy.y
     sprite.z = z
