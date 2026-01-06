@@ -4,8 +4,8 @@
   "description": "Pixelated solitaire.",
   "devDependencies": {
     "@biomejs/biome": "2.3.11",
-    "@oidoid/config": "0.0.6",
-    "@oidoid/void": "0.1.7",
+    "@oidoid/config": "0.0.7",
+    "@oidoid/void": "0.1.8",
     "klondike-solitaire": "0.1.0-1",
     "typescript": "5.9.3"
   },
@@ -37,7 +37,7 @@
     "url": "git+https://github.com/oidoid/super-patience.git"
   },
   "scripts": {
-    "build": "npm run build:favicon && void --minify --one-file --tsconfig=tsconfig.prod.json",
+    "build": "npm run build:favicon && void --minify --one-file",
     "build:favicon": "for s in 1 2 3 4 12; do f=dist/public/favicon/favicon$(($s * 16)); aseprite src/assets/favicon.aseprite --batch --color-mode=indexed --scale=$s --save-as=$f.png && cwebp -exact -lossless -mt -quiet -z 9 $f.png -o $f.webp; done",
     "clean": "rm -rf dist/",
     "preversion": "[ -z \"$(git status -z)\" ]",

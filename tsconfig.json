@@ -1,5 +1,4 @@
 {
   "extends": "./tsconfig.prod.json",
-  "compilerOptions": {"customConditions": ["browser", "dev"]},
-  "references": [{"path": "../void"}]
+  "references": [{"path": "../void/"}]
 }
