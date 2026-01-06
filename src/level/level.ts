@@ -22,10 +22,18 @@ export function invalidateSolitaireSprites(v: V.Void): void {
       const sprite = v.spriteByCard.get(card)
       if (!sprite) throw Error('no sprite')
       const xy = getTableauCardXY(v.atlas.default, iX, iY)
+      const tag = getCardTag(card)
+      const z = card.direction === 'Up' ? V.Layer.F : V.Layer.E
+      // to-do: how can this be on the ent level and also not invalidate the world?
+      v.invalid ||=
+        sprite.x !== xy.x ||
+        sprite.y !== xy.y ||
+        sprite.z !== z ||
+        sprite.tag !== tag
       sprite.x = xy.x
       sprite.y = xy.y
-      sprite.z = card.direction === 'Up' ? V.Layer.F : V.Layer.E
-      sprite.tag = getCardTag(card)
+      sprite.z = z
+      sprite.tag = tag
     }
   }
   for (const pillar of v.solitaire.foundation) {
@@ -33,12 +41,18 @@ export function invalidateSolitaireSprites(v: V.Void): void {
       const sprite = v.spriteByCard.get(card)
       if (!sprite) throw Error('no sprite')
       const xy = getFoundationCardXY(v.atlas.default, card.suit)
-      sprite.x = xy.x
-      sprite.y = xy.y
-      // Force all cards except the top to downward since they're in the exact
+      // force all cards except the top to downward since they're in the exact
       // same position and are not layered correctly for rendering.
       const tag = i === pillar.length - 1 ? getCardTag(card) : 'card--Down'
-      sprite.z = tag === 'card--Down' ? V.Layer.E : V.Layer.F
+      const z = tag === 'card--Down' ? V.Layer.E : V.Layer.F
+      v.invalid ||=
+        sprite.x !== xy.x ||
+        sprite.y !== xy.y ||
+        sprite.z !== z ||
+        sprite.tag !== tag
+      sprite.x = xy.x
+      sprite.y = xy.y
+      sprite.z = z
       sprite.tag = tag
     }
   }
@@ -46,19 +60,22 @@ export function invalidateSolitaireSprites(v: V.Void): void {
     const sprite = v.spriteByCard.get(card)
     if (!sprite) throw Error('no sprite')
     const xy = getStockXY(v.solitaire, i)
+    const tag = getCardTag(card)
+    const z = card.direction === 'Up' ? V.Layer.F : V.Layer.E
+    v.invalid ||=
+      sprite.x !== xy.x ||
+      sprite.y !== xy.y ||
+      sprite.z !== z ||
+      sprite.tag !== tag
     sprite.x = xy.x
     sprite.y = xy.y
-    sprite.z = card.direction === 'Up' ? V.Layer.F : V.Layer.E
-    sprite.tag = getCardTag(card)
+    sprite.z = z
+    sprite.tag = tag
   }
   for (const [i, card] of v.solitaire.waste.entries()) {
     const sprite = v.spriteByCard.get(card)
     if (!sprite) throw Error('no sprite')
     const xy = getWasteXY(v.solitaire, i)
-    sprite.x = xy.x
-    sprite.y = xy.y
-    let tag: V.Tag
-
     const selected =
       v.solitaire.selected?.pile === 'Waste'
         ? (v.solitaire.selected?.cards.length ?? 0)
@@ -67,16 +84,20 @@ export function invalidateSolitaireSprites(v: V.Void): void {
       v.solitaire.waste.length + selected - v.solitaire.drawSize,
       0
     )
-
-    if (i >= top) tag = getCardTag(card)
-    else tag = 'card--Down'
+    const tag = i >= top ? getCardTag(card) : 'card--Down'
     // hide waste under the draw reserve. I can't draw them in the correct
     // order since they have identical XYs.
-    sprite.z = tag === 'card--Down' ? V.Layer.E : V.Layer.F
+    const z = tag === 'card--Down' ? V.Layer.E : V.Layer.F
+    v.invalid ||=
+      sprite.x !== xy.x ||
+      sprite.y !== xy.y ||
+      sprite.z !== z ||
+      sprite.tag !== tag
+    sprite.x = xy.x
+    sprite.y = xy.y
+    sprite.z = z
     sprite.tag = tag
   }
-  // to-do: don't invalidate every frame.
-  v.invalid = true // to-do: move somewhere else.
 }
 
 export function getStockXY(solitaire: Readonly<Solitaire>, iY: number): V.XY {

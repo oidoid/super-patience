@@ -7,3 +7,4 @@ Add dark mode support with palette swapping.
 Add publish script for superpatience.com. This is a messy manual process now.
 Add win graphic.
 Preserve game state when revisiting.
+double tap card to move to foundation.
