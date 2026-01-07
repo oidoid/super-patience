@@ -71,7 +71,7 @@ function drop(boardEnt: BoardEnt, v: V.Void): PileEnt | undefined {
   if (pick == null) return
   let drop: {area: number; ent: PileEnt} | undefined
   for (const ent of v.loader.piles) {
-    const overlap = intersection(pick.sprite, ent.sprite)
+    const overlap = V.boxIntersect(pick.sprite, ent.sprite)
     if (
       overlap.w <= 0 ||
       overlap.h <= 0 ||
@@ -83,17 +83,6 @@ function drop(boardEnt: BoardEnt, v: V.Void): PileEnt | undefined {
     if (drop == null || area > drop.area) drop = {area, ent}
   }
   return drop?.ent
-}
-
-function intersection(lhs: Readonly<V.Box>, rhs: Readonly<V.Box>): V.Box {
-  const x = Math.max(lhs.x, rhs.x)
-  const y = Math.max(lhs.y, rhs.y)
-  return {
-    x,
-    y,
-    w: Math.min(lhs.x + lhs.w, rhs.x + rhs.w) - x,
-    h: Math.min(lhs.y + lhs.h, rhs.y + rhs.h) - y
-  }
 }
 
 function pick(v: V.Void): CardEnt | undefined {
