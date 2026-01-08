@@ -7,7 +7,7 @@
 
       {
         "id": "Cursor",
-        "sprite": {"tag": "cursor--Point"},
+        "sprite": "cursor--Point",
         "cursor": {"keyboard": 128, "pick": "cursor--Pick"}
       },
 
